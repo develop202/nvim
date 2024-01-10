@@ -1,0 +1,1 @@
+A test nvim configuration
