@@ -1,27 +1,34 @@
 return {
+	-- add gruvboxM
+
 	{
-    --"folke/tokyonight.nvim",
-		--"morhetz/gruvbox",
 		"ellisonleao/gruvbox.nvim",
-		event = "VimEnter",
-		--"sainnhe/gruvbox-material",
-		dependencies = {
-			"nvim-lualine/lualine.nvim",
-			"nvim-tree/nvim-web-devicons",
-			"utilyre/barbecue.nvim",
-			"SmiteshP/nvim-navic",
-		},
-		config = function()
-    --vim.cmd[[colorscheme tokyonight-storm]]
-		vim.cmd[[colorscheme gruvbox]]
-		require('lualine').setup({
-			options = {
-				theme = 'gruvbox'
+		opts = {
+			italic = {
+				strings = false,
+				emphasis = false,
+				comments = false,
+				operators = false,
+				folds = false,
 			},
-		})
-		require('barbecue').setup {
-			theme = 'gruvbox'
-		}
-		end
+		},
+		-- config = function()
+		--   require("gruvbox").setup({
+		--     italic = {
+		--       strings = false,
+		--       emphasis = false,
+		--       comments = false,
+		--       operators = false,
+		--       folds = false,
+		--     },
+		--   })
+		-- end
+	},
+	-- Configure LazyVim to load gruvbox
+	{
+		"LazyVim/LazyVim",
+		opts = {
+			colorscheme = "gruvbox",
+		},
 	},
 }

@@ -1,15 +1,14 @@
 return {
 	"folke/noice.nvim",
-	event = "UIEnter",
-	opts = {},
-	dependencies = {
-		"MunifTanjim/nui.nvim",
-		"rcarriga/nvim-notify",
-	},
-	config = function()
-	require("noice").setup({
+	opts = {
 		presets = {
-			bottom_search = true
+			command_palette = false,
+		},
+		cmdline = {
+			format = {
+				lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = " ", lang = "lua" },
+				calculator = { pattern = "^=", icon = " ", lang = "vimnormal" },
+			},
 		},
 		views = {
 			cmdline_popup = {
@@ -18,7 +17,7 @@ return {
 					col = "50%",
 				},
 				size = {
-					width = '60%',
+					width = "60%",
 					height = "auto",
 				},
 			},
@@ -29,33 +28,39 @@ return {
 					col = "50%",
 				},
 				size = {
-					width = '65%',
+					width = "65%",
 					height = 5,
 				},
 				border = {
 					style = "rounded",
 					padding = {
-						0, 1
-					}
-				}
-			}
+						0,
+						1,
+					},
+				},
+			},
 		},
-	})
-	end,
+	},
 	keys = {
 		{
-			"<Esc>", function() vim.cmd.Noice("dismiss") end, desc = "󰎟 Clear Notifications"
+			"<Esc>",
+			function()
+				vim.cmd.Noice("dismiss")
+			end,
+			desc = "Clear Notifications",
 		},
 		{
 			"<D-0>",
 			function()
-			vim.cmd.Noice("dismiss")
-			vim.cmd.Noice("history")
+				vim.cmd.Noice("dismiss")
+				vim.cmd.Noice("history")
 			end,
 			mode = {
-				"n", "x", "i"
+				"n",
+				"x",
+				"i",
 			},
-			desc = "󰎟 Notification Log",
+			desc = "Notification Log",
 		},
 	},
 }
