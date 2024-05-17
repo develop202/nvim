@@ -122,6 +122,15 @@ return {
 				-- Configuration can be augmented and overridden by opts.jdtls
 				local config = extend_or_override({
 					cmd = opts.full_cmd(opts),
+					settings = {
+						java = {
+							configuration = {
+								maven = {
+									userSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
+								},
+							},
+						},
+					},
 					root_dir = opts.root_dir(fname),
 					init_options = {
 						bundles = bundles,
