@@ -3,7 +3,7 @@
 -- Add any additional keymaps here
 -- lsp快捷键
 vim.keymap.set("n", "<leader>m", vim.diagnostic.open_float, { desc = "Displays the Prompt message" })
-vim.keymap.set("n", "<space>f", function()
+vim.keymap.set("n", "<leader>f", function()
 	if
 		vim.bo.filetype == "sh"
 		or vim.bo.filetype == "yaml"
@@ -36,7 +36,7 @@ vim.keymap.set("n", "<leader>ol", "<cmd>Outline<CR>", { desc = "文件大纲" })
 --生成文档注释
 vim.api.nvim_set_keymap(
 	"n",
-	"<Leader>fn",
+	"<leader>fn",
 	"<cmd>lua require('neogen').generate()<CR>",
 	{ noremap = true, silent = true, desc = "生成文档注释" }
 )
@@ -71,19 +71,19 @@ vim.keymap.set("n", "<A-right>", "zL")
 --关闭所有buffer
 vim.keymap.set("n", "ca", "<cmd>bufdo bd<CR>")
 --vim-test测试插件
-vim.api.nvim_set_keymap("n", "<Leader>t", "<cmd>TestNearest<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>TestNearest<CR>", {
 	silent = true,
 })
-vim.api.nvim_set_keymap("n", "<Leader>T", "<cmd>TestFile<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>T", "<cmd>TestFile<CR>", {
 	silent = true,
 })
-vim.api.nvim_set_keymap("n", "<Leader>a", "<cmd>TestSuite<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>TestSuite<CR>", {
 	silent = true,
 })
-vim.api.nvim_set_keymap("n", "<Leader>l", "<cmd>TestLast<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>l", "<cmd>TestLast<CR>", {
 	silent = true,
 })
-vim.api.nvim_set_keymap("n", "<Leader>g", "<cmd>TestVisit<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>TestVisit<CR>", {
 	silent = true,
 })
 --trouble.nvim
@@ -124,61 +124,56 @@ map("n", "<leader>no", "<cmd>lua require('neotest').output.open({ enter = true }
 map("n", "<leader>na", "<cmd>lua require('neotest').summary.open()<CR>", opts)
 
 -- dap按键映射
-vim.keymap.set("n", "<Leader>dd", function()
+vim.keymap.set("n", "<leader>dd", function()
 	require("dap").continue()
 end)
-vim.keymap.set("n", "<Leader>sv", function()
+vim.keymap.set("n", "<leader>sv", function()
 	require("dap").step_over()
 end)
-vim.keymap.set("n", "<Leader>si", function()
+vim.keymap.set("n", "<leader>si", function()
 	require("dap").step_into()
 end)
-vim.keymap.set("n", "<Leader>so", function()
+vim.keymap.set("n", "<leader>so", function()
 	require("dap").step_out()
 end)
-vim.keymap.set("n", "<Leader>b", function()
+vim.keymap.set("n", "<leader>b", function()
 	require("dap").toggle_breakpoint()
 end)
-vim.keymap.set("n", "<Leader>B", function()
+vim.keymap.set("n", "<leader>B", function()
 	require("dap").set_breakpoint()
 end)
-vim.keymap.set("n", "<Leader>lp", function()
+vim.keymap.set("n", "<leader>lp", function()
 	require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
 end)
-vim.keymap.set("n", "<Leader>dr", function()
+vim.keymap.set("n", "<leader>dr", function()
 	require("dap").repl.open()
 end)
-vim.keymap.set("n", "<Leader>dl", function()
+vim.keymap.set("n", "<leader>dl", function()
 	require("dap").run_last()
 end)
-vim.keymap.set({ "n", "v" }, "<Leader>dh", function()
+vim.keymap.set({ "n", "v" }, "<leader>dh", function()
 	require("dap.ui.widgets").hover()
 end)
-vim.keymap.set({ "n", "v" }, "<Leader>dp", function()
+vim.keymap.set({ "n", "v" }, "<leader>dp", function()
 	require("dap.ui.widgets").preview()
 end)
-vim.keymap.set("n", "<Leader>df", function()
+vim.keymap.set("n", "<leader>df", function()
 	local widgets = require("dap.ui.widgets")
 	widgets.centered_float(widgets.frames)
 end)
-vim.keymap.set("n", "<Leader>ds", function()
+vim.keymap.set("n", "<leader>ds", function()
 	local widgets = require("dap.ui.widgets")
 	widgets.centered_float(widgets.scopes)
 end)
-vim.keymap.set("n", "<space>cp", function()
+vim.keymap.set("n", "<leader>cp", function()
 	local dapui = require("dapui")
 	dapui.close()
 end, { desc = "关闭dap-UI" })
 -- Java测试结果
-vim.keymap.set(
-	"n",
-	"<Leader>jr",
-	"<cmd>lua require('dapui').toggle(2)<CR>",
-	{ desc = "Java测试结果" }
-)
+vim.keymap.set("n", "<leader>jr", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })
 -- vim.keymap.set(
 -- 	"n",
--- 	"<Leader>jt",
+-- 	"<leader>jt",
 -- 	-- "<cmd>lua require('dapui').toggle({elements = {id = 'console',size = 1,},position = 'bottom',size = 10})<CR>",
 -- 	function()
 -- 		require("dapui").toggle("console")

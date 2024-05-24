@@ -143,6 +143,33 @@ return {
 						create_command(buffer, "JavaProjects", require("java-deps").toggle_outline, {
 							nargs = 0,
 						})
+
+						-- Java编译
+						local function with_compile(fn)
+							return function()
+								if vim.bo.modified then
+									vim.cmd("w")
+								end
+								client.request_sync("java/buildWorkspace", false, 5000, buffer)
+								fn()
+							end
+						end
+
+						-- 运行Java main方法
+						vim.api.nvim_buf_create_user_command(
+							buffer,
+							"JdtRun",
+							with_compile(function()
+								local main_config_opts = {
+									verbose = false,
+									on_ready = require("dap")["continue"],
+								}
+								require("jdtls.dap").setup_dap_main_class_configs(main_config_opts)
+							end),
+							{
+								nargs = 0,
+							}
+						)
 					end,
 					-- enable CMP capabilities
 					capabilities = LazyVim.has("cmp-nvim-lsp") and require("cmp_nvim_lsp").default_capabilities()
