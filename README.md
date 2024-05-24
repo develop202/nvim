@@ -1,1 +1,1 @@
-# A test nvim configuration
+# nvim configuration
