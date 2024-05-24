@@ -2,7 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 -- lsp快捷键
-vim.keymap.set("n", "<space>x", vim.diagnostic.open_float, { desc = "Displays the Prompt message" })
+vim.keymap.set("n", "<leader>m", vim.diagnostic.open_float, { desc = "Displays the Prompt message" })
 vim.keymap.set("n", "<space>f", function()
 	if
 		vim.bo.filetype == "sh"
