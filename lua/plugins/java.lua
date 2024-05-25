@@ -129,6 +129,11 @@ return {
 									userSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
 								},
 							},
+							inlayHints = {
+								parameterNames = {
+									enabled = "all",
+								},
+							},
 						},
 					},
 					root_dir = opts.root_dir(fname),

@@ -43,7 +43,7 @@ return {
 						"sqlls",
 						"typescript-language-server",
 						"vue-language-server",
-						"yaml-language-server",
+						-- "yaml-language-server",
 						"yamlfmt",
 						-- "flake8",
 					},
