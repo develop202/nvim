@@ -74,6 +74,7 @@ return {
       -- "simrat39/symbols-outline.nvim",
     },
     opts = {
+      document_highlight = { enabled = false },
       diagnostics = {
         virtual_text = false,
         signs = {
@@ -95,35 +96,6 @@ return {
                 "require",
               },
             },
-          },
-        },
-
-        volar = {
-          init_options = {
-            typescript = {
-              tsdk = os.getenv("HOME")
-                .. "/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib/",
-            },
-          },
-          filetypes = {
-            "vue",
-          },
-        },
-
-        tsserver = {
-          init_options = {
-            plugins = {
-              {
-                name = "@vue/typescript-plugin",
-                location = "/data/data/com.termux/files/usr/lib/node_modules/@vue/typescript-plugin/",
-                languages = { "javascript", "typescript", "vue" },
-              },
-            },
-          },
-          filetypes = {
-            "vue",
-            "typescript",
-            "javascript",
           },
         },
       },
