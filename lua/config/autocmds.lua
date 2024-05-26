@@ -41,3 +41,8 @@ vim.cmd([[ hi! DiagnosticSignHint guifg=#8ec07c guibg=#282828 ]])
 -- fix
 -- lsp saga bg
 -- vim.cmd([[ hi! SagaNormal guibg=#282828 ]])
+-- 关闭neo-tree git斜体
+vim.cmd([[ hi! NeoTreeMessage guifg=#625d51 ]])
+vim.cmd([[ hi! NeoTreeRootName gui=bold ]])
+vim.cmd([[ hi! NeoTreeGitConflict gui=bold guifg=#ff8700 ]])
+vim.cmd([[ hi! NeoTreeGitUntracked guifg=#ff8700 ]])
