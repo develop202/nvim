@@ -212,13 +212,13 @@ end, { desc = "关闭dap-UI" })
 -- Java测试结果
 vim.keymap.set("n", "<leader>jr", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })
 -- vim.keymap.set(
--- 	"n",
--- 	"<leader>jt",
--- 	-- "<cmd>lua require('dapui').toggle({elements = {id = 'console',size = 1,},position = 'bottom',size = 10})<CR>",
--- 	function()
--- 		require("dapui").toggle("console")
--- 	end,
--- 	{ desc = "Java终端测试结果" }
+--   "n",
+--   "<leader>jt",
+--   -- "<cmd>lua require('dapui').toggle({elements = {id = 'console',size = 1,},position = 'bottom',size = 10})<CR>",
+--   function()
+--     require("dapui").toggle("console")
+--   end,
+--   { desc = "Java终端测试结果" }
 -- )
 -- telescope快捷键
 vim.keymap.set(

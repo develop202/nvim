@@ -6,25 +6,25 @@
 -- vim.cmd [[autocmd BufWritePre * <leader>f]]
 vim.cmd([[ autocmd BufEnter * set formatoptions+=/mBrj formatoptions-=o ]])
 vim.api.nvim_exec(
-	[[
+  [[
 autocmd FileType sql setlocal omnifunc=vim.dadbod_completion#omni
 autocmd FileType sql,mysql,plsql lua require("cmp").setup.buffer({sources={{name='vim-dadbod-completion'}}})
 ]],
-	false
+  false
 )
 -- fix
 -- git signs column bg
-vim.cmd([[ hi! SignColumn guibg=NONE ]])
+-- vim.cmd([[ hi! SignColumn guibg=NONE ]])
 
 -- fix
 -- winbar bg
-vim.cmd([[ hi! WinBar guibg=NONE ]])
-vim.cmd([[ hi! WinBarNC guibg=NONE ]])
+-- vim.cmd([[ hi! WinBar guibg=NONE ]])
+-- vim.cmd([[ hi! WinBarNC guibg=NONE ]])
 
 -- fix
 -- noice cmd line bg
-vim.cmd([[ hi! NoiceCmdlinePopup guibg=#282828 ]])
-vim.cmd([[ hi! NoiceCmdlinePopupBorder guibg=#282828 ]])
+-- vim.cmd([[ hi! NoiceCmdlinePopup guibg=#282828 ]])
+-- vim.cmd([[ hi! NoiceCmdlinePopupBorder guibg=#282828 ]])
 
 -- fix
 -- telescope selection bg
@@ -32,11 +32,12 @@ vim.cmd([[ hi! TelescopeSelection guibg=#3c3836 guifg=#fe8019 gui=bold ]])
 
 -- fix
 -- diagnostics sign bg (next to numbers line)
-vim.cmd([[ hi! DiagnosticSignOk guifg=#b8bb26 guibg=#282828 ]])
-vim.cmd([[ hi! DiagnosticSignInfo guifg=#83a598 guibg=#282828 ]])
-vim.cmd([[ hi! DiagnosticSignWarn guifg=#fabd2f guibg=#282828 ]])
-vim.cmd([[ hi! DiagnosticSignError guifg=#fb4934 guibg=#282828 ]])
-vim.cmd([[ hi! DiagnosticSignHint guifg=#8ec07c guibg=#282828 ]])
+-- vim.cmd([[ hi! DiagnosticSignOk guifg=#b8bb26 guibg=#282828 ]])
+vim.cmd([[ hi! DiagnosticSignOk guifg=#b8bb26 guibg=NONE ]])
+vim.cmd([[ hi! DiagnosticSignInfo guifg=#83a598 guibg=NONE ]])
+vim.cmd([[ hi! DiagnosticSignWarn guifg=#fabd2f guibg=NONE ]])
+vim.cmd([[ hi! DiagnosticSignError guifg=#fb4934 guibg=NONE ]])
+vim.cmd([[ hi! DiagnosticSignHint guifg=#8ec07c guibg=NONE ]])
 
 -- fix
 -- lsp saga bg
