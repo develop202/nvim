@@ -31,7 +31,7 @@ return {
 		config = true,
 	},
 	{
-    -- 需要开启，关闭后不知道为什么HTML，xml双标签缩进有问题
+		-- 需要开启，关闭后不知道为什么HTML，xml双标签缩进有问题
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		-- opts = {
