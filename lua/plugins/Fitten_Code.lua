@@ -1,12 +1,13 @@
 return {
-  'luozhiya/fittencode.nvim',
+  "luozhiya/fittencode.nvim",
   event = {
-    "BufReadPost", "BufNewFile"
+    "BufReadPost",
+    "BufNewFile",
   },
   config = function()
-    local API = require('fittencode.api').api
-    local Base = require('fittencode.base')
-    Base.map('i', '<a-down>', API.accept_all_suggestions)
-    require('fittencode').setup()
+    local API = require("fittencode.api").api
+    local Base = require("fittencode.base")
+    Base.map("i", "<a-down>", API.accept_all_suggestions)
+    require("fittencode").setup()
   end,
 }

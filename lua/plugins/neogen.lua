@@ -1,7 +1,8 @@
 return {
   "danymat/neogen",
   event = {
-      "BufReadPost", "BufNewFile"
+    "BufReadPost",
+    "BufNewFile",
   },
   dependencies = "nvim-treesitter/nvim-treesitter",
   config = true,

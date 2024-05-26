@@ -2,7 +2,7 @@ return {
   "kawre/leetcode.nvim",
   event = "VeryLazy",
   cmd = {
-    "Leet"
+    "Leet",
   },
   build = ":TSUpdate html",
   dependencies = {

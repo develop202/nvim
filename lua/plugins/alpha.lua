@@ -8,9 +8,9 @@ return {
       "ahmedkhalf/project.nvim",
       event = "VeryLazy",
       config = function()
-        require("project_nvim").setup {
+        require("project_nvim").setup({
           -- patterns = { "src" }
-        }
+        })
       end,
       keys = {
         { "<leader>p", "<Cmd>Telescope projects<CR>", desc = "Projects" },
@@ -24,7 +24,8 @@ return {
         [[ / _ `\ /\ \/\ \\/\ \  / __` __`\]],
         [[/\ \/\ \\ \ \_/ |\ \ \/\ \/\ \/\ \]],
         [[\ \_\ \_\\ \___/  \ \_\ \_\ \_\ \_\]],
-        [[ \/_/\/_/ \/__/    \/_/\/_/\/_/\/_/]] };
+        [[ \/_/\/_/ \/__/    \/_/\/_/\/_/\/_/]],
+      }
       -- dashboard.section.header.val = vim.split(logo, "\n")
       dashboard.section.header.val = logo
       local button = dashboard.button("p", " " .. " Projects", "<cmd>Telescope projects<CR>")
