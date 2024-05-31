@@ -37,6 +37,26 @@ return {
     end,
   },
   {
+    "uga-rosa/ccc.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      -- Enable true color
+      vim.opt.termguicolors = true
+
+      local ccc = require("ccc")
+      -- local mapping = ccc.mapping
+
+      ccc.setup({
+        -- Your preferred settings
+        -- Example: enable highlighter
+        highlighter = {
+          auto_enable = false,
+          lsp = false,
+        },
+      })
+    end,
+  },
+  {
     "hiphish/rainbow-delimiters.nvim",
     event = { "LazyFile" }, --,"BufReadPost", "BufNewFile" },
     config = function()

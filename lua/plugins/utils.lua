@@ -18,14 +18,17 @@ return {
       {
         "<leader>qs",
         [[<cmd>lua require("persistence").load()<cr>]],
+        desc = "加载工作区",
       },
       {
         "<leader>ql",
         [[<cmd>lua require("persistence").load({ last = true})<cr>]],
+        desc = "加载上次工作区",
       },
       {
         "<leader>qd",
         [[<cmd>lua require("persistence").stop()<cr>]],
+        desc = "停止工作区",
       },
     },
     config = true,
@@ -107,13 +110,14 @@ return {
     },
     config = true,
   },
-  {
-    "kamykn/spelunker.vim",
-    event = "VeryLazy",
-    config = function()
-      vim.g.spelunker_check_type = 2
-    end,
-  },
+  -- 拼写检查插件，很长时间没更新了
+  -- {
+  --   "kamykn/spelunker.vim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     vim.g.spelunker_check_type = 2
+  --   end,
+  -- },
   {
     "ellisonleao/glow.nvim",
     event = "VeryLazy",

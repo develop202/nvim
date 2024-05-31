@@ -299,29 +299,45 @@ return {
     end,
   },
   -- Java彩虹括号
+  -- {
+  --   "HiPhish/nvim-ts-rainbow2",
+  --   ft = { "java" },
+  --   -- event = "lazyfile",
+  --   lazy = true,
+  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  --   config = function()
+  --     local parsers = require("nvim-treesitter.parsers")
+  --     local enabled_list = { "java" }
+  --     require("nvim-treesitter.configs").setup({
+  --       rainbow = {
+  --         enable = true,
+  --         -- Enable only for lisp like languages
+  --         disable = vim.tbl_filter(function(p)
+  --           local disable = true
+  --           for _, lang in pairs(enabled_list) do
+  --             if p == lang then
+  --               disable = false
+  --             end
+  --           end
+  --           return disable
+  --         end, parsers.available_parsers()),
+  --       },
+  --     })
+  --   end,
+  -- },
   {
-    "HiPhish/nvim-ts-rainbow2",
-    ft = { "java" },
-    -- event = "lazyfile",
-    lazy = true,
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    "niT-Tin/springboot-start.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "MunifTanjim/nui.nvim",
+    },
     config = function()
-      local parsers = require("nvim-treesitter.parsers")
-      local enabled_list = { "java" }
-      require("nvim-treesitter.configs").setup({
-        rainbow = {
-          enable = true,
-          -- Enable only for lisp like languages
-          disable = vim.tbl_filter(function(p)
-            local disable = true
-            for _, lang in pairs(enabled_list) do
-              if p == lang then
-                disable = false
-              end
-            end
-            return disable
-          end, parsers.available_parsers()),
-        },
+      require("springboot-start").setup({
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
       })
     end,
   },
