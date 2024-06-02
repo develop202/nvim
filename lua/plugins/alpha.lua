@@ -1,9 +1,9 @@
 return {
   {
     "goolord/alpha-nvim",
-    event = "VimEnter",
-    enabled = true,
-    init = false,
+    -- event = "VimEnter",
+    -- enabled = true,
+    -- init = false,
     dependencies = {
       "ahmedkhalf/project.nvim",
       event = "VeryLazy",

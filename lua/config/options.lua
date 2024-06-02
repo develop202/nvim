@@ -14,7 +14,7 @@ option.hlsearch = false
 -- Buffer Settings --
 -- buffer.fileenconding = "utf-8"
 -- 内置拼写检查
-option.spell = true
+-- option.spell = true
 option.spelllang = "en_us,cjk"
 option.spelloptions = "camel"
 -- Global Settings --

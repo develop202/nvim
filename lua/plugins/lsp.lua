@@ -41,7 +41,9 @@ return {
             "shellcheck",
             "sql-formatter",
             "sqlls",
-            "typescript-language-server",
+            -- 使用vtsls代替typescript-language-server
+            -- "typescript-language-server",
+            "vtsls",
             "vue-language-server",
             -- "yaml-language-server",
             "yamlfmt",
@@ -57,10 +59,13 @@ return {
       --   },
       -- },
       -- "folke/neodev.nvim",
-      {
-        "j-hui/fidget.nvim",
-        tag = "legacy",
-      },
+      -- {
+      --   "j-hui/fidget.nvim",
+      --   -- tag = "legacy",
+      --   opts = {
+      --     -- options
+      --   },
+      -- },
 
       -- {
       --   "nvimdev/lspsaga.nvim",
@@ -74,7 +79,7 @@ return {
       -- "simrat39/symbols-outline.nvim",
     },
     opts = {
-      document_highlight = { enabled = false },
+      -- document_highlight = { enabled = false },
       diagnostics = {
         virtual_text = false,
         signs = {
@@ -88,15 +93,15 @@ return {
       },
       servers = {
         lua_ls = {
-          settings = {
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = {
-                "vim",
-                "require",
-              },
-            },
-          },
+          -- settings = {
+          --   diagnostics = {
+          --     -- Get the language server to recognize the `vim` global
+          --     globals = {
+          --       "vim",
+          --       "require",
+          --     },
+          --   },
+          -- },
         },
       },
       setup = {
@@ -114,7 +119,8 @@ return {
       -- vim.list_extend(opts, { autotag = { enable = false } })
       -- 删除treesitter-xml，安装后编辑xml会出现indent缩进异常
       -- 但是删除后没有很好的高亮显示，颜色单一
-      table.remove(opts.ensure_installed, 22)
+      -- table.remove(opts.ensure_installed, 22)
+      table.insert(opts.ensure_installed, { "sql" })
     end,
   },
 }

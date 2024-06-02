@@ -1,21 +1,25 @@
 return {
-  {
-    "RRethy/vim-illuminate",
-    event = "VeryLazy",
-    config = function()
-      require("illuminate").configure({
-        vim.api.nvim_set_hl(0, "IlluminatedWordText", {
-          link = "Visual",
-        }),
-        vim.api.nvim_set_hl(0, "IlluminatedWordRead", {
-          link = "Visual",
-        }),
-        vim.api.nvim_set_hl(0, "IlluminatedWordWrite", {
-          link = "Visual",
-        }),
-      })
-    end,
-  },
+  -- {
+  --   "RRethy/vim-illuminate",
+  --   -- event = "LazyFile",
+  --   opts = function(_, opts)
+  --     local regi = {
+  --       vim.api.nvim_set_hl(0, "IlluminatedWordText", {
+  --         link = "Visual",
+  --       }),
+  --       vim.api.nvim_set_hl(0, "IlluminatedWordRead", {
+  --         link = "Visual",
+  --       }),
+  --       vim.api.nvim_set_hl(0, "IlluminatedWordWrite", {
+  --         link = "Visual",
+  --       }),
+  --     }
+  --     table.insert(opts, regi)
+  --   end,
+  --   -- config = function()
+  --   --   require("illuminate").configure()
+  --   -- end,
+  -- },
   -- {
   --   "NvChad/nvim-colorizer.lua",
   --   event = { "BufReadPost", "BufNewFile" },
@@ -28,17 +32,10 @@ return {
   --   end
   -- },
   {
-    "brenoprata10/nvim-highlight-colors",
-    event = { "BufReadPost", "BufNewFile" },
-    init = function()
-      -- Ensure termguicolors is enabled if not already
-      vim.opt.termguicolors = true
-      require("nvim-highlight-colors").setup({})
-    end,
-  },
-  {
     "uga-rosa/ccc.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    -- ft = { "html", "css", "scss", "less", "vue" },
+    -- event = { "BufReadPost", "BufNewFile" },
+    event = { "LazyFile" },
     config = function()
       -- Enable true color
       vim.opt.termguicolors = true
@@ -55,6 +52,65 @@ return {
         },
       })
     end,
+  },
+  {
+    "brenoprata10/nvim-highlight-colors",
+    -- event = { "BufReadPost", "BufNewFile" },
+    event = { "LazyFile" },
+    -- 这个插件很奇怪，
+    -- 不管用init,opts还是config禁止高亮，
+    -- 都不生效，进文件一段时间后还是
+    -- 会显示颜色，不过好在禁止高亮后用ccc.nvim的颜色选择器可以修改颜色了
+    -- init = function()
+    --   -- Ensure termguicolors is enabled if not already
+    --   vim.opt.termguicolors = true
+    --
+    --   require("nvim-highlight-colors").setup({})
+    -- end,
+    opts = {
+      ---Highlight hex colors, e.g. '#FFFFFF'
+      enable_hex = false,
+
+      ---Highlight short hex colors e.g. '#fff'
+      enable_short_hex = false,
+
+      ---Highlight rgb colors, e.g. 'rgb(0 0 0)'
+      enable_rgb = false,
+
+      ---Highlight hsl colors, e.g. 'hsl(150deg 30% 40%)'
+      enable_hsl = false,
+
+      ---Highlight CSS variables, e.g. 'var(--testing-color)'
+      --- 只需要开启这一个，其他自己会自动开启
+      enable_var_usage = true,
+
+      ---Highlight named colors, e.g. 'green'
+      enable_named_colors = false,
+    },
+    -- config = function()
+    --   -- Ensure termguicolors is enabled if not already
+    --   vim.opt.termguicolors = true
+    --   require("nvim-highlight-colors").setup({
+    --
+    --     ---Highlight hex colors, e.g. '#FFFFFF'
+    --     enable_hex = false,
+    --
+    --     ---Highlight short hex colors e.g. '#fff'
+    --     enable_short_hex = false,
+    --
+    --     ---Highlight rgb colors, e.g. 'rgb(0 0 0)'
+    --     enable_rgb = false,
+    --
+    --     ---Highlight hsl colors, e.g. 'hsl(150deg 30% 40%)'
+    --     enable_hsl = false,
+    --
+    --     ---Highlight CSS variables, e.g. 'var(--testing-color)'
+    --     enable_var_usage = true,
+    --
+    --     ---Highlight named colors, e.g. 'green'
+    --     enable_named_colors = true,
+    --   })
+    -- end,
   },
   {
     "hiphish/rainbow-delimiters.nvim",

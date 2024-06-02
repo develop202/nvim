@@ -3,33 +3,35 @@
 -- Add any additional keymaps here
 -- lsp快捷键
 vim.keymap.set("n", "<leader>m", vim.diagnostic.open_float, { desc = "显示诊断消息" })
+-- vim.keymap.set("n", "<leader>fd", function()
+--   if
+--     vim.bo.filetype == "sh"
+--     or vim.bo.filetype == "yaml"
+--     or vim.bo.filetype == "sql"
+--     or vim.bo.filetype == "mysql"
+--     or vim.bo.filetype == "python"
+--     or vim.bo.filetype == "lua"
+--     or vim.bo.filetype == "luau"
+--   then
+--     LazyVim.format({ force = true })
+--     return
+--   end
+--   vim.lsp.buf.format({
+--     async = true,
+--     filter = function(client)
+--       if client.name == "tsserver" and vim.bo.filetype == "vue" then
+--         -- print("ok")
+--         return client.name ~= "tsserver"
+--       end
+--       -- print(client.name .. "格式化成功")
+--       return client.name == client.name
+--       -- return client.name == "null-ls"
+--     end,
+--   })
+-- end, { desc = "格式化文档" })
 vim.keymap.set("n", "<leader>fd", function()
-  if
-    vim.bo.filetype == "sh"
-    or vim.bo.filetype == "yaml"
-    or vim.bo.filetype == "sql"
-    or vim.bo.filetype == "mysql"
-    or vim.bo.filetype == "python"
-    or vim.bo.filetype == "lua"
-    or vim.bo.filetype == "luau"
-  then
-    LazyVim.format({ force = true })
-    return
-  end
-  vim.lsp.buf.format({
-    async = true,
-    filter = function(client)
-      if client.name == "tsserver" and vim.bo.filetype == "vue" then
-        -- print("ok")
-        return client.name ~= "tsserver"
-      end
-      -- print(client.name .. "格式化成功")
-      return client.name == client.name
-      -- return client.name == "null-ls"
-    end,
-  })
+  LazyVim.format({ force = true })
 end, { desc = "格式化文档" })
-
 -- local opts = { noremap = true, silent = true }
 -- 大纲
 vim.keymap.set("n", "<leader>ol", "<cmd>Outline<CR>", { desc = "文件大纲" })

@@ -47,3 +47,39 @@ vim.cmd([[ hi! NeoTreeMessage guifg=#625d51 ]])
 vim.cmd([[ hi! NeoTreeRootName gui=bold ]])
 vim.cmd([[ hi! NeoTreeGitConflict gui=bold guifg=#ff8700 ]])
 vim.cmd([[ hi! NeoTreeGitUntracked guifg=#ff8700 ]])
+-- lsp document_highlight高亮组
+vim.cmd([[ hi link LspReferenceWrite Visual ]])
+vim.cmd([[ hi link LspReferenceRead Visual ]])
+vim.cmd([[ hi link LspReferenceText Visual ]])
+-- 文件拼写检查
+
+-- 为具有特定扩展名的文件启用拼写检查
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.*" },
+  callback = function()
+    vim.opt.spell = true
+  end,
+})
+
+-- 当你离开这些文件时，可以禁用拼写检查（可选）
+vim.api.nvim_create_autocmd("BufLeave", {
+  pattern = { "*.*" },
+  callback = function()
+    vim.opt.spell = false
+  end,
+})
+
+-- 或者，基于文件类型来设置（通常更健壮）
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "markdown", "text" },
+--   callback = function()
+--     vim.opt.spell = true
+--   end,
+-- })
+
+-- 当你离开这些文件类型时，可以禁用拼写检查（可选）
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "*",
+--   command = 'if &filetype !=# "markdown" && &filetype !=# "text" | setlocal nospell | endif',
+--   nested = false, -- 可能需要设置为 false 以防止嵌套自动命令的干扰
+-- })

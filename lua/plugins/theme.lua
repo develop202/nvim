@@ -1,5 +1,5 @@
 return {
-  -- add gruvboxM
+  -- add gruvbox
 
   {
     "ellisonleao/gruvbox.nvim",

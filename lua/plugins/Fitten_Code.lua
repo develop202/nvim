@@ -1,9 +1,10 @@
 return {
   "luozhiya/fittencode.nvim",
-  event = {
-    "BufReadPost",
-    "BufNewFile",
-  },
+  -- event = {
+  --   "BufReadPost",
+  --   "BufNewFile",
+  -- },
+  event = "LazyFile",
   config = function()
     local API = require("fittencode.api").api
     local Base = require("fittencode.base")

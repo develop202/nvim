@@ -31,7 +31,7 @@ return {
         desc = "停止工作区",
       },
     },
-    config = true,
+    -- config = true,
   },
   {
     -- 需要开启，关闭后不知道为什么HTML，xml双标签缩进有问题
@@ -108,7 +108,7 @@ return {
         desc = "Toggle Flash Search",
       },
     },
-    config = true,
+    -- config = true,
   },
   -- 拼写检查插件，很长时间没更新了
   -- {
@@ -221,14 +221,15 @@ return {
   -- 自动保存插件
   {
     "Pocco81/auto-save.nvim",
-    event = {
-      "BufReadPost",
-      "BufNewFile",
-    },
+    -- event = {
+    --   "BufReadPost",
+    --   "BufNewFile",
+    -- },
+    event = "LazyFile",
     config = function()
       require("auto-save").setup({
         -- your config goes here
-        -- or just leave it empty :)
+        -- or just leave it empty
       })
     end,
   },
