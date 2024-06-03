@@ -200,7 +200,7 @@ return {
         include_current_win = true,
         bo = {
           filetype = {
-            "fidget",
+            -- "fidget",
             "neo-tree",
           },
         },
@@ -279,6 +279,7 @@ return {
   -- },
   {
     "djoshea/vim-autoread",
+    event = "LazyFile"
   },
   {
     "hedyhli/outline.nvim",
