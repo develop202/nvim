@@ -42,9 +42,14 @@ return {
     -- },
     config = true,
   },
+  -- 快速回到文件关闭前的位置,已经不再维护
+  -- {
+  --   "ethanholz/nvim-lastplace",
+  --   config = true,
+  -- },
   {
-    "ethanholz/nvim-lastplace",
-    config = true,
+    "farmergreg/vim-lastplace",
+    event = "LazyFile",
   },
   -- {
   --   "ggandor/leap.nvim",
@@ -279,7 +284,7 @@ return {
   -- },
   {
     "djoshea/vim-autoread",
-    event = "LazyFile"
+    event = "LazyFile",
   },
   {
     "hedyhli/outline.nvim",

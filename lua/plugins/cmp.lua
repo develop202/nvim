@@ -48,7 +48,7 @@ return {
             Value = " ",
             Variable = " ",
           }
-          if _.source.name == "nvim_lsp" then
+          if _.source.name == "nvim_lsp" and (vim.bo.filetype == "html" or vim.bo.filetype == "vue") then
             icons.Text = " "
           end
           if vim.bo.filetype == "sql" or vim.bo.filetype == "mysql" then

@@ -47,8 +47,8 @@ return {
         -- Your preferred settings
         -- Example: enable highlighter
         highlighter = {
-          auto_enable = false,
-          lsp = false,
+          auto_enable = true,
+          lsp = true,
         },
       })
     end,
@@ -85,7 +85,7 @@ return {
       enable_var_usage = true,
 
       ---Highlight named colors, e.g. 'green'
-      enable_named_colors = false,
+      enable_named_colors = true,
     },
     -- config = function()
     --   -- Ensure termguicolors is enabled if not already
