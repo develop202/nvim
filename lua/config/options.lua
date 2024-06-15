@@ -20,3 +20,5 @@ option.spelloptions = "camel"
 -- Global Settings --
 -- global.mapleader = " "
 global.autoformat = false
+-- global.lazyvim_python_ruff = "jedi_language_server"
+-- global.lazyvim_python_ruff = "pylsp"

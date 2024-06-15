@@ -83,3 +83,11 @@ vim.api.nvim_create_autocmd("BufLeave", {
 --   command = 'if &filetype !=# "markdown" && &filetype !=# "text" | setlocal nospell | endif',
 --   nested = false, -- 可能需要设置为 false 以防止嵌套自动命令的干扰
 -- })
+-- 只有一个NONE无效
+vim.cmd([[ hi TodoSignTEST guifg=#83a598 guibg=NONE ]])
+vim.cmd([[ hi TodoSignHACK guifg=#fabd2f guibg=NONE ]])
+vim.cmd([[ hi TodoSignNOTE guifg=#8ec07c guibg=NONE ]])
+vim.cmd([[ hi TodoSignTODO guifg=#83a598 guibg=NONE ]])
+vim.cmd([[ hi TodoSignWARN guifg=#fabd2f guibg=NONE ]])
+vim.cmd([[ hi TodoSignFIX guifg=#fb4934 guibg=NONE ]])
+vim.cmd([[ hi TodoSignPERF guifg=#83a598 guibg=NONE ]])

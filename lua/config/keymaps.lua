@@ -211,6 +211,10 @@ vim.keymap.set("n", "<leader>cp", function()
   local dapui = require("dapui")
   dapui.close()
 end, { desc = "关闭dap-UI" })
+vim.keymap.set("n", "<leader>op", function()
+  local dapui = require("dapui")
+  dapui.open()
+end, { desc = "打开dap-UI" })
 -- Java测试结果
 vim.keymap.set("n", "<leader>jr", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })
 -- vim.keymap.set(

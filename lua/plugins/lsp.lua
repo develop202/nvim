@@ -102,12 +102,43 @@ return {
           --     },
           --   },
           -- },
+          settings = {
+            Lua = {
+              hint = {
+                paramName = "All",
+              },
+            },
+          },
         },
+        -- sqlls = {
+        --   sqlLanguageServer = {
+        --     lint = {
+        --       rules = {
+        --         align_column_to_the_first = "off",
+        --         column_new_line = "error",
+        --         linebreak_after_clause_keyword = "error",
+        --         reserved_word_case = "warn",
+        --         space_surrounding_operators = "error",
+        --         where_clause_new_line = "error",
+        --         align_where_clause_to_the_first = "error",
+        --       },
+        --     },
+        --   },
+        -- },
       },
       setup = {
         jdtls = function()
           return true
         end,
+        pylsp = function()
+          return true
+        end,
+        jedi_language_server = function()
+          return true
+        end,
+        -- pyright = function ()
+        --   return true
+        -- end
       },
     },
   },

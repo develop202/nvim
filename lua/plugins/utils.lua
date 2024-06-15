@@ -284,7 +284,7 @@ return {
   -- },
   {
     "djoshea/vim-autoread",
-    event = "LazyFile",
+    -- event = "LazyFile",
   },
   {
     "hedyhli/outline.nvim",

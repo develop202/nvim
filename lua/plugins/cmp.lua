@@ -48,9 +48,10 @@ return {
             Value = " ",
             Variable = " ",
           }
-          if _.source.name == "nvim_lsp" and (vim.bo.filetype == "html" or vim.bo.filetype == "vue") then
-            icons.Text = " "
-          end
+          -- 意义不大
+          -- if _.source.name == "nvim_lsp" and (vim.bo.filetype == "html" or vim.bo.filetype == "vue") then
+          --   icons.Text = " "
+          -- end
           if vim.bo.filetype == "sql" or vim.bo.filetype == "mysql" then
             icons.Text = " "
           end
@@ -90,8 +91,19 @@ return {
       -- })
     end,
   },
-  {
-    "garymjr/nvim-snippets",
-    enabled = false,
-  },
+  -- {
+  --   "L3MON4D3/LuaSnip",
+  --   event = "InsertEnter",
+  -- },
+  -- {
+  --   "garymjr/nvim-snippets",
+  --   event = "LazyFile",
+  --   enabled = true,
+  -- },
+  -- {
+  --   "p00f/clangd_extensions.nvim",
+  --   ft = { "c", "cpp", "objcpp", "objc", "cuda", "proto" },
+  --   event = "LazyFile",
+  --   -- lazy = false
+  -- },
 }

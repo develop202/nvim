@@ -262,7 +262,7 @@ return {
   },
   {
     "JavaHello/spring-boot.nvim",
-    -- 目前必须用旧版本才可以正常启动
+    -- 目前0.9版本必须用旧版本才可以正常启动
     -- fix: 添加安装提示
     ft = "java",
     dependencies = {
