@@ -131,7 +131,9 @@ return {
             java = {
               configuration = {
                 maven = {
+                  -- TODO:这个配置时灵时不灵，很奇怪
                   userSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
+                  globalSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
                 },
               },
               inlayHints = {
@@ -410,7 +412,7 @@ return {
         selection_keymap = "<C-Space>",
 
         -- The keymap used to generate the Spring project (normal mode)
-        generate_keymap = "<C-CR>",
+        generate_keymap = "<leader>gn",
 
         -- If you want confirmation before generate the Spring project
         confirmation = true,
