@@ -28,7 +28,7 @@ autocmd FileType sql,mysql,plsql lua require("cmp").setup.buffer({sources={{name
 
 -- fix
 -- telescope selection bg
-vim.cmd([[ hi! TelescopeSelection guibg=#3c3836 guifg=#fe8019 gui=bold ]])
+-- vim.cmd([[ hi! TelescopeSelection guibg=#3c3836 guifg=#fe8019 gui=bold ]])
 
 -- fix
 -- diagnostics sign bg (next to numbers line)
@@ -48,9 +48,13 @@ vim.cmd([[ hi! NeoTreeRootName gui=bold ]])
 vim.cmd([[ hi! NeoTreeGitConflict gui=bold guifg=#ff8700 ]])
 vim.cmd([[ hi! NeoTreeGitUntracked guifg=#ff8700 ]])
 -- lsp document_highlight高亮组
-vim.cmd([[ hi link LspReferenceWrite Visual ]])
-vim.cmd([[ hi link LspReferenceRead Visual ]])
-vim.cmd([[ hi link LspReferenceText Visual ]])
+-- vim.cmd([[ hi link LspReferenceWrite Visual ]])
+-- vim.cmd([[ hi link LspReferenceRead Visual ]])
+-- vim.cmd([[ hi link LspReferenceText Visual ]])
+vim.cmd([[ hi LspReferenceWrite guibg=#900C3F ]])
+vim.cmd([[ hi LspReferenceRead guibg=#597266 ]])
+vim.cmd([[ hi LspReferenceText guibg=#808080 ]])
+
 -- 文件拼写检查
 
 -- 为具有特定扩展名的文件启用拼写检查
@@ -91,3 +95,32 @@ vim.cmd([[ hi TodoSignTODO guifg=#83a598 guibg=NONE ]])
 vim.cmd([[ hi TodoSignWARN guifg=#fabd2f guibg=NONE ]])
 vim.cmd([[ hi TodoSignFIX guifg=#fb4934 guibg=NONE ]])
 vim.cmd([[ hi TodoSignPERF guifg=#83a598 guibg=NONE ]])
+-- cmp补全图标背景修改后，
+-- 原因不是背景，是透明度效果，关掉后可以正常显示图标
+-- 可以完整显示,不需要 
+-- 但是颜色不好看
+-- vim.cmd([[ hi CmpItemKindMethod guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindModule guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindTypeParameter guibg=#282828 guifg=#fabd2f ]])
+-- vim.cmd([[ hi CmpItemKindStruct guibg=#282828 guifg=#fabd2f ]])
+-- vim.cmd([[ hi CmpItemKindConstant guibg=#282828 guifg=#fe8019 ]])
+-- vim.cmd([[ hi CmpItemKindEnumMember guibg=#282828 guifg=#8ec07c ]])
+-- vim.cmd([[ hi CmpItemKindFolder guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindFile guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindSnippet guibg=#282828 guifg=#b8bb26 ]])
+-- vim.cmd([[ hi CmpItemKindColor guibg=#282828 guifg=#d3869b ]])
+-- vim.cmd([[ hi CmpItemKindReference guibg=#282828 guifg=#d3869b ]])
+-- vim.cmd([[ hi CmpItemKindEvent guibg=#282828 guifg=#d3869b ]])
+-- vim.cmd([[ hi CmpItemKindKeyword guibg=#282828 guifg=#d3869b ]])
+-- vim.cmd([[ hi CmpItemKindOperator guibg=#282828 guifg=#fabd2f ]])
+-- vim.cmd([[ hi CmpItemKindValue guibg=#282828 guifg=#fe8019 ]])
+-- vim.cmd([[ hi CmpItemKindProperty guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindClass guibg=#282828 guifg=#fabd2f ]])
+-- vim.cmd([[ hi CmpItemKindField guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindUnit guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindConstructor guibg=#282828 guifg=#fabd2f ]])
+-- vim.cmd([[ hi CmpItemKindFunction guibg=#282828 guifg=#83a598 ]])
+-- vim.cmd([[ hi CmpItemKindVariable guibg=#282828 guifg=#fe8019 ]])
+-- vim.cmd([[ hi CmpItemKindText guibg=#282828 guifg=#fe8019 ]])
+-- vim.cmd([[ hi CmpItemKindEnum guibg=#282828 guifg=#fabd2f ]])
+-- vim.cmd([[ hi CmpItemKindInterface guibg=#282828 guifg=#fabd2f ]])

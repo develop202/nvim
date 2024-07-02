@@ -22,3 +22,6 @@ option.spelloptions = "camel"
 global.autoformat = false
 -- global.lazyvim_python_ruff = "jedi_language_server"
 -- global.lazyvim_python_ruff = "pylsp"
+-- 关闭透明显示
+-- 关掉可以让cmp补全列表图标正常显示
+option.pumblend = 0
