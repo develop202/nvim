@@ -351,12 +351,12 @@ return {
   --   end,
   -- },
   {
-    "javiorfo/nvim-springtime",
+    "chaosystema/nvim-springtime",
     lazy = true,
     cmd = { "Springtime", "SpringtimeUpdate" },
     dependencies = {
-      "javiorfo/nvim-popcorn",
-      "javiorfo/nvim-spinetta",
+      "chaosystema/nvim-popcorn",
+      "chaosystema/nvim-spinetta",
       "hrsh7th/nvim-cmp",
     },
     build = function()
