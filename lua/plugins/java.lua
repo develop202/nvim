@@ -338,6 +338,11 @@ return {
       local NodeKind = node_data.NodeKind
       local TypeKind = node_data.TypeKind
       local M = require("java-deps.views.icons")
+      -- 长见识了，居然还可以这样改
+      -- 修改展开快捷键为回车
+      local ConfigM = require("java-deps.config")
+      ConfigM.options.keymaps.toggle_fold = "<cr>"
+      -- 修改图标
       M.NodeKind = {
         [NodeKind.Workspace] = { icon = " ", hl = "CmpItemKindModule" },
         [NodeKind.Project] = { icon = " ", hl = "CmpItemKindModule" },
