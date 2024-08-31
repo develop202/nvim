@@ -148,6 +148,7 @@ return {
             bundles = bundles,
             extendedClientCapabilities = extendedClientCapabilities,
           },
+          ---@diagnostic disable-next-line: unused-local
           on_attach = function(client, buffer)
             -- require("java-deps").attach(client, buffer)
             -- 添加命令
@@ -350,7 +351,7 @@ return {
         [NodeKind.Package] = { icon = "󰅩 ", hl = "CmpItemKindModule" },
         [NodeKind.PrimaryType] = { icon = " ", hl = "CmpItemKindClass" },
         [NodeKind.CompilationUnit] = { icon = " ", hl = "CmpItemKindUnit" },
-        [NodeKind.ClassFile] = { icon = "", hl = "GruvboxRed" },
+        [NodeKind.ClassFile] = { icon = "", hl = "CmpItemKindKeyword" },
         [NodeKind.Container] = { icon = " ", hl = "CmpItemKindModule" },
         [NodeKind.Folder] = { icon = "󰉋 ", hl = "CmpItemKindFolder" },
         [NodeKind.File] = { icon = "󰈙", hl = "CmpItemKindFile" },
@@ -362,7 +363,7 @@ return {
       }
       M.EntryKind = {
         [PackageRootKind.K_SOURCE] = { icon = " ", hl = "CmpItemKindFile" },
-        [PackageRootKind.K_BINARY] = { icon = " ", hl = "GruvboxRed" },
+        [PackageRootKind.K_BINARY] = { icon = " ", hl = "CmpItemKindModule" },
       }
       require("java-deps").setup({})
     end,

@@ -20,9 +20,7 @@ return {
     cn = {
       enabled = true,
     },
-    ---@type lc.lang
     lang = "java",
-    ---@type lc.storage
     storage = {
       home = "~/.leetcode",
       cache = "~/.leetcode/cache",

@@ -1,6 +1,11 @@
 return {
   {
     "folke/noice.nvim",
+    init = function()
+      -- 设置补全框宽度
+      ---@diagnostic disable-next-line: assign-type-mismatch
+      require("noice.config.preset").presets.command_palette.views.cmdline_popupmenu.size.width = "63%"
+    end,
     opts = {
       --   presets = {
       --     command_palette = false,
