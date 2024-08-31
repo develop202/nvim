@@ -25,3 +25,4 @@ global.autoformat = false
 -- 关闭透明显示
 -- 关掉可以让cmp补全列表图标正常显示
 option.pumblend = 0
+vim.g.lazyvim_python_lsp = "basedpyright"

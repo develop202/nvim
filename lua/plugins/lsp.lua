@@ -21,7 +21,7 @@ return {
             "shfmt",
             "bash-language-server",
             -- "beautysh",
-            "black",
+            -- "black",
             "clangd",
             "css-lsp",
             "debugpy",
@@ -37,7 +37,7 @@ return {
             "markdownlint",
             "marksman",
             "prettier",
-            "pyright",
+            "basedpyright",
             "shellcheck",
             "sql-formatter",
             "sqlls",
@@ -48,6 +48,10 @@ return {
             -- "yaml-language-server",
             "yamlfmt",
             -- "flake8",
+            -- ruff格式化Python更快
+            "ruff",
+            -- 对Python导入包进行排序
+            "isort",
           },
         },
       },
@@ -130,15 +134,6 @@ return {
         jdtls = function()
           return true
         end,
-        pylsp = function()
-          return true
-        end,
-        jedi_language_server = function()
-          return true
-        end,
-        -- pyright = function ()
-        --   return true
-        -- end
       },
     },
   },
@@ -153,5 +148,10 @@ return {
       -- table.remove(opts.ensure_installed, 22)
       table.insert(opts.ensure_installed, { "sql", "c", "cpp", "css", "scss" })
     end,
+  },
+  {
+    "RRethy/vim-illuminate",
+    -- vue文件的高亮显示有时会时亮时不亮
+    ft = "vue",
   },
 }

@@ -254,7 +254,7 @@ return {
         ["sh"] = { "shfmt" },
         ["sql"] = { "sql_formatter" },
         ["mysql"] = { "sql_formatter" },
-        ["python"] = { "black" },
+        ["python"] = { "ruff_format", "isort" },
         ["lua"] = { "stylua" },
         ["luau"] = { "stylua" },
       },
@@ -296,6 +296,13 @@ return {
     opts = {
       symbol_folding = {
         markers = { " ", " " },
+      },
+      providers = {
+        lsp = {
+          -- Lsp client names to ignore
+          -- 忽略lsp
+          blacklist_clients = { "spring-boot", "ruff" },
+        },
       },
       symbols = {
         icons = {

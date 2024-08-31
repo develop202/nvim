@@ -149,7 +149,7 @@ return {
             extendedClientCapabilities = extendedClientCapabilities,
           },
           on_attach = function(client, buffer)
-            require("java-deps").attach(client, buffer)
+            -- require("java-deps").attach(client, buffer)
             -- 添加命令
             local create_command = vim.api.nvim_buf_create_user_command
             create_command(buffer, "JavaProjects", require("java-deps").toggle_outline, {
@@ -333,6 +333,32 @@ return {
     --   },
     -- },
     config = function()
+      local node_data = require("java-deps.java.nodeData")
+      local PackageRootKind = require("java-deps.java.IPackageRootNodeData").PackageRootKind
+      local NodeKind = node_data.NodeKind
+      local TypeKind = node_data.TypeKind
+      local M = require("java-deps.views.icons")
+      M.NodeKind = {
+        [NodeKind.Workspace] = { icon = " ", hl = "CmpItemKindModule" },
+        [NodeKind.Project] = { icon = " ", hl = "CmpItemKindModule" },
+        [NodeKind.PackageRoot] = { icon = " ", hl = "CmpItemKindModule" },
+        [NodeKind.Package] = { icon = "󰅩 ", hl = "CmpItemKindModule" },
+        [NodeKind.PrimaryType] = { icon = " ", hl = "CmpItemKindClass" },
+        [NodeKind.CompilationUnit] = { icon = " ", hl = "CmpItemKindUnit" },
+        [NodeKind.ClassFile] = { icon = "", hl = "GruvboxRed" },
+        [NodeKind.Container] = { icon = " ", hl = "CmpItemKindModule" },
+        [NodeKind.Folder] = { icon = "󰉋 ", hl = "CmpItemKindFolder" },
+        [NodeKind.File] = { icon = "󰈙", hl = "CmpItemKindFile" },
+      }
+      M.TypeKind = {
+        [TypeKind.Class] = { icon = " ", hl = "CmpItemKindClass" },
+        [TypeKind.Interface] = { icon = " ", hl = "CmpItemKindInterface" },
+        [TypeKind.Enum] = { icon = " ", hl = "CmpItemKindEnum" },
+      }
+      M.EntryKind = {
+        [PackageRootKind.K_SOURCE] = { icon = " ", hl = "CmpItemKindFile" },
+        [PackageRootKind.K_BINARY] = { icon = " ", hl = "GruvboxRed" },
+      }
       require("java-deps").setup({})
     end,
   },
