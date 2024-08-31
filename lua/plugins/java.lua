@@ -305,7 +305,39 @@ return {
       if not require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
         return
       end
-      require("spring_boot").setup({})
+      local cmd = function()
+        local util = require("spring_boot.util")
+        local boot_path = require("spring_boot.vscode").find_one("/vmware.vscode-spring-boot-*/language-server")
+        if not boot_path then
+          vim.notify("Spring Boot LS is not installed", vim.log.levels.WARN)
+          return
+        end
+        local boot_classpath = {}
+        table.insert(boot_classpath, boot_path .. "/BOOT-INF/classes")
+        table.insert(boot_classpath, boot_path .. "/BOOT-INF/lib/*")
+
+        local cmd = {
+          util.java_bin(),
+          "-XX:TieredStopAtLevel=1",
+          "-Xms128M",
+          "-Xmx128M",
+          "-XX:+UseG1GC",
+          "-cp",
+          table.concat(boot_classpath, util.is_win and ";" or ":"),
+          "-Dsts.lsp.client=vscode",
+          "-Dsts.log.file=/dev/null",
+          "-Dspring.config.location=file:" .. boot_path .. "/BOOT-INF/classes/application.properties",
+          -- "-Dlogging.level.org.springframework=DEBUG",
+          "org.springframework.ide.vscode.boot.app.BootLanguageServerBootApp",
+        }
+
+        return cmd
+      end
+      require("spring_boot").setup({
+        server = {
+          cmd = cmd(),
+        },
+      })
     end,
   },
   {
@@ -412,98 +444,272 @@ return {
   --   end,
   -- },
   {
-    "chaosystema/nvim-springtime",
+    "javiorfo/nvim-springtime",
     lazy = true,
     cmd = { "Springtime", "SpringtimeUpdate" },
     dependencies = {
-      "chaosystema/nvim-popcorn",
-      "chaosystema/nvim-spinetta",
+      "javiorfo/nvim-popcorn",
+      "javiorfo/nvim-spinetta",
       "hrsh7th/nvim-cmp",
     },
     build = function()
       require("springtime.core").update()
     end,
-    opts = {
-      -- This section is optional
-      -- If you want to change default configurations
-      -- In packer.nvim use require'springtime'.setup { ... }
+    -- opts = {
+    --   -- This section is optional
+    --   -- If you want to change default configurations
+    --   -- In packer.nvim use require'springtime'.setup { ... }
+    --
+    --   -- Springtime popup section
+    --   spring = {
+    --     -- Project: Gradle, Gradle Kotlin and Maven (Gradle default)
+    --     project = {
+    --       selected = 1,
+    --     },
+    --     -- Language: Java, Kotlin and Groovy (Java default)
+    --     language = {
+    --       selected = 1,
+    --     },
+    --     -- Packaging: Jar and War (Jar default)
+    --     packaging = {
+    --       selected = 1,
+    --     },
+    --     -- Project Metadata defaults:
+    --     -- Change the default values as you like
+    --     -- This can also be edited in the popup
+    --     project_metadata = {
+    --       group = "com.example",
+    --       artifact = "demo",
+    --       name = "demo",
+    --       package_name = "com.example.demo",
+    --       version = "0.0.1-SNAPSHOT",
+    --     },
+    --     -- 自定义Java和spring boot的版本
+    --     -- spring_boot = {
+    --     --   selected = 3,
+    --     --   values = {
+    --     --     "3.2.5",
+    --     --     "3.1.11",
+    --     --     "2.7.18",
+    --     --   },
+    --     -- },
+    --     -- java_version = {
+    --     --   selected = 2,
+    --     --   values = { 17, 11, 8 },
+    --     -- },
+    --   },
+    --
+    --   -- Some popup options
+    --   dialog = {
+    --     -- The keymap used to select radio buttons (normal mode)
+    --     selection_keymap = "<C-Space>",
+    --
+    --     -- The keymap used to generate the Spring project (normal mode)
+    --     generate_keymap = "<leader>gn",
+    --
+    --     -- If you want confirmation before generate the Spring project
+    --     confirmation = true,
+    --
+    --     -- Highlight links to Title and sections for changing colors
+    --     style = {
+    --       title_link = "Boolean",
+    --       section_link = "Type",
+    --     },
+    --   },
+    --
+    --   -- Workspace is where the generated Spring project will be saved
+    --   workspace = {
+    --     -- Default where Neovim is open
+    --     path = vim.fn.expand("%:p:h"),
+    --
+    --     -- Spring Initializr generates a zip file
+    --     -- Decompress the file by default
+    --     decompress = true,
+    --
+    --     -- If after generation you want to open the folder
+    --     -- Opens the generated project in Neovim by default
+    --     open_auto = true,
+    --   },
+    --
+    --   -- This could be enabled for debugging purposes
+    --   -- Generates a springtime.log with debug and errors.
+    --   internal = {
+    --     log_debug = false,
+    --   },
+    -- },
+    config = function()
+      local SETTINGS = require("springtime").SETTINGS
+      local util = require("springtime.util")
+      local constants = require("springtime.constants")
+      local generator = require("springtime.generator")
 
-      -- Springtime popup section
-      spring = {
-        -- Project: Gradle, Gradle Kotlin and Maven (Gradle default)
-        project = {
-          selected = 1,
-        },
-        -- Language: Java, Kotlin and Groovy (Java default)
-        language = {
-          selected = 1,
-        },
-        -- Packaging: Jar and War (Jar default)
-        packaging = {
-          selected = 1,
-        },
-        -- Project Metadata defaults:
-        -- Change the default values as you like
-        -- This can also be edited in the popup
-        project_metadata = {
-          group = "com.example",
-          artifact = "demo",
-          name = "demo",
-          package_name = "com.example.demo",
-          version = "0.0.1-SNAPSHOT",
-        },
-        -- 自定义Java和spring boot的版本
-        -- spring_boot = {
-        --   selected = 3,
-        --   values = {
-        --     "3.2.5",
-        --     "3.1.11",
-        --     "2.7.18",
-        --   },
-        -- },
-        -- java_version = {
-        --   selected = 2,
-        --   values = { 17, 11, 8 },
-        -- },
-      },
+      local springtimeM = require("springtime")
+      -- 自定义快捷键
+      springtimeM.SETTINGS.dialog.generate_keymap = "<leader>gn"
 
-      -- Some popup options
-      dialog = {
-        -- The keymap used to select radio buttons (normal mode)
-        selection_keymap = "<C-Space>",
+      -- 判断生成项目类型
+      local project_type = function(value)
+        if value == constants.GRADLE_GROOVY then
+          return "gradle-project"
+        end
+        if value == constants.GRADLE_KOTLIN then
+          return "gradle-project-kotlin"
+        end
+        return "maven-project"
+      end
 
-        -- The keymap used to generate the Spring project (normal mode)
-        generate_keymap = "<leader>gn",
+      -- 分割依赖项
+      local function split(str)
+        local delimiter = ","
+        local result = {}
+        for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
+          if match ~= "" then
+            table.insert(result, match)
+          end
+        end
 
-        -- If you want confirmation before generate the Spring project
-        confirmation = true,
+        local log = vim.inspect(result) or "NONE"
+        util.logger:debug("split dependencies: " .. log)
 
-        -- Highlight links to Title and sections for changing colors
-        style = {
-          title_link = "Boolean",
-          section_link = "Type",
-        },
-      },
+        return result
+      end
 
-      -- Workspace is where the generated Spring project will be saved
-      workspace = {
-        -- Default where Neovim is open
-        path = vim.fn.expand("%:p:h"),
+      -- 处理依赖
+      local function validate_dependencies(dependencies)
+        local _, libraries = pcall(dofile, util.lua_springtime_path .. "libraries.lua")
+        local dependencies_to_tbl = split(dependencies)
 
-        -- Spring Initializr generates a zip file
-        -- Decompress the file by default
-        decompress = true,
+        for _, v in pairs(dependencies_to_tbl) do
+          local is_valid = false
+          for _, library in ipairs(libraries) do
+            if library.insertText:sub(1, -2) == v then
+              is_valid = true
+              util.logger:debug("Library: " .. library.label .. " Version range: " .. library.versionRange)
+              break
+            end
+          end
+          if not is_valid then
+            return false, v .. " is not a valid library"
+          end
+        end
 
-        -- If after generation you want to open the folder
-        -- Opens the generated project in Neovim by default
-        open_auto = true,
-      },
+        return true, nil
+      end
 
-      -- This could be enabled for debugging purposes
-      -- Generates a springtime.log with debug and errors.
-      internal = {
-        log_debug = false,
-      },
-    },
+      -- 生成项目
+      local function generateByMyself(input)
+        local project_folder = string.format("%s/%s", input.workspace, input.project_name)
+        local zip_file = string.format("%s.zip", project_folder)
+        local command = string.format(
+          [[curl -G %s/starter.zip -d type=%s -d language=%s -d packaging=%s -d bootVersion=%s -d javaVersion=%s -d groupId=%s -d artifactId=%s -d name=%s -d packageName=%s -d version=%s %s -o %s 2> >( while read line; do echo \[ERROR\]\[$(date '+%%m/%%d/%%Y %%T')\]: ${line}; done >> %s) %s; echo $?]],
+          util.spring_url,
+          input.project,
+          input.language,
+          input.packaging,
+          input.spring_boot,
+          input.java_version,
+          input.project_group,
+          input.project_artifact,
+          input.project_name,
+          input.project_package_name,
+          input.project_version,
+          input.dependencies ~= "" and "-d dependencies=" .. input.dependencies or "",
+          zip_file,
+          util.springtime_log_file,
+          input.decompress and string.format("&& unzip -q %s -d %s && rm %s", zip_file, project_folder, zip_file) or ""
+        )
+
+        util.logger:debug("Curl generated: " .. command)
+
+        local ok = vim.fn.system(command)
+
+        return tonumber(ok) == 0
+      end
+
+      local generationM = require("springtime.generator")
+
+      -- 创建项目
+      ---@diagnostic disable-next-line: duplicate-set-field
+      generationM.create_project = function(values)
+        local input = {
+          project = project_type(values[1]),
+          language = tostring(values[2]):lower(),
+          packaging = tostring(values[3]):lower(),
+          spring_boot = values[4],
+          java_version = values[5],
+          project_group = util.trim(values[6]),
+          project_artifact = util.trim(values[7]),
+          project_name = util.trim(values[8]),
+          project_package_name = util.trim(values[9]),
+          project_version = SETTINGS.spring.project_metadata.version,
+          dependencies = values[10],
+          workspace = SETTINGS.workspace.path,
+          decompress = SETTINGS.workspace.decompress,
+        }
+
+        if input.project_group == "" then
+          return false, "Project Metadata Group could not be empty"
+        end
+        if input.project_artifact == "" then
+          return false, "Project Metadata Artifact could not be empty"
+        end
+        if input.project_name == "" then
+          return false, "Project Metadata Name could not be empty"
+        end
+        if input.project_package_name == "" then
+          return false, "Project Metadata Package Name could not be empty"
+        end
+
+        if input.dependencies ~= "" then
+          input.dependencies, _ = string.gsub(input.dependencies, " ", "")
+          local is_valid, msg = validate_dependencies(input.dependencies)
+          if is_valid then
+            input.dependencies = util.remove_trailing_comma(util.trim(input.dependencies))
+          else
+            return false, msg
+          end
+        end
+
+        return generateByMyself(input)
+      end
+
+      local coreM = require("springtime.core")
+
+      -- 核心创建项目
+      ---@diagnostic disable-next-line: duplicate-set-field
+      coreM.generate = function(values)
+        local user_input = "y"
+        if SETTINGS.dialog.confirmation then
+          user_input = vim.fn.input(string.format("Do you want to generate project [%s]? y/n: ", values[8]))
+        end
+
+        if tostring(user_input):lower() == "y" then
+          vim.cmd([[redraw]])
+          util.logger:debug("Values to generate project: " .. vim.inspect(values))
+
+          local ok = generator.create_project(values)
+          if ok then
+            util.logger:info(
+              string.format(
+                "  [%s] generated correctly in workspace [%s]",
+                util.trim(values[8]),
+                SETTINGS.workspace.path
+              )
+            )
+            if SETTINGS.workspace.open_auto then
+              -- vim.cmd(string.format("e %s/%s", SETTINGS.workspace.path, util.trim(values[8])))
+              -- vim.cmd(string.format("q"))
+              vim.cmd("quit")
+              vim.cmd(string.format("cd %s/%s", SETTINGS.workspace.path, util.trim(values[8])))
+              vim.cmd("Neotree")
+            end
+          else
+            util.logger:error("  Error generating project. Check the logs with :SpringtimeLogs command")
+          end
+        else
+          vim.cmd([[redraw]])
+        end
+      end
+    end,
   },
 }
