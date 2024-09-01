@@ -9,6 +9,32 @@ return {
       local jdtls_config = {}
       local bundles = {}
 
+      -- 添加dap扩展jar包
+      if LazyVim.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
+        local java_dbg_pkg = mason_registry.get_package("java-debug-adapter")
+        local java_dbg_path = java_dbg_pkg:get_install_path()
+        local jar_patterns = {
+          java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
+        }
+
+        -- 添加test扩展jar包
+        -- java-test also depends on java-debug-adapter.
+        if mason_registry.is_installed("java-test") then
+          local java_test_pkg = mason_registry.get_package("java-test")
+          local java_test_path = java_test_pkg:get_install_path()
+          vim.list_extend(jar_patterns, {
+            java_test_path .. "/extension/server/*.jar",
+          })
+        end
+
+        -- 添加到bundles
+        for _, jar_pattern in ipairs(jar_patterns) do
+          for _, bundle in ipairs(vim.split(vim.fn.glob(jar_pattern), "\n")) do
+            table.insert(bundles, bundle)
+          end
+        end
+      end
+
       -- 添加 spring-boot jdtls 扩展 jar 包
       if require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
         vim.list_extend(bundles, require("spring_boot").java_extensions())
