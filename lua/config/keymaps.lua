@@ -76,7 +76,7 @@ vim.keymap.set("n", "<A-down>", "10j", { desc = "向下滚动代码" })
 --关闭所有buffer
 vim.keymap.set("n", "ca", "<cmd>bufdo bd<CR>", { desc = "关闭所有buffer" })
 --vim-test测试插件
-vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>TestNearest<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>tn", "<cmd>TestNearest<CR>", {
   silent = true,
   desc = "运行光标所在的测试",
 })
@@ -88,11 +88,11 @@ vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>TestSuite<CR>", {
   silent = true,
   desc = "TestSuite",
 })
-vim.api.nvim_set_keymap("n", "<leader>l", "<cmd>TestLast<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>lt", "<cmd>TestLast<CR>", {
   silent = true,
   desc = "运行文件最后一个测试",
 })
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>TestVisit<CR>", {
+vim.api.nvim_set_keymap("n", "<leader>tg", "<cmd>TestVisit<CR>", {
   silent = true,
   desc = "TestVisit",
 })
