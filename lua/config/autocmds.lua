@@ -4,15 +4,15 @@
 
 -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format { async = false, filter = function(client) if client.name == "tsserver" and vim.bo.filetype == "vue" then return client.name ~= "tsserver" end return client.name == client.name end}]]
 -- vim.cmd [[autocmd BufWritePre * <leader>f]]
-vim.cmd([[ autocmd BufEnter * set formatoptions+=/mBrj formatoptions-=o ]])
----@diagnostic disable-next-line: deprecated
-vim.api.nvim_exec(
-  [[
-autocmd FileType sql setlocal omnifunc=vim.dadbod_completion#omni
-autocmd FileType sql,mysql,plsql lua require("cmp").setup.buffer({sources={{name='vim-dadbod-completion'}}})
-]],
-  false
-)
+-- vim.cmd([[ autocmd BufEnter * set formatoptions+=/mBrj formatoptions-=o ]])
+-- ---@diagnostic disable-next-line: deprecated
+-- vim.api.nvim_exec(
+--   [[
+-- autocmd FileType sql setlocal omnifunc=vim.dadbod_completion#omni
+-- autocmd FileType sql,mysql,plsql lua require("cmp").setup.buffer({sources={{name='vim-dadbod-completion'}}})
+-- ]],
+--   false
+-- )
 -- fix
 -- git signs column bg
 -- vim.cmd([[ hi! SignColumn guibg=NONE ]])

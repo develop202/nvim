@@ -258,13 +258,13 @@ return {
         ["lua"] = { "stylua" },
         ["luau"] = { "stylua" },
       },
-      formatters = {
-        sql_formatter = {
-          exe = "sql-formatter",
-          stdin = true,
-          -- args = { "-l", "sql" },
-        },
-      },
+      -- formatters = {
+      --   sql_formatter = {
+      --     exe = "sql-formatter",
+      --     stdin = true,
+      --     -- args = { "-l", "sql" },
+      --   },
+      -- },
     },
   },
   -- {
