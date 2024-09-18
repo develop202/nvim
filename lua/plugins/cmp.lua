@@ -62,9 +62,9 @@ return {
           -- end
           -- 合并icons
           icons = vim.tbl_deep_extend("force", {}, icons, myicons or {})
-          if vim.bo.filetype == "sql" or vim.bo.filetype == "mysql" then
-            icons.Text = " "
-          end
+          -- if vim.bo.filetype == "sql" or vim.bo.filetype == "mysql" then
+          --   icons.Text = " "
+          -- end
           if icons[item.kind] then
             item.kind = icons[item.kind]
           end
