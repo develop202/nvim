@@ -54,7 +54,7 @@ vim.cmd([[ hi! NeoTreeGitUntracked guifg=#ff8700 ]])
 -- vim.cmd([[ hi link LspReferenceText Visual ]])
 vim.cmd([[ hi LspReferenceWrite guibg=#900C3F ]])
 vim.cmd([[ hi LspReferenceRead guibg=#597266 ]])
-vim.cmd([[ hi LspReferenceText guibg=#808080 ]])
+vim.cmd([[ hi LspReferenceText guibg=#4c6280 ]])
 
 -- 文件拼写检查
 
@@ -98,7 +98,7 @@ vim.cmd([[ hi TodoSignFIX guifg=#fb4934 guibg=NONE ]])
 vim.cmd([[ hi TodoSignPERF guifg=#83a598 guibg=NONE ]])
 -- cmp补全图标背景修改后，
 -- 原因不是背景，是透明度效果，关掉后可以正常显示图标
--- 可以完整显示,不需要 
+-- 可以完整显示,不需要
 -- 但是颜色不好看
 -- vim.cmd([[ hi CmpItemKindMethod guibg=#282828 guifg=#83a598 ]])
 -- vim.cmd([[ hi CmpItemKindModule guibg=#282828 guifg=#83a598 ]])

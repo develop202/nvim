@@ -12,9 +12,9 @@ return {
     dependencies = {
       {
         "williamboman/mason.nvim",
-        cmd = {
-          "Mason",
-        },
+        -- cmd = {
+        --   "Mason",
+        -- },
         opts = {
           ensure_installed = {
             "stylua",
@@ -146,7 +146,7 @@ return {
       -- 删除treesitter-xml，安装后编辑xml会出现indent缩进异常
       -- 但是删除后没有很好的高亮显示，颜色单一
       -- table.remove(opts.ensure_installed, 22)
-      table.insert(opts.ensure_installed, { "css", "scss" })
+      table.insert(opts.ensure_installed, { "scss" })
     end,
   },
   {

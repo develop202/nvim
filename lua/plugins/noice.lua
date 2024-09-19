@@ -1,10 +1,13 @@
 return {
   {
     "folke/noice.nvim",
-    init = function()
-      -- 设置补全框宽度
+    config = function(_, opts)
+      if vim.o.filetype == "lazy" then
+        vim.cmd([[messages clear]])
+      end
       ---@diagnostic disable-next-line: assign-type-mismatch
       require("noice.config.preset").presets.command_palette.views.cmdline_popupmenu.size.width = "63%"
+      require("noice").setup(opts)
     end,
     opts = {
       --   presets = {

@@ -208,10 +208,20 @@ return {
           },
         },
         -- 显示右侧预览，不过在手机上很窄，不美观
-        layout_strategy = "horizontal",
+        -- layout_strategy = "horizontal",
+        -- layout_config = {
+        --   width = 0.8,
+        --   preview_cutoff = 1,
+        -- },
+        layout_strategy = "vertical",
         layout_config = {
-          width = 0.8,
-          preview_cutoff = 1,
+          vertical = {
+            preview_cutoff = 20,
+            preview_height = 0.6,
+            -- mirror = true,
+          },
+          -- height = { padding = 0 },
+          -- width = { padding = 0 },
         },
       },
       -- 预览和搜索结果上下分布，看着有些怪，但是搜索结果显示完整一些
