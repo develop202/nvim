@@ -125,3 +125,11 @@ vim.cmd([[ hi TodoSignPERF guifg=#83a598 guibg=NONE ]])
 -- vim.cmd([[ hi CmpItemKindText guibg=#282828 guifg=#fe8019 ]])
 -- vim.cmd([[ hi CmpItemKindEnum guibg=#282828 guifg=#fabd2f ]])
 -- vim.cmd([[ hi CmpItemKindInterface guibg=#282828 guifg=#fabd2f ]])
+
+-- 取消换行自动注释
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  pattern = { "*" },
+  callback = function()
+    vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
+  end,
+})
