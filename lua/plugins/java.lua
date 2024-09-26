@@ -229,25 +229,25 @@ return {
       ConfigM.options.keymaps.toggle_fold = "<cr>"
       -- 修改图标
       M.NodeKind = {
-        [NodeKind.Workspace] = { icon = " ", hl = "CmpItemKindModule" },
-        [NodeKind.Project] = { icon = " ", hl = "CmpItemKindModule" },
-        [NodeKind.PackageRoot] = { icon = " ", hl = "CmpItemKindModule" },
-        [NodeKind.Package] = { icon = "󰅩 ", hl = "CmpItemKindModule" },
-        [NodeKind.PrimaryType] = { icon = " ", hl = "CmpItemKindClass" },
-        [NodeKind.CompilationUnit] = { icon = " ", hl = "CmpItemKindUnit" },
-        [NodeKind.ClassFile] = { icon = "", hl = "CmpItemKindKeyword" },
-        [NodeKind.Container] = { icon = " ", hl = "CmpItemKindModule" },
-        [NodeKind.Folder] = { icon = "󰉋 ", hl = "CmpItemKindFolder" },
-        [NodeKind.File] = { icon = "󰈙", hl = "CmpItemKindFile" },
+        [NodeKind.Workspace] = { icon = " ", hl = "@property" },
+        [NodeKind.Project] = { icon = " ", hl = "@property" },
+        [NodeKind.PackageRoot] = { icon = " ", hl = "@property" },
+        [NodeKind.Package] = { icon = "󰅩 ", hl = "@property" },
+        [NodeKind.PrimaryType] = { icon = " ", hl = "@type" },
+        [NodeKind.CompilationUnit] = { icon = " ", hl = "@property" },
+        [NodeKind.ClassFile] = { icon = "", hl = "@keyword" },
+        [NodeKind.Container] = { icon = " ", hl = "@property" },
+        [NodeKind.Folder] = { icon = "󰉋 ", hl = "@property" },
+        [NodeKind.File] = { icon = "󰈙", hl = "@property" },
       }
       M.TypeKind = {
-        [TypeKind.Class] = { icon = " ", hl = "CmpItemKindClass" },
-        [TypeKind.Interface] = { icon = " ", hl = "CmpItemKindInterface" },
-        [TypeKind.Enum] = { icon = " ", hl = "CmpItemKindEnum" },
+        [TypeKind.Class] = { icon = " ", hl = "@type" },
+        [TypeKind.Interface] = { icon = " ", hl = "@constructor" },
+        [TypeKind.Enum] = { icon = " ", hl = "@type" },
       }
       M.EntryKind = {
-        [PackageRootKind.K_SOURCE] = { icon = " ", hl = "CmpItemKindFile" },
-        [PackageRootKind.K_BINARY] = { icon = " ", hl = "CmpItemKindModule" },
+        [PackageRootKind.K_SOURCE] = { icon = " ", hl = "@property" },
+        [PackageRootKind.K_BINARY] = { icon = " ", hl = "@property" },
       }
       require("java-deps").setup({})
     end,
