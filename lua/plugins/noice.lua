@@ -6,7 +6,7 @@ return {
         vim.cmd([[messages clear]])
       end
       ---@diagnostic disable-next-line: assign-type-mismatch
-      require("noice.config.preset").presets.command_palette.views.cmdline_popupmenu.size.width = "63%"
+      require("noice.config.preset").presets.command_palette.views.cmdline_popupmenu.size.width = 30
       require("noice").setup(opts)
     end,
     opts = {
@@ -26,7 +26,7 @@ return {
           --   col = "50%",
           -- },
           size = {
-            width = "60%",
+            min_width = 30,
             -- height = "auto",
           },
         },
