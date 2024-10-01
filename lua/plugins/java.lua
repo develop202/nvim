@@ -160,29 +160,50 @@ return {
       local cmd = function()
         local util = require("spring_boot.util")
         local boot_path = require("spring_boot.vscode").find_one("/vmware.vscode-spring-boot-*/language-server")
+        local cmd = {}
+        local exploded_ls_jar_data = false
+
         if not boot_path then
           vim.notify("Spring Boot LS is not installed", vim.log.levels.WARN)
           return
         end
-        local boot_classpath = {}
-        table.insert(boot_classpath, boot_path .. "/BOOT-INF/classes")
-        table.insert(boot_classpath, boot_path .. "/BOOT-INF/lib/*")
+        if exploded_ls_jar_data then
+          local boot_classpath = {}
+          table.insert(boot_classpath, boot_path .. "/BOOT-INF/classes")
+          table.insert(boot_classpath, boot_path .. "/BOOT-INF/lib/*")
 
-        local cmd = {
-          util.java_bin(),
-          "-XX:TieredStopAtLevel=1",
-          "-Xms128M",
-          "-Xmx128M",
-          "-XX:+UseG1GC",
-          "-cp",
-          table.concat(boot_classpath, util.is_win and ";" or ":"),
-          "-Dsts.lsp.client=vscode",
-          "-Dsts.log.file=/dev/null",
-          "-Dspring.config.location=file:" .. boot_path .. "/BOOT-INF/classes/application.properties",
-          -- "-Dlogging.level.org.springframework=DEBUG",
-          "org.springframework.ide.vscode.boot.app.BootLanguageServerBootApp",
-        }
-
+          cmd = {
+            util.java_bin(),
+            "-XX:TieredStopAtLevel=1",
+            "-Xms128M",
+            "-Xmx128M",
+            "-XX:+UseG1GC",
+            "-cp",
+            table.concat(boot_classpath, util.is_win and ";" or ":"),
+            "-Dsts.lsp.client=vscode",
+            "-Dsts.log.file=/dev/null",
+            "-Dspring.config.location=file:" .. boot_path .. "/BOOT-INF/classes/application.properties",
+            -- "-Dlogging.level.org.springframework=DEBUG",
+            "org.springframework.ide.vscode.boot.app.BootLanguageServerBootApp",
+          }
+        else
+          local server_jar = vim.split(vim.fn.glob(boot_path .. "/spring-boot-language-server*.jar"), "\n")
+          if #server_jar == 0 then
+            vim.notify("Spring Boot LS jar not found", vim.log.levels.WARN)
+            return
+          end
+          cmd = {
+            util.java_bin(),
+            "-XX:TieredStopAtLevel=1",
+            "-Xms128M",
+            "-Xmx128M",
+            "-XX:+UseG1GC",
+            "-Dsts.lsp.client=vscode",
+            "-Dsts.log.file=/dev/null",
+            "-jar",
+            server_jar[1],
+          }
+        end
         return cmd
       end
       require("spring_boot").setup({
