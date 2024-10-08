@@ -341,6 +341,11 @@ return {
           Macro = { icon = " ", hl = "Function" },
         },
       },
+      keymaps = {
+        goto_location = "o",
+        fold_toggle = "<CR>",
+        peek_location = "p",
+      },
     },
   },
   {
@@ -407,5 +412,31 @@ return {
     opts = {
       -- add any options here
     },
+  },
+  {
+    -- 使用gdb对c,cpp进行调试
+    "mfussenegger/nvim-dap",
+    opts = function()
+      local dap = require("dap")
+      require("dap").adapters["gdb"] = {
+        type = "executable",
+        command = "gdb",
+        args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+      }
+      for _, lang in ipairs({ "c", "cpp" }) do
+        dap.configurations[lang] = {
+          {
+            name = "Launch",
+            type = "gdb",
+            request = "launch",
+            program = function()
+              return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+            end,
+            cwd = "${workspaceFolder}",
+            stopAtBeginningOfMainSubprogram = false,
+          },
+        }
+      end
+    end,
   },
 }
