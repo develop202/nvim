@@ -166,16 +166,12 @@ return {
         return
       end
 
-      local installed_on_mason_packages = (vim.uv or vim.loop).fs_stat(
-        HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls"
-      )
-
       -- 默认为vscodw插件
       local ls_path = require("spring_boot.vscode").find_one("/language-server")
       local GC_type = "-XX:+UseZGC"
 
       -- 判断packages是否安装了spring-boot
-      if installed_on_mason_packages then
+      if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls") then
         ls_path = HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls/language-server"
         GC_type = "-XX:+UseG1GC"
       end
