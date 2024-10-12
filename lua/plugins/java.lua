@@ -63,6 +63,7 @@ return {
         extendedClientCapabilities = extendedClientCapabilities,
       }
 
+      ---@diagnostic disable-next-line: unused-local
       jdtls_config["on_attach"] = function(client, buffer)
         -- 添加命令
         local create_command = vim.api.nvim_buf_create_user_command
@@ -78,13 +79,8 @@ return {
             and function()
               return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
             end
-          or require("lspconfig.server_configurations.jdtls").default_config.root_dir,
-        --   function()
-        --   if require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }) ~= nil then
-        --     return require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' })
-        --   end
-        --   return require("lspconfig.server_configurations.jdtls").default_config.root_dir
-        -- end,
+          ---@diagnostic disable-next-line: undefined-field
+          or LazyVim.lsp.get_raw_config("jdtls").default_config.root_dir,
 
         -- How to find the project name for a given root dir.
         project_name = function(root_dir)
@@ -129,7 +125,7 @@ return {
           java = {
             configuration = {
               maven = {
-                -- TODO:这个配置时灵时不灵，很奇怪
+                -- 将settings.xml复制到.m2目录下即可生效
                 userSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
                 globalSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
               },
@@ -146,8 +142,6 @@ return {
   },
   {
     "JavaHello/spring-boot.nvim",
-    -- 目前0.9版本必须用旧版本才可以正常启动
-    -- fix: 添加安装提示
     ft = "java",
     dependencies = {
       "mfussenegger/nvim-jdtls",
@@ -215,29 +209,8 @@ return {
   },
   {
     "JavaHello/java-deps.nvim",
-    -- lazy = true,
     ft = "java",
     dependencies = "mfussenegger/nvim-jdtls",
-    -- options = {
-    --   fold_markers = { " ", " " },
-    --   symbols = {
-    --     Workspace = { icon = " ", hl = "@text.uri" },
-    --     Project = { icon = " ", hl = "@text.uri" },
-    --     PackageRoot = { icon = " ", hl = "@text.uri" },
-    --     Package = { icon = "󰅩 ", hl = "@namespace" },
-    --     PrimaryType = { icon = " ", hl = "@type" },
-    --     CompilationUnit = { icon = " ", hl = "@text.uri" },
-    --     ClassFile = { icon = " ", hl = "@text.uri" },
-    --     Container = { icon = " ", hl = "@text.uri" },
-    --     Folder = { icon = " ", hl = "@method" },
-    --     File = { icon = " ", hl = "@method" },
-    --
-    --     CLASS = { icon = " ", hl = "@class" },
-    --     ENUM = { icon = " ", hl = "@enum" },
-    --     INTERFACE = { icon = " ", hl = "@interface" },
-    --     JAR = { icon = " ", hl = "@conditional" },
-    --   },
-    -- },
     config = function()
       local node_data = require("java-deps.java.nodeData")
       local PackageRootKind = require("java-deps.java.IPackageRootNodeData").PackageRootKind
@@ -273,49 +246,6 @@ return {
       require("java-deps").setup({})
     end,
   },
-  -- Java彩虹括号
-  -- {
-  --   "HiPhish/nvim-ts-rainbow2",
-  --   ft = { "java" },
-  --   -- event = "lazyfile",
-  --   lazy = true,
-  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  --   config = function()
-  --     local parsers = require("nvim-treesitter.parsers")
-  --     local enabled_list = { "java" }
-  --     require("nvim-treesitter.configs").setup({
-  --       rainbow = {
-  --         enable = true,
-  --         -- Enable only for lisp like languages
-  --         disable = vim.tbl_filter(function(p)
-  --           local disable = true
-  --           for _, lang in pairs(enabled_list) do
-  --             if p == lang then
-  --               disable = false
-  --             end
-  --           end
-  --           return disable
-  --         end, parsers.available_parsers()),
-  --       },
-  --     })
-  --   end,
-  -- },
-  -- {
-  --   "niT-Tin/springboot-start.nvim",
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-telescope/telescope.nvim",
-  --     "MunifTanjim/nui.nvim",
-  --   },
-  --   config = function()
-  --     require("springboot-start").setup({
-  --       -- your configuration comes here
-  --       -- or leave it empty to use the default settings
-  --       -- refer to the configuration section below
-  --     })
-  --   end,
-  -- },
   {
     "javiorfo/nvim-springtime",
     lazy = true,
@@ -328,88 +258,6 @@ return {
     build = function()
       require("springtime.core").update()
     end,
-    -- opts = {
-    --   -- This section is optional
-    --   -- If you want to change default configurations
-    --   -- In packer.nvim use require'springtime'.setup { ... }
-    --
-    --   -- Springtime popup section
-    --   spring = {
-    --     -- Project: Gradle, Gradle Kotlin and Maven (Gradle default)
-    --     project = {
-    --       selected = 1,
-    --     },
-    --     -- Language: Java, Kotlin and Groovy (Java default)
-    --     language = {
-    --       selected = 1,
-    --     },
-    --     -- Packaging: Jar and War (Jar default)
-    --     packaging = {
-    --       selected = 1,
-    --     },
-    --     -- Project Metadata defaults:
-    --     -- Change the default values as you like
-    --     -- This can also be edited in the popup
-    --     project_metadata = {
-    --       group = "com.example",
-    --       artifact = "demo",
-    --       name = "demo",
-    --       package_name = "com.example.demo",
-    --       version = "0.0.1-SNAPSHOT",
-    --     },
-    --     -- 自定义Java和spring boot的版本
-    --     -- spring_boot = {
-    --     --   selected = 3,
-    --     --   values = {
-    --     --     "3.2.5",
-    --     --     "3.1.11",
-    --     --     "2.7.18",
-    --     --   },
-    --     -- },
-    --     -- java_version = {
-    --     --   selected = 2,
-    --     --   values = { 17, 11, 8 },
-    --     -- },
-    --   },
-    --
-    --   -- Some popup options
-    --   dialog = {
-    --     -- The keymap used to select radio buttons (normal mode)
-    --     selection_keymap = "<C-Space>",
-    --
-    --     -- The keymap used to generate the Spring project (normal mode)
-    --     generate_keymap = "<leader>gn",
-    --
-    --     -- If you want confirmation before generate the Spring project
-    --     confirmation = true,
-    --
-    --     -- Highlight links to Title and sections for changing colors
-    --     style = {
-    --       title_link = "Boolean",
-    --       section_link = "Type",
-    --     },
-    --   },
-    --
-    --   -- Workspace is where the generated Spring project will be saved
-    --   workspace = {
-    --     -- Default where Neovim is open
-    --     path = vim.fn.expand("%:p:h"),
-    --
-    --     -- Spring Initializr generates a zip file
-    --     -- Decompress the file by default
-    --     decompress = true,
-    --
-    --     -- If after generation you want to open the folder
-    --     -- Opens the generated project in Neovim by default
-    --     open_auto = true,
-    --   },
-    --
-    --   -- This could be enabled for debugging purposes
-    --   -- Generates a springtime.log with debug and errors.
-    --   internal = {
-    --     log_debug = false,
-    --   },
-    -- },
     config = function()
       local SETTINGS = require("springtime").SETTINGS
       local util = require("springtime.util")
@@ -553,7 +401,8 @@ return {
       coreM.generate = function(values)
         local user_input = "y"
         if SETTINGS.dialog.confirmation then
-          user_input = vim.fn.input(string.format("Do you want to generate project [%s]? y/n: ", values[8]))
+          -- user_input = vim.fn.input(string.format("Do you want to generate project [%s]? y/n: ", values[8]))
+          user_input = vim.fn.input(string.format("确定生成项目[%s]? y/n: ", values[8]))
         end
 
         if tostring(user_input):lower() == "y" then

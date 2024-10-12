@@ -3,32 +3,7 @@
 -- Add any additional keymaps here
 -- lsp快捷键
 vim.keymap.set("n", "<leader>m", vim.diagnostic.open_float, { desc = "显示诊断消息" })
--- vim.keymap.set("n", "<leader>fd", function()
---   if
---     vim.bo.filetype == "sh"
---     or vim.bo.filetype == "yaml"
---     or vim.bo.filetype == "sql"
---     or vim.bo.filetype == "mysql"
---     or vim.bo.filetype == "python"
---     or vim.bo.filetype == "lua"
---     or vim.bo.filetype == "luau"
---   then
---     LazyVim.format({ force = true })
---     return
---   end
---   vim.lsp.buf.format({
---     async = true,
---     filter = function(client)
---       if client.name == "tsserver" and vim.bo.filetype == "vue" then
---         -- print("ok")
---         return client.name ~= "tsserver"
---       end
---       -- print(client.name .. "格式化成功")
---       return client.name == client.name
---       -- return client.name == "null-ls"
---     end,
---   })
--- end, { desc = "格式化文档" })
+
 vim.keymap.set("n", "<leader>fd", function()
   LazyVim.format({ force = true })
 end, { desc = "格式化文档" })
@@ -55,13 +30,6 @@ vim.keymap.set({
   "n",
 }, "<leader>y", '"+y', { desc = "复制到系统剪切板" })
 
--- 离开插入模式自动保存
--- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
---   callback = function()
---     vim.fn.execute("silent! write")
---     vim.notify("Autosaved!", vim.log.levels.INFO, {})
---   end,
--- })
 --窗口大小
 vim.keymap.set("n", "<C-left>", "<C-w><", { desc = "向左调整窗口" })
 vim.keymap.set("n", "<C-right>", "<C-w>>", { desc = "向右调整窗口" })
@@ -220,15 +188,7 @@ vim.keymap.set("n", "<leader>op", function()
 end, { desc = "打开dap-UI" })
 -- Java测试结果
 vim.keymap.set("n", "<leader>jr", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })
--- vim.keymap.set(
---   "n",
---   "<leader>jt",
---   -- "<cmd>lua require('dapui').toggle({elements = {id = 'console',size = 1,},position = 'bottom',size = 10})<CR>",
---   function()
---     require("dapui").toggle("console")
---   end,
---   { desc = "Java终端测试结果" }
--- )
+
 -- telescope快捷键
 vim.keymap.set(
   "n",

@@ -1,20 +1,9 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    -- event = {
-    --   "BufReadPost",
-    --   "BufNewFile",
-    -- },
-    -- init = function()
-    --   local keys = require("lazyvim.plugins.lsp.keymaps").get()
-    --   keys[#keys + 1] = { "gi", require("telescope.builtin").lsp_implementations }
-    -- end,
     dependencies = {
       {
         "williamboman/mason.nvim",
-        -- cmd = {
-        --   "Mason",
-        -- },
         opts = {
           ensure_installed = {
             "stylua",
@@ -56,31 +45,6 @@ return {
         },
       },
       "williamboman/mason-lspconfig",
-      -- {
-      --   "folke/neoconf.nvim",
-      --   cmd = {
-      --     "Neoconf",
-      --   },
-      -- },
-      -- "folke/neodev.nvim",
-      -- {
-      --   "j-hui/fidget.nvim",
-      --   -- tag = "legacy",
-      --   opts = {
-      --     -- options
-      --   },
-      -- },
-
-      -- {
-      --   "nvimdev/lspsaga.nvim",
-      --   event = "LspAttach",
-      --   config = function()
-      --     require("lspsaga").setup()
-      --   end,
-      -- },
-
-      -- "lvimuser/lsp-inlayhints.nvim",
-      -- "simrat39/symbols-outline.nvim",
     },
     opts = {
       -- document_highlight = { enabled = false },
@@ -97,15 +61,6 @@ return {
       },
       servers = {
         lua_ls = {
-          -- settings = {
-          --   diagnostics = {
-          --     -- Get the language server to recognize the `vim` global
-          --     globals = {
-          --       "vim",
-          --       "require",
-          --     },
-          --   },
-          -- },
           settings = {
             Lua = {
               hint = {
@@ -114,21 +69,6 @@ return {
             },
           },
         },
-        -- sqlls = {
-        --   sqlLanguageServer = {
-        --     lint = {
-        --       rules = {
-        --         align_column_to_the_first = "off",
-        --         column_new_line = "error",
-        --         linebreak_after_clause_keyword = "error",
-        --         reserved_word_case = "warn",
-        --         space_surrounding_operators = "error",
-        --         where_clause_new_line = "error",
-        --         align_where_clause_to_the_first = "error",
-        --       },
-        --     },
-        --   },
-        -- },
       },
       setup = {
         -- jdtls = function()

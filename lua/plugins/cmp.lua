@@ -1,6 +1,5 @@
 return {
   {
-    -- "onsails/lspkind.nvim",
     "hrsh7th/nvim-cmp",
     opts = {
       -- 修改cmp补全框的样式
@@ -104,19 +103,4 @@ return {
       })
     end,
   },
-  -- {
-  --   "L3MON4D3/LuaSnip",
-  --   event = "InsertEnter",
-  -- },
-  -- {
-  --   "garymjr/nvim-snippets",
-  --   event = "LazyFile",
-  --   enabled = true,
-  -- },
-  -- {
-  --   "p00f/clangd_extensions.nvim",
-  --   ft = { "c", "cpp", "objcpp", "objc", "cuda", "proto" },
-  --   event = "LazyFile",
-  --   -- lazy = false
-  -- },
 }

@@ -42,19 +42,10 @@ return {
     -- },
     config = true,
   },
-  -- 快速回到文件关闭前的位置,已经不再维护
-  -- {
-  --   "ethanholz/nvim-lastplace",
-  --   config = true,
-  -- },
   {
     "farmergreg/vim-lastplace",
     event = "LazyFile",
   },
-  -- {
-  --   "ggandor/leap.nvim",
-  --   enabled = false
-  -- },
   {
     "folke/flash.nvim",
     enabled = true,
@@ -115,14 +106,6 @@ return {
     },
     -- config = true,
   },
-  -- 拼写检查插件，很长时间没更新了
-  -- {
-  --   "kamykn/spelunker.vim",
-  --   event = "VeryLazy",
-  --   config = function()
-  --     vim.g.spelunker_check_type = 2
-  --   end,
-  -- },
   {
     "ellisonleao/glow.nvim",
     event = "VeryLazy",
@@ -130,11 +113,6 @@ return {
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    -- dependencies = {
-    --   "nvim-lua/plenary.nvim",
-    --   "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-    --   "MunifTanjim/nui.nvim",
-    -- },
     opts = {
       window = {
         mappings = {
@@ -231,10 +209,6 @@ return {
   -- 自动保存插件
   {
     "Pocco81/auto-save.nvim",
-    -- event = {
-    --   "BufReadPost",
-    --   "BufNewFile",
-    -- },
     event = "LazyFile",
     config = function()
       require("auto-save").setup({
@@ -267,26 +241,6 @@ return {
       },
     },
   },
-  -- {
-  --   "lvimuser/lsp-inlayhints.nvim",
-  --   event = 'LspAttach',
-  --   config = function()
-  --     require("lsp-inlayhints").setup()
-  --     vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-  --     vim.api.nvim_create_autocmd("LspAttach", {
-  --       group = "LspAttach_inlayhints",
-  --       callback = function(args)
-  --         if not (args.data and args.data.client_id) then
-  --           return
-  --         end
-  --
-  --         local bufnr = args.buf
-  --         local client = vim.lsp.get_client_by_id(args.data.client_id)
-  --         require("lsp-inlayhints").on_attach(client, bufnr)
-  --       end,
-  --     })
-  --   end
-  -- },
   {
     "djoshea/vim-autoread",
     -- event = "LazyFile",

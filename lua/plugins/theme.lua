@@ -16,17 +16,6 @@ return {
         ["@type.qualifier"] = { link = "@keyword" },
       },
     },
-    -- config = function()
-    --   require("gruvbox").setup({
-    --     italic = {
-    --       strings = false,
-    --       emphasis = false,
-    --       comments = false,
-    --       operators = false,
-    --       folds = false,
-    --     },
-    --   })
-    -- end
   },
   -- Configure LazyVim to load gruvbox
   {

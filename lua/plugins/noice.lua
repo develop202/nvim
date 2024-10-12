@@ -30,36 +30,6 @@ return {
             -- height = "auto",
           },
         },
-        -- cmdline补全列表宽度
-        -- 修改源码noice/config/preset.lua:85
-        -- 60->"65%"
-        -- presets = {
-        --   command_palette = {
-        --     cmdline_popupmenu = {
-        --       size = {
-        --         width = "60%",
-        --       },
-        --     },
-        --   },
-        -- },
-        -- popupmenu = {
-        -- relative = "editor",
-        -- position = {
-        --   row = 8,
-        --   col = "50%",
-        -- },
-        -- size = {
-        --   width = "65%",
-        --   height = 5,
-        -- },
-        -- border = {
-        --   style = "rounded",
-        --   padding = {
-        --     0,
-        --     1,
-        --   },
-        -- },
-        -- },
       },
     },
     keys = {
@@ -71,19 +41,6 @@ return {
         end,
         desc = "Clear Notifications",
       },
-      -- {
-      --   "<D-0>",
-      --   function()
-      --     vim.cmd.Noice("dismiss")
-      --     vim.cmd.Noice("history")
-      --   end,
-      --   mode = {
-      --     "n",
-      --     "x",
-      --     "i",
-      --   },
-      --   desc = "Notification Log",
-      -- },
     },
   },
   {
