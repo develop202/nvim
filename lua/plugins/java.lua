@@ -1,7 +1,9 @@
+local HOME = os.getenv("HOME")
 return {
   -- Set up nvim-jdtls to attach to java files.
   {
     "mfussenegger/nvim-jdtls",
+    dependencies = "JavaHello/spring-boot.nvim",
     opts = function()
       local mason_registry = require("mason-registry")
       local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
@@ -37,12 +39,24 @@ return {
 
       -- 添加 spring-boot jdtls 扩展 jar 包
       if require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
+        -- 若安装在mason/packages目录下
+        if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls") then
+          vim.g.spring_boot.jdt_extensions_path = HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls/jars"
+        end
         vim.list_extend(bundles, require("spring_boot").java_extensions())
       end
+
       -- 添加Java-dep
+      -- 默认使用vscode插件
+      local java_dependency_path = HOME .. "/.vscode/extensions"
+      -- 使用code-server
+      if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/code-server/") then
+        java_dependency_path = HOME .. "/.local/share/code-server/extensions"
+      end
       local java_dependency_bundle = vim.split(
         vim.fn.glob(
-          "/data/data/com.termux/files/home/.local/share/code-server/extensions/vscjava.vscode-java-dependency-*-universal/server/com.microsoft.jdtls.ext.core-*.jar"
+          java_dependency_path
+            .. "/vscjava.vscode-java-dependency-*-universal/server/com.microsoft.jdtls.ext.core-*.jar"
         ),
         "\n"
       )
@@ -126,8 +140,8 @@ return {
             configuration = {
               maven = {
                 -- 将settings.xml复制到.m2目录下即可生效
-                userSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
-                globalSettings = "/data/data/com.termux/files/usr/opt/maven/conf/settings.xml",
+                userSettings = HOME .. "/.m2/settings.xml",
+                globalSettings = HOME .. "/.m2/settings.xml",
               },
             },
             inlayHints = {
@@ -151,59 +165,45 @@ return {
       if not require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
         return
       end
-      local cmd = function()
-        local util = require("spring_boot.util")
-        local boot_path = require("spring_boot.vscode").find_one("/vmware.vscode-spring-boot-*/language-server")
-        local cmd = {}
-        local exploded_ls_jar_data = false
 
-        if not boot_path then
-          vim.notify("Spring Boot LS is not installed", vim.log.levels.WARN)
-          return
-        end
-        if exploded_ls_jar_data then
-          local boot_classpath = {}
-          table.insert(boot_classpath, boot_path .. "/BOOT-INF/classes")
-          table.insert(boot_classpath, boot_path .. "/BOOT-INF/lib/*")
+      local installed_on_mason_packages = (vim.uv or vim.loop).fs_stat(
+        HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls"
+      )
 
-          cmd = {
-            util.java_bin(),
-            "-XX:TieredStopAtLevel=1",
-            "-Xms128M",
-            "-Xmx128M",
-            "-XX:+UseG1GC",
-            "-cp",
-            table.concat(boot_classpath, util.is_win and ";" or ":"),
-            "-Dsts.lsp.client=vscode",
-            "-Dsts.log.file=/dev/null",
-            "-Dspring.config.location=file:" .. boot_path .. "/BOOT-INF/classes/application.properties",
-            -- "-Dlogging.level.org.springframework=DEBUG",
-            "org.springframework.ide.vscode.boot.app.BootLanguageServerBootApp",
-          }
-        else
-          local server_jar = vim.split(vim.fn.glob(boot_path .. "/spring-boot-language-server*.jar"), "\n")
-          if #server_jar == 0 then
-            vim.notify("Spring Boot LS jar not found", vim.log.levels.WARN)
-            return
-          end
-          cmd = {
-            util.java_bin(),
-            "-XX:TieredStopAtLevel=1",
-            "-Xms128M",
-            "-Xmx128M",
-            "-XX:+UseG1GC",
-            "-Dsts.lsp.client=vscode",
-            "-Dsts.log.file=/dev/null",
-            "-jar",
-            server_jar[1],
-          }
-        end
-        return cmd
+      -- 默认为vscodw插件
+      local ls_path = require("spring_boot.vscode").find_one("/language-server")
+      local GC_type = "-XX:+UseZGC"
+
+      -- 判断packages是否安装了spring-boot
+      if installed_on_mason_packages then
+        ls_path = HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls/language-server"
+        GC_type = "-XX:+UseG1GC"
       end
+
+      local util = require("spring_boot.util")
+
+      local server_jar = vim.split(vim.fn.glob(ls_path .. "/spring-boot-language-server*.jar"), "\n")
+      if #server_jar == 0 then
+        vim.notify("Spring Boot LS jar not found", vim.log.levels.WARN)
+        return
+      end
+      local cmd = {
+        util.java_bin(),
+        "-XX:TieredStopAtLevel=1",
+        "-Xms128M",
+        "-Xmx128M",
+        GC_type,
+        "-Dsts.lsp.client=vscode",
+        "-Dsts.log.file=/dev/null",
+        "-jar",
+        server_jar[1],
+      }
+
       require("spring_boot").setup({
         server = {
-          cmd = cmd(),
+          cmd = cmd,
         },
+        ls_path = ls_path,
       })
     end,
   },

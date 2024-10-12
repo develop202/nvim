@@ -1,4 +1,5 @@
 local is_enabled = false
+local HOME = os.getenv("HOME")
 
 if vim.env.TERM == "xterm-kitty" then
   -- Example for configuring Neovim to load user-installed installed Lua rocks:
@@ -36,8 +37,8 @@ return {
     },
     lang = "java",
     storage = {
-      home = "~/.leetcode",
-      cache = "~/.leetcode/cache",
+      home = HOME .. "/.leetcode",
+      cache = HOME .. "/.leetcode/cache",
     },
     image_support = is_enabled,
   },
