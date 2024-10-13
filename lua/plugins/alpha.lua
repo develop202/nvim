@@ -25,6 +25,7 @@ return {
       }
       -- dashboard.section.header.val = vim.split(logo, "\n")
       dashboard.section.header.val = logo
+
       -- LazyVim.pick用不了
       dashboard.section.buttons.val = {
         dashboard.button("f", " " .. " Find file", "<cmd> Telescope find_files <cr>"),
@@ -45,6 +46,7 @@ return {
       dashboard.section.buttons.opts.hl = "AlphaButtons"
       dashboard.section.footer.opts.hl = "AlphaFooter"
       dashboard.opts.layout[1].val = 8
+
       local button = dashboard.button("p", " " .. " Projects", "<cmd>Telescope projects<CR>")
       button.opts.hl = "AlphaButtons"
       button.opts.hl_shortcut = "AlphaShortcut"

@@ -9,20 +9,15 @@ local global = vim.g
 -- option.shiftwidth = 2
 option.swapfile = false
 option.hlsearch = false
--- option.autoindent = true
--- option.smartindent = true
--- Buffer Settings --
--- buffer.fileenconding = "utf-8"
+
 -- 内置拼写检查
 -- option.spell = true
 option.spelllang = "en_us,cjk"
 option.spelloptions = "camel"
--- Global Settings --
--- global.mapleader = " "
-global.autoformat = false
--- global.lazyvim_python_ruff = "jedi_language_server"
--- global.lazyvim_python_ruff = "pylsp"
+
 -- 关闭透明显示
 -- 关掉可以让cmp补全列表图标正常显示
 option.pumblend = 0
-vim.g.lazyvim_python_lsp = "basedpyright"
+
+global.autoformat = false
+global.lazyvim_python_lsp = "basedpyright"

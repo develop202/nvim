@@ -1,10 +1,6 @@
 return {
   "CRAG666/code_runner.nvim",
   opts = {
-    mode = "better_term",
-    better_term = {
-      number = 1,
-    },
     filetype = {
       javascript = "node",
       java = "cd $dir && javac $fileName && java $fileNameWithoutExt",

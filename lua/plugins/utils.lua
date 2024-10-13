@@ -13,27 +13,6 @@ return {
     },
   },
   {
-    "folke/persistence.nvim",
-    keys = {
-      {
-        "<leader>qs",
-        [[<cmd>lua require("persistence").load()<cr>]],
-        desc = "加载工作区",
-      },
-      {
-        "<leader>ql",
-        [[<cmd>lua require("persistence").load({ last = true})<cr>]],
-        desc = "加载上次工作区",
-      },
-      {
-        "<leader>qd",
-        [[<cmd>lua require("persistence").stop()<cr>]],
-        desc = "停止工作区",
-      },
-    },
-    -- config = true,
-  },
-  {
     -- 需要开启，关闭后不知道为什么HTML，xml双标签缩进有问题
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -45,66 +24,6 @@ return {
   {
     "farmergreg/vim-lastplace",
     event = "LazyFile",
-  },
-  {
-    "folke/flash.nvim",
-    enabled = true,
-    keys = {
-      {
-        "s",
-        mode = {
-          "n",
-          "x",
-          "o",
-        },
-        function()
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
-      {
-        "SS",
-        mode = {
-          "n",
-          "o",
-          "x",
-        },
-        function()
-          require("flash").treesitter()
-        end,
-        desc = "Flash Treesitter",
-      },
-      {
-        "r",
-        mode = "o",
-        function()
-          require("flash").remote()
-        end,
-        desc = "Remote Flash",
-      },
-      {
-        "R",
-        mode = {
-          "o",
-          "x",
-        },
-        function()
-          require("flash").treesitter_search()
-        end,
-        desc = "Flash Treesitter Search",
-      },
-      {
-        "<c-s>",
-        mode = {
-          "c",
-        },
-        function()
-          require("flash").toggle()
-        end,
-        desc = "Toggle Flash Search",
-      },
-    },
-    -- config = true,
   },
   {
     "ellisonleao/glow.nvim",
@@ -184,6 +103,7 @@ return {
   {
     "s1n7ax/nvim-window-picker",
     opts = {
+      hint = "floating-big-letter",
       filter_rules = {
         include_current_win = true,
         bo = {
