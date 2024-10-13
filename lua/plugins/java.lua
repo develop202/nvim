@@ -39,11 +39,15 @@ return {
 
       -- 添加 spring-boot jdtls 扩展 jar 包
       if require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
+        local bundle = require("spring_boot").java_extensions()
         -- 若安装在mason/packages目录下
-        if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls") then
-          vim.g.spring_boot.jdt_extensions_path = HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls/jars"
+        if
+          (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls") and #bundle == 0
+        then
+          -- 添加jars目录下所有的jar文件
+          bundle = vim.split(vim.fn.glob(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls/jars/*.jar"), "\n")
         end
-        vim.list_extend(bundles, require("spring_boot").java_extensions())
+        vim.list_extend(bundles, bundle)
       end
 
       -- 添加Java-dep
