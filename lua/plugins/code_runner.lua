@@ -1,3 +1,4 @@
+local tmp_dir = os.getenv("TMPDIR") or os.getenv("TEMP") or os.getenv("TMP")
 return {
   "CRAG666/code_runner.nvim",
   opts = {
@@ -9,11 +10,11 @@ return {
         local c_base = {
           "cd $dir &&",
           "gcc $fileName -o",
-          "/data/data/com.termux/files/usr/tmp/$fileNameWithoutExt",
+          tmp_dir .. "/$fileNameWithoutExt",
         }
         local c_exec = {
-          "&& /data/data/com.termux/files/usr/tmp/$fileNameWithoutExt &&",
-          "rm /data/data/com.termux/files/usr/tmp/$fileNameWithoutExt",
+          "&& " .. tmp_dir .. "/$fileNameWithoutExt &&",
+          "rm " .. tmp_dir .. "/$fileNameWithoutExt",
         }
         vim.ui.input({ prompt = "Add more args:" }, function(input)
           c_base[4] = input
@@ -24,8 +25,8 @@ return {
       cpp = {
         "cd $dir &&",
         "g++ $fileName",
-        "-o /data/data/com.termux/files/usr/tmp/$fileNameWithoutExt &&",
-        "/data/data/com.termux/files/usr/tmp/$fileNameWithoutExt",
+        "-o " .. tmp_dir .. "/$fileNameWithoutExt &&",
+        tmp_dir .. "/$fileNameWithoutExt",
       },
       python = "python -u '$dir/$fileName'",
       sh = "bash",
