@@ -21,23 +21,6 @@ vim.cmd([[ hi LspReferenceWrite guibg=#900C3F ]])
 vim.cmd([[ hi LspReferenceRead guibg=#597266 ]])
 vim.cmd([[ hi LspReferenceText guibg=#4c6280 ]])
 
--- 文件拼写检查
--- 为具有特定扩展名的文件启用拼写检查
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.*" },
-  callback = function()
-    vim.opt.spell = true
-  end,
-})
-
--- 当你离开这些文件时，可以禁用拼写检查（可选）
-vim.api.nvim_create_autocmd("BufLeave", {
-  pattern = { "*.*" },
-  callback = function()
-    vim.opt.spell = false
-  end,
-})
-
 -- 只有一个NONE无效
 vim.cmd([[ hi TodoSignTEST guifg=#83a598 guibg=NONE ]])
 vim.cmd([[ hi TodoSignHACK guifg=#fabd2f guibg=NONE ]])
