@@ -93,5 +93,11 @@ return {
     "RRethy/vim-illuminate",
     -- vue文件的高亮显示有时会时亮时不亮
     ft = "vue",
+    config = function()
+      require("illuminate").configure({
+        filetypes_denylist = {},
+        filetypes_allowlist = { "vue" },
+      })
+    end,
   },
 }

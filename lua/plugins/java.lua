@@ -3,7 +3,6 @@ return {
   -- Set up nvim-jdtls to attach to java files.
   {
     "mfussenegger/nvim-jdtls",
-    dependencies = "JavaHello/spring-boot.nvim",
     opts = function()
       local mason_registry = require("mason-registry")
       local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
