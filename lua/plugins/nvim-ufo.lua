@@ -35,16 +35,18 @@ return {
       end
 
       -- global handler
-      -- `handler` is the 2nd parameter of `setFoldVirtTextHandler`,
-      -- check out `./lua/ufo.lua` and search `setFoldVirtTextHandler` for detail.
       require("ufo").setup({
+        -- 自动折叠导入内容
+        close_fold_kinds_for_ft = {
+          default = { "imports" },
+        },
         fold_virt_text_handler = handler,
-      })
 
-      -- buffer scope handler
-      -- will override global handler if it is existed
-      -- local bufnr = vim.api.nvim_get_current_buf()
-      -- require('ufo').setFoldVirtTextHandler(bufnr, handler)
+        preview = {},
+        open_fold_hl_timeout = 150,
+        UfoConfig = {},
+        enable_get_fold_virt_text = false,
+      })
     end,
   },
 }
