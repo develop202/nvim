@@ -1,98 +1,7 @@
 return {
   {
-    "rhysd/accelerated-jk",
-    keys = {
-      {
-        "j",
-        "<Plug>(accelerated_jk_gj)",
-      },
-      {
-        "k",
-        "<Plug>(accelerated_jk_gk)",
-      },
-    },
-  },
-  {
-    -- 需要开启，关闭后不知道为什么HTML，xml双标签缩进有问题
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    -- opts = {
-    --   enable_check_bracket_line = false,
-    -- },
-    config = true,
-  },
-  {
-    "farmergreg/vim-lastplace",
-    event = "LazyFile",
-  },
-  {
-    "ellisonleao/glow.nvim",
-    event = "VeryLazy",
-    config = true,
-  },
-  {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
-      window = {
-        mappings = {
-          ["z"] = "none",
-          -- ["zo"] = neotree_zo,
-          ["<tab>"] = function(states)
-            local renderer = require("neo-tree.ui.renderer")
-
-            -- Expand a node and load filesystem info if needed.
-            local function open_dir(state, dir_node)
-              local fs = require("neo-tree.sources.filesystem")
-              fs.toggle_directory(state, dir_node, nil, true, false)
-            end
-
-            -- Expand a node and all its children, optionally stopping at max_depth.
-            local function recursive_open(state, node, max_depth)
-              local max_depth_reached = 1
-              local stack = {
-                node,
-              }
-              while next(stack) ~= nil do
-                node = table.remove(stack)
-                if node.type == "directory" and not node:is_expanded() then
-                  open_dir(state, node)
-                end
-
-                local depth = node:get_depth()
-                max_depth_reached = math.max(depth, max_depth_reached)
-
-                if not max_depth or depth < max_depth - 1 then
-                  local children = state.tree:get_nodes(node:get_id())
-                  for _, v in ipairs(children) do
-                    table.insert(stack, v)
-                  end
-                end
-              end
-
-              return max_depth_reached
-            end
-
-            --- Open the fold under the cursor, recursing if count is given.
-            local function neotree_zo(state, open_all)
-              local node = state.tree:get_node()
-
-              if open_all then
-                recursive_open(state, node)
-              else
-                recursive_open(state, node, node:get_depth() + vim.v.count1)
-              end
-
-              renderer.redraw(state)
-            end
-
-            --- Recursively open the current folder and all folders it contains.
-            local function neotree_zO(state)
-              neotree_zo(state, true)
-            end
-            neotree_zO(states)
-          end,
-        },
-      },
       -- 空文件夹折叠,缺点:在中间创建文件比较麻烦
       filesystem = {
         group_empty_dirs = true,
@@ -277,14 +186,6 @@ return {
           size = 10,
         },
       },
-    },
-  },
-  -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
-  {
-    "numToStr/Comment.nvim",
-    event = "LazyFile",
-    opts = {
-      -- add any options here
     },
   },
   {

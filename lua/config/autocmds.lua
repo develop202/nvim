@@ -30,6 +30,9 @@ vim.cmd([[ hi TodoSignWARN guifg=#fabd2f guibg=NONE ]])
 vim.cmd([[ hi TodoSignFIX guifg=#fb4934 guibg=NONE ]])
 vim.cmd([[ hi TodoSignPERF guifg=#83a598 guibg=NONE ]])
 
+-- 取消fzf选择框背景色
+vim.cmd([[ hi FzfLuaCursorLine guibg=#282828 ]])
+
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "*" },

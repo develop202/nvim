@@ -1,6 +1,14 @@
 return {
-  -- add gruvbox
+  {
+    "folke/tokyonight.nvim",
+    enabled = false,
+  },
+  {
+    "catppuccin/nvim",
+    enabled = false,
+  },
 
+  -- add gruvbox
   {
     "ellisonleao/gruvbox.nvim",
     opts = {

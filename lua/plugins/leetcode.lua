@@ -11,17 +11,15 @@ end
 
 return {
   "kawre/leetcode.nvim",
-  event = "VeryLazy",
+  cmd = { "Leet" },
   build = ":TSUpdate html",
   dependencies = {
-    "nvim-telescope/telescope.nvim",
-    "nvim-lua/plenary.nvim", -- telescope 所需
+    {
+      "nvim-telescope/telescope.nvim",
+      event = "LazyFile",
+    },
     "MunifTanjim/nui.nvim",
 
-    -- 可选
-    "nvim-treesitter/nvim-treesitter",
-    "rcarriga/nvim-notify",
-    "nvim-tree/nvim-web-devicons",
     {
       "3rd/image.nvim",
       enabled = is_enabled,

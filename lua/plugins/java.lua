@@ -10,6 +10,13 @@ return {
       local jdtls_config = {}
       local bundles = {}
 
+      local inlay_hint_enabled = "all"
+
+      -- termux端inlay_hint经常报错,故将其关闭
+      if HOME == "/data/data/com.termux/files/home" then
+        inlay_hint_enabled = "none"
+      end
+
       -- 添加dap扩展jar包
       if LazyVim.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
         local java_dbg_pkg = mason_registry.get_package("java-debug-adapter")
@@ -149,7 +156,7 @@ return {
             },
             inlayHints = {
               parameterNames = {
-                enabled = "all",
+                enabled = inlay_hint_enabled,
               },
             },
           },
@@ -189,8 +196,8 @@ return {
       local cmd = {
         util.java_bin(),
         "-XX:TieredStopAtLevel=1",
-        "-Xms128M",
-        "-Xmx128M",
+        "-Xms64m",
+        "-Xmx64m",
         GC_type,
         "-Dsts.lsp.client=vscode",
         "-Dsts.log.file=/dev/null",

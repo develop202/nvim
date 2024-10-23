@@ -44,7 +44,6 @@ return {
           },
         },
       },
-      "williamboman/mason-lspconfig",
     },
     opts = {
       -- document_highlight = { enabled = false },
@@ -87,23 +86,12 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       -- opts.ensure_installed = "all"
-      opts.indent.enable = false
+      -- opts.indent.enable = false
       -- vim.list_extend(opts, { autotag = { enable = false } })
       -- 删除treesitter-xml，安装后编辑xml会出现indent缩进异常
       -- 但是删除后没有很好的高亮显示，颜色单一
       -- table.remove(opts.ensure_installed, 22)
       table.insert(opts.ensure_installed, { "scss" })
-    end,
-  },
-  {
-    "RRethy/vim-illuminate",
-    -- vue文件的高亮显示有时会时亮时不亮
-    ft = "vue",
-    config = function()
-      require("illuminate").configure({
-        filetypes_denylist = {},
-        filetypes_allowlist = { "vue" },
-      })
     end,
   },
 }
