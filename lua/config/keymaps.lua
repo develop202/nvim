@@ -18,9 +18,6 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "生成文档注释" }
 )
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "将选中的代码块与下一行交换位置" })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "将选中的代码块与上一行交换位置" })
-
 --窗口大小
 vim.keymap.set("n", "<C-left>", "<C-w><", { desc = "向左调整窗口" })
 vim.keymap.set("n", "<C-right>", "<C-w>>", { desc = "向右调整窗口" })
@@ -56,13 +53,13 @@ vim.keymap.set({ "n", "v" }, "<leader>dp", function()
   require("dap.ui.widgets").preview()
 end, { desc = "预览" })
 
-vim.keymap.set("n", "<leader>cp", function()
+vim.keymap.set("n", "<leader>oc", function()
   local dapui = require("dapui")
   dapui.close()
 end, { desc = "关闭dap-UI" })
-vim.keymap.set("n", "<leader>op", function()
+vim.keymap.set("n", "<leader>ob", function()
   local dapui = require("dapui")
   dapui.open()
 end, { desc = "打开dap-UI" })
 -- Java测试结果
-vim.keymap.set("n", "<leader>jr", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })
+vim.keymap.set("n", "<leader>os", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })

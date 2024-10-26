@@ -14,9 +14,6 @@ return {
     -- 只用来修改颜色
     event = { "LazyFile" },
     config = function()
-      -- Enable true color
-      vim.opt.termguicolors = true
-
       local ccc = require("ccc")
       -- local mapping = ccc.mapping
 
@@ -37,7 +34,10 @@ return {
     config = function()
       -- Ensure termguicolors is enabled if not already
       vim.opt.termguicolors = true
-      require("nvim-highlight-colors").setup({})
+      require("nvim-highlight-colors").setup({
+        render = "virtual",
+        enable_tailwind = true,
+      })
     end,
   },
   {
