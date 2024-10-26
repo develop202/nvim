@@ -4,35 +4,18 @@ return {
     dependencies = {
       {
         "williamboman/mason.nvim",
+        optional = true,
         opts = {
           ensure_installed = {
-            "stylua",
-            "shfmt",
             "bash-language-server",
-            "clangd",
             "css-lsp",
             "cspell",
-            "debugpy",
             "emmet-language-server",
             "html-lsp",
-            "java-debug-adapter",
-            "java-test",
-            "jdtls",
-            "js-debug-adapter",
-            "json-lsp",
             "lemminx",
-            "lua-language-server",
-            "markdownlint",
-            "marksman",
             "prettier",
-            "basedpyright",
             "shellcheck",
-            -- 使用vtsls代替typescript-language-server
-            "vtsls",
-            "vue-language-server",
             "yamlfmt",
-            -- ruff格式化Python更快
-            "ruff",
             -- 对Python导入包进行排序
             "isort",
           },
