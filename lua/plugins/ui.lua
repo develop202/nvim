@@ -48,14 +48,6 @@ return {
     end,
   },
   {
-    "akinsho/bufferline.nvim",
-    opts = {
-      options = {
-        style_preset = require("bufferline").style_preset.no_italic,
-      },
-    },
-  },
-  {
     "nvimdev/dashboard-nvim",
     opts = {
       config = {
