@@ -5,8 +5,8 @@ return {
       {
         "williamboman/mason.nvim",
         optional = true,
-        opts = {
-          ensure_installed = {
+        opts = function(_, opts)
+          vim.list_extend(opts, {
             "bash-language-server",
             "css-lsp",
             "cspell",
@@ -18,8 +18,8 @@ return {
             "yamlfmt",
             -- 对Python导入包进行排序
             "isort",
-          },
-        },
+          })
+        end,
       },
     },
     opts = {
@@ -101,16 +101,6 @@ return {
       -- 关闭指定文件缩进
       opts.indent.disable = { "xml" }
       table.insert(opts.ensure_installed, { "scss" })
-    end,
-  },
-  {
-    "RRethy/vim-illuminate",
-    ft = "vue",
-    config = function()
-      require("illuminate").configure({
-        filetypes_denylist = {},
-        filetypes_allowlist = { "vue" },
-      })
     end,
   },
 }
