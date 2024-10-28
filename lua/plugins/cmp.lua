@@ -3,7 +3,7 @@ return {
     "hrsh7th/nvim-cmp",
     opts = {
       formatting = {
-        fields = { "kind", "abbr" },
+        fields = { "kind", "abbr", "menu" },
         format = function(entry, item)
           local icons = require("lazyvim.config").icons.kinds
           local myicons = {
