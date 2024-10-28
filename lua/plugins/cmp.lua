@@ -73,7 +73,7 @@ return {
             vim.api.nvim_set_hl(0, highlight_group, { fg = color_hex, default = true })
 
             item.kind_hl_group = highlight_group
-            item.kind = "■"
+            item.kind = "󱓻 "
             return item
           end
           return item
