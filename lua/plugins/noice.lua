@@ -1,18 +1,12 @@
+local width = 60
+if os.getenv("HOME") == "/data/data/com.termux/files/home" then
+  width = 30
+end
+
 return {
   {
     "folke/noice.nvim",
-    config = function(_, opts)
-      if vim.o.filetype == "lazy" then
-        vim.cmd([[messages clear]])
-      end
-      ---@diagnostic disable-next-line: assign-type-mismatch
-      require("noice.config.preset").presets.command_palette.views.cmdline_popupmenu.size.width = 30
-      require("noice").setup(opts)
-    end,
     opts = {
-      --   presets = {
-      --     command_palette = false,
-      --   },
       cmdline = {
         format = {
           lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = " ", lang = "lua" },
@@ -20,14 +14,16 @@ return {
         },
       },
       views = {
+        -- cmdline宽度
         cmdline_popup = {
-          -- position = {
-          --   row = 5,
-          --   col = "50%",
-          -- },
           size = {
-            min_width = 30,
-            -- height = "auto",
+            min_width = width,
+          },
+        },
+        -- cmdline补全框宽度
+        cmdline_popupmenu = {
+          size = {
+            width = width,
           },
         },
       },

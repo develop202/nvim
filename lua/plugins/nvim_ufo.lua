@@ -39,7 +39,6 @@ return {
         -- 自动折叠导入内容
         close_fold_kinds_for_ft = {
           default = { "imports" },
-          vue = {},
         },
         fold_virt_text_handler = handler,
 

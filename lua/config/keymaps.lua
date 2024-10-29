@@ -53,13 +53,5 @@ vim.keymap.set({ "n", "v" }, "<leader>dp", function()
   require("dap.ui.widgets").preview()
 end, { desc = "预览" })
 
-vim.keymap.set("n", "<leader>oc", function()
-  local dapui = require("dapui")
-  dapui.close()
-end, { desc = "关闭dap-UI" })
-vim.keymap.set("n", "<leader>ob", function()
-  local dapui = require("dapui")
-  dapui.open()
-end, { desc = "打开dap-UI" })
 -- Java测试结果
 vim.keymap.set("n", "<leader>os", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })

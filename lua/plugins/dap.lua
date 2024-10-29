@@ -7,12 +7,12 @@ return {
       require("dap").adapters["gdb"] = {
         type = "executable",
         command = "gdb",
-        args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+        args = { "-q", "-i", "dap" },
       }
       for _, lang in ipairs({ "c", "cpp" }) do
         dap.configurations[lang] = {
           {
-            name = "Launch",
+            name = "GDB Launch",
             type = "gdb",
             request = "launch",
             program = function()

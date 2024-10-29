@@ -14,12 +14,8 @@ return {
     -- 只用来修改颜色
     event = { "LazyFile" },
     config = function()
-      local ccc = require("ccc")
-      -- local mapping = ccc.mapping
-
-      ccc.setup({
+      require("ccc").setup({
         -- Your preferred settings
-        -- Example: enable highlighter
         highlighter = {
           auto_enable = false,
           lsp = false,

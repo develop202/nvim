@@ -2,6 +2,9 @@ return {
   "hedyhli/outline.nvim",
   cmd = "Outline",
   opts = {
+    outline_window = {
+      width = 60,
+    },
     symbol_folding = {
       markers = { " ", " " },
     },
