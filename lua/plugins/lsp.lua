@@ -90,7 +90,7 @@ return {
     opts = function(_, opts)
       opts.linters_by_ft = {
         -- 拼写检查
-        ["markdown"] = { "cspell" },
+        ["markdown"] = { "cspell", "markdownlint-cli2" },
       }
       return opts
     end,
