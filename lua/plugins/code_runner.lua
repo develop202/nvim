@@ -1,4 +1,7 @@
 local tmp_dir = os.getenv("TMPDIR") or os.getenv("TEMP") or os.getenv("TMP")
+if tmp_dir == nil or tmp_dir == "" then
+  tmp_dir = "/tmp"
+end
 return {
   "CRAG666/code_runner.nvim",
   opts = {
