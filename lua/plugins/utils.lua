@@ -64,7 +64,6 @@ return {
       if os.getenv("HOME") == "/data/data/com.termux/files/home" then
         opts.split_direction = "horizontal"
       end
-      return opts
     end,
   },
   {

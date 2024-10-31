@@ -5,7 +5,7 @@ return {
     dependencies = {
       "kevinhwang91/promise-async",
     },
-    config = function()
+    opts = function()
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
         local suffix = (" 󰁂 %d "):format(endLnum - lnum)
@@ -35,7 +35,7 @@ return {
       end
 
       -- global handler
-      require("ufo").setup({
+      return {
         -- 自动折叠导入内容
         close_fold_kinds_for_ft = {
           default = { "imports" },
@@ -46,7 +46,7 @@ return {
         open_fold_hl_timeout = 150,
         UfoConfig = {},
         enable_get_fold_virt_text = false,
-      })
+      }
     end,
   },
 }
