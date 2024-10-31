@@ -42,12 +42,13 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 })
 
 -- 自动显示光标所在行诊断信息
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-  group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true }),
-  callback = function()
-    vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
-  end,
-})
+-- 干扰太多，暂时取消
+-- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+--   group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true }),
+--   callback = function()
+--     vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
+--   end,
+-- })
 
 --修正LazyVim文档高亮闪烁的问题
 ---@diagnostic disable-next-line: duplicate-set-field
@@ -64,9 +65,12 @@ LazyVim.lsp.words.setup = function(opts)
     if not vim.api.nvim_buf_is_loaded(ctx.bufnr) then
       return
     end
-    if result == nil or not #result == 0 then
-      vim.lsp.buf.clear_references()
+
+    if result ~= nil and #result == 0 then
+      return nil
     end
+
+    vim.lsp.buf.clear_references()
     return handler(err, result, ctx, config)
   end
 

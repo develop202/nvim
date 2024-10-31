@@ -26,7 +26,8 @@ return {
       -- document_highlight = { enabled = false },
       diagnostics = {
         -- insert模式下显示诊断信息
-        update_in_insert = true,
+        -- 更新太频繁
+        -- update_in_insert = true,
         virtual_text = false,
         -- 悬浮窗显示来源
         float = {

@@ -1,9 +1,13 @@
+local window_width = 25
+if os.getenv("HOME") == "/data/data/com.termux/files/home" then
+  window_width = 60
+end
 return {
   "hedyhli/outline.nvim",
   cmd = "Outline",
   opts = {
     outline_window = {
-      width = 60,
+      width = window_width,
     },
     symbol_folding = {
       markers = { " ", " " },
