@@ -6,7 +6,7 @@ return {
         "williamboman/mason.nvim",
         optional = true,
         opts = function(_, opts)
-          vim.list_extend(opts, {
+          vim.list_extend(opts.ensure_installed, {
             "bash-language-server",
             "css-lsp",
             "cspell",
