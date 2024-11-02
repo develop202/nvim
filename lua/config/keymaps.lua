@@ -10,13 +10,6 @@ end, { desc = "格式化文档" })
 -- local opts = { noremap = true, silent = true }
 -- 大纲
 vim.keymap.set("n", "<leader>ol", "<cmd>Outline<CR>", { desc = "文件大纲" })
---生成文档注释
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>fn",
-  "<cmd>lua require('neogen').generate()<CR>",
-  { noremap = true, silent = true, desc = "生成文档注释" }
-)
 
 --窗口大小
 vim.keymap.set("n", "<C-left>", "<C-w><", { desc = "向左调整窗口" })

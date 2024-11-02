@@ -89,7 +89,7 @@ return {
         return
       end
       self.provider, self.provider_info = providers.find_provider()
-      if self.provider_info.client.name == "vtsls" and vim.o.filetype == "vue" then
+      if self.provider_info ~= nil and self.provider_info.client.name == "vtsls" and vim.o.filetype == "vue" then
         self.provider_info = get_volar_client()
       end
       if self.provider then
@@ -111,7 +111,7 @@ return {
       if not self.view:is_open() then
         self.preview.s = self
         self.provider, self.provider_info = providers.find_provider()
-        if self.provider_info.client.name == "vtsls" and vim.o.filetype == "vue" then
+        if self.provider_info ~= nil and self.provider_info.client.name == "vtsls" and vim.o.filetype == "vue" then
           self.provider_info = get_volar_client()
         end
         if self.provider then
