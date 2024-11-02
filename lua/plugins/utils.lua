@@ -85,4 +85,17 @@ return {
       },
     },
   },
+  {
+    "folke/which-key.nvim",
+    opts = {
+      icons = {
+        keys = {
+          BS = "󰁮 ",
+          F10 = "󱊴 ",
+          F11 = "󱊵 ",
+          F12 = "󱊶 ",
+        },
+      },
+    },
+  },
 }
