@@ -7,11 +7,13 @@ vim.cmd([[ hi LspReferenceWrite guibg=#900C3F ]])
 vim.cmd([[ hi LspReferenceRead guibg=#597266 ]])
 vim.cmd([[ hi LspReferenceText guibg=#4c6280 ]])
 
--- 取消LazyNormal背景色
-vim.cmd([[ hi LazyNormal guibg=#282828 ]])
+if vim.env.TERM ~= "xterm-kitty" and os.getenv("HOME") == "/data/data/com.termux/files/home" then
+  -- 取消LazyNormal背景色
+  vim.cmd([[ hi LazyNormal guibg=#282828 ]])
 
--- 取消fzf选择框背景色
-vim.cmd([[ hi FzfLuaCursorLine guibg=#282828 ]])
+  -- 取消fzf选择框背景色
+  vim.cmd([[ hi FzfLuaCursorLine guibg=#282828 ]])
+end
 
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
