@@ -49,7 +49,7 @@ return {
       if opts.table == nil or opts.table == "" then
         return os.date("%H:%M:%S") .. ".sql"
       else
-        return opts.table .. os.date("%H%M:%S") .. ".sql"
+        return opts.table .. os.date("%H:%M:%S") .. ".sql"
       end
     end
   end,

@@ -88,13 +88,13 @@ return {
   },
   {
     "mfussenegger/nvim-lint",
-    opts = function(_, opts)
-      opts.linters_by_ft = {
-        -- 拼写检查
-        ["markdown"] = { "cspell", "markdownlint-cli2" },
-      }
-      return opts
-    end,
+    optional = true,
+    opts = {
+      linters_by_ft = {
+        --拼写检查
+        markdown = { "cspell", "markdownlint-cli2" },
+      },
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter",
