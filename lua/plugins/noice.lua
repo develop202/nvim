@@ -7,12 +7,6 @@ return {
   {
     "folke/noice.nvim",
     opts = {
-      cmdline = {
-        format = {
-          lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = " ", lang = "lua" },
-          calculator = { pattern = "^=", icon = " ", lang = "vimnormal" },
-        },
-      },
       views = {
         -- cmdline宽度
         cmdline_popup = {

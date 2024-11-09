@@ -52,6 +52,7 @@ return {
             },
           },
         },
+        kulala_ls = {},
       },
       setup = {
         -- jdtls = function()
