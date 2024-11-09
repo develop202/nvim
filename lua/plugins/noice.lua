@@ -22,21 +22,17 @@ return {
         },
       },
     },
+  },
+  {
+    "folke/snacks.nvim",
     keys = {
       {
         "<Esc>",
         function()
-          -- vim.cmd.Noice("dismiss")
-          require("notify").dismiss({ silent = true, pending = true })
+          Snacks.notifier.hide()
         end,
-        desc = "Clear Notifications",
+        desc = "Dismiss All Notifications",
       },
-    },
-  },
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      stages = "fade_in_slide_out",
     },
   },
 }
