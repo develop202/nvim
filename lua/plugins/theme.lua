@@ -29,6 +29,8 @@ return {
         GruvboxAquaSign = { fg = "#8ec07c", bg = "NONE" },
 
         SignColumn = { bg = "NONE" },
+        -- 去除光标所在行行号的背景颜色
+        CursorLineNr = { fg = "#fabd2f", bg = "NONE" },
       },
     },
   },

@@ -69,8 +69,6 @@ return {
         -- ["*"] = { "prettier" },
         ["yaml"] = { "yamlfmt" },
         ["sh"] = { "shfmt" },
-        ["sql"] = { "sqlfluff" },
-        ["mysql"] = { "sqlfluff" },
         ["python"] = { "ruff_format", "isort" },
         ["lua"] = { "stylua" },
         ["luau"] = { "stylua" },
