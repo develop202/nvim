@@ -21,3 +21,5 @@ option.pumblend = 0
 
 global.autoformat = false
 global.lazyvim_python_lsp = "basedpyright"
+-- 关闭lazyvim里lualine的symbol显示
+global.trouble_lualine = false

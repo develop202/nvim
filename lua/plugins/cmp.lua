@@ -17,48 +17,7 @@ return {
             end
           end
           local icons = require("lazyvim.config").icons.kinds
-          local myicons = {
-            Array = " ",
-            Boolean = " ",
-            Class = " ",
-            Color = " ",
-            Control = " ",
-            Collapsed = " ",
-            Constant = " ",
-            Constructor = " ",
-            Enum = " ",
-            EnumMember = " ",
-            Event = " ",
-            Field = " ",
-            File = " ",
-            Folder = " ",
-            Function = "󰊕 ",
-            Interface = " ",
-            Key = "󰌋 ",
-            Keyword = " ",
-            Method = " ",
-            Module = " ",
-            Namespace = " ",
-            Null = " ",
-            Number = "󰎠 ",
-            Object = " ",
-            Operator = " ",
-            Package = " ",
-            Property = " ",
-            Reference = " ",
-            Snippet = " ",
-            String = " ",
-            Struct = " ",
-            TabNine = "󰏚 ",
-            Text = "󰉿 ",
-            TypeParameter = " ",
-            Unit = " ",
-            Value = " ",
-            Variable = " ",
-          }
           -- 意义不大" "
-          -- 合并icons
-          icons = vim.tbl_deep_extend("force", {}, icons, myicons or {})
           if icons[item.kind] then
             item.kind = icons[item.kind]
           end

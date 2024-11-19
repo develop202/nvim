@@ -1,13 +1,3 @@
-local logo = [[
-                 __                
-  ___    __  __ /\_\    ___ ___    
- / _ `\ /\ \/\ \\/\ \  / __` __`\  
-/\ \/\ \\ \ \_/ |\ \ \/\ \/\ \/\ \ 
-\ \_\ \_\\ \___/  \ \_\ \_\ \_\ \_\
- \/_/\/_/ \/__/    \/_/\/_/\/_/\/_/
-]]
-logo = string.rep("\n", 8) .. logo .. "\n\n"
-
 return {
   {
     "uga-rosa/ccc.nvim",
@@ -36,10 +26,55 @@ return {
     event = { "LazyFile" },
   },
   {
-    "nvimdev/dashboard-nvim",
+    "nvim-lualine/lualine.nvim",
+    opts = function(_, opts)
+      opts.sections.lualine_z = nil
+      opts.sections.lualine_y = nil
+    end,
+  },
+  {
+    -- 面包屑导航
+    "Bekaboo/dropbar.nvim",
+    event = "LazyFile",
     opts = {
-      config = {
-        header = vim.split(logo, "\n"),
+      icons = {
+        kinds = {
+          symbols = {
+            Array = " ",
+            Boolean = " ",
+            Class = " ",
+            Color = " ",
+            Constant = " ",
+            Constructor = " ",
+            Enum = " ",
+            EnumMember = " ",
+            Event = " ",
+            Field = " ",
+            File = " ",
+            Folder = " ",
+            Function = "󰊕 ",
+            Interface = " ",
+            Keyword = " ",
+            Method = " ",
+            Module = " ",
+            Namespace = " ",
+            Null = " ",
+            Number = "󰎠 ",
+            Object = " ",
+            Operator = " ",
+            Package = " ",
+            Property = " ",
+            Reference = " ",
+            Snippet = " ",
+            String = " ",
+            Struct = " ",
+            Text = "󰉿 ",
+            TypeParameter = " ",
+            Unit = " ",
+            Value = " ",
+            Variable = " ",
+          },
+        },
       },
     },
   },

@@ -31,7 +31,7 @@ return {
         Constructor = { icon = " ", hl = "Special" },
         Enum = { icon = " ", hl = "Type" },
         Interface = { icon = " ", hl = "Type" },
-        Function = { icon = " ", hl = "Function" },
+        Function = { icon = "󰊕 ", hl = "Function" },
         Variable = { icon = " ", hl = "Constant" },
         Constant = { icon = " ", hl = "Constant" },
         String = { icon = " ", hl = "String" },
