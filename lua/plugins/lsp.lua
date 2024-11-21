@@ -74,6 +74,10 @@ return {
           args = { "$FILENAME" },
           stdin = false,
         },
+        sqlfluff = {
+          -- 将方言改为mysql
+          args = { "format", "--dialect=mysql", "-" },
+        },
       },
     },
   },
@@ -84,6 +88,16 @@ return {
       linters_by_ft = {
         --拼写检查
         markdown = { "cspell", "markdownlint-cli2" },
+      },
+      linters = {
+        sqlfluff = {
+          args = {
+            "lint",
+            "--format=json",
+            -- 将方言改为mysql
+            "--dialect=mysql",
+          },
+        },
       },
     },
   },
