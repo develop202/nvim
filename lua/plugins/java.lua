@@ -3,6 +3,8 @@ return {
   -- Set up nvim-jdtls to attach to java files.
   {
     "mfussenegger/nvim-jdtls",
+    -- TODO:jdtls现在要求最低Java21
+    -- 需要在jdtls.py手动修改Java命令
     opts = function(_, opts)
       local mason_registry = require("mason-registry")
 

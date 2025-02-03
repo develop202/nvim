@@ -17,6 +17,38 @@ return {
     {
       "nvim-telescope/telescope.nvim",
       event = "LazyFile",
+      opts = {
+        defaults = {
+          -- 将文件名提到开头，路径颜色变暗
+          path_display = {
+            filename_first = {
+              reverse_directories = false,
+            },
+          },
+          -- 显示右侧预览，不过在手机上很窄，不美观
+          -- layout_strategy = "horizontal",
+          -- layout_config = {
+          --   width = 0.8,
+          --   preview_cutoff = 1,
+          -- },
+          layout_strategy = "vertical",
+          layout_config = {
+            vertical = {
+              preview_cutoff = 20,
+              preview_height = 0.6,
+              -- mirror = true,
+            },
+            -- height = { padding = 0 },
+            -- width = { padding = 0 },
+          },
+        },
+        -- 预览和搜索结果上下分布，看着有些怪，但是搜索结果显示完整一些
+        -- pickers = {
+        --   find_files = {
+        --     theme = "dropdown",
+        --   },
+        -- },
+      },
     },
     "MunifTanjim/nui.nvim",
 

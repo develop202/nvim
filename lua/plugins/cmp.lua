@@ -5,17 +5,20 @@ return {
       formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, item)
-          -- 控制cmp补全框宽度
-          -- local str = require("cmp.utils.str")
-          -- local widths = {
-          --   abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 15,
-          --   menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
-          -- }
-          -- for key, width in pairs(widths) do
-          --   if item[key] and vim.fn.strdisplaywidth(str.trim(item[key])) > width then
-          --     item[key] = vim.fn.strcharpart(str.trim(item[key]), 0, width - 1) .. "…"
-          --   end
-          -- end
+          -- termux屏幕窄，补全列表显示不全，所以写死了
+          if os.getenv("HOME") == "/data/data/com.termux/files/home" and vim.o.filetype == "java" then
+            -- 控制cmp补全框宽度
+            local str = require("cmp.utils.str")
+            local widths = {
+              abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 15,
+              menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+            }
+            for key, width in pairs(widths) do
+              if item[key] and vim.fn.strdisplaywidth(str.trim(item[key])) > width then
+                item[key] = vim.fn.strcharpart(str.trim(item[key]), 0, width - 1) .. "…"
+              end
+            end
+          end
           local icons = require("lazyvim.config").icons.kinds
           -- 意义不大" "
           if icons[item.kind] then
