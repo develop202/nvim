@@ -23,3 +23,19 @@ global.autoformat = false
 global.lazyvim_python_lsp = "basedpyright"
 -- 关闭lazyvim里lualine的symbol显示
 global.trouble_lualine = false
+
+-- wsl粘贴板共享到宿主机
+if vim.fn.has("wsl") then
+  vim.g.clipboard = {
+    name = "win32yank-wsl",
+    copy = {
+      ["+"] = "win32yank.exe -i --crlf",
+      ["*"] = "win32yank.exe -i --crlf",
+    },
+    paste = {
+      ["+"] = "win32yank.exe -o --crlf",
+      ["*"] = "win32yank.exe -o --crlf",
+    },
+    cache_enable = 0,
+  }
+end
