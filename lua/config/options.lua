@@ -25,7 +25,7 @@ global.lazyvim_python_lsp = "basedpyright"
 global.trouble_lualine = false
 
 -- wsl粘贴板共享到宿主机
-if vim.fn.has("wsl") then
+if vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
     name = "win32yank-wsl",
     copy = {
