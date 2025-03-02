@@ -45,6 +45,15 @@ return {
           },
         },
         kulala_ls = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = "standard",
+              },
+            },
+          },
+        },
       },
       setup = {
         -- jdtls = function()

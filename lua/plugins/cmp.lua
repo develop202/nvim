@@ -1,6 +1,9 @@
 return {
   {
     "hrsh7th/nvim-cmp",
+    -- dependencies = {
+    --   "Jezda1337/nvim-html-css",
+    -- },
     opts = function(_, opts)
       opts.formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -72,5 +75,6 @@ return {
   },
   {
     "Jezda1337/nvim-html-css",
+    ft = { "html", "css", "vue" },
   },
 }
