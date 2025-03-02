@@ -1,8 +1,8 @@
 return {
   {
     "hrsh7th/nvim-cmp",
-    opts = {
-      formatting = {
+    opts = function(_, opts)
+      opts.formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, item)
           -- termux屏幕窄，补全列表显示不全，所以写死了
@@ -49,9 +49,28 @@ return {
             item.kind = "󱓻 "
             return item
           end
+          local source = entry.source.name
+          if source == "html-css" then
+            item.menu = ("[" .. entry.completion_item.provider .. "]") or "[html-css]"
+          end
           return item
         end,
-      },
-    },
+      }
+      table.insert(opts.sources, {
+        name = "html-css",
+        option = {
+          enable_on = { "html", "vue", "css" }, -- html is enabled by default
+          notify = false,
+          documentation = {
+            auto_show = true, -- show documentation on select
+          },
+          -- add any external scss like one below
+          style_sheets = {},
+        },
+      })
+    end,
+  },
+  {
+    "Jezda1337/nvim-html-css",
   },
 }
