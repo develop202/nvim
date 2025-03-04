@@ -11,12 +11,8 @@ return {
       local jdtls_config = {}
       local bundles = {}
 
-      local inlay_hint_enabled = "all"
-
-      -- 全端inlay_hint都会报错,无所谓了,开着吧
-      -- if HOME == "/data/data/com.termux/files/home" then
-      --   inlay_hint_enabled = "none"
-      -- end
+      -- 全端inlay_hint都会报错
+      local inlay_hint_enabled = "none"
 
       -- 添加dap扩展jar包
       if LazyVim.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
@@ -164,6 +160,9 @@ return {
       }
 
       require("spring_boot").setup({
+        jdtls_name = "jdtls",
+        exploded_ls_jar_data = false,
+        autocmd = true,
         server = {
           cmd = cmd,
         },
