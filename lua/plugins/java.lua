@@ -130,9 +130,15 @@ return {
         return
       end
 
+      local util = require("spring_boot.util")
       -- 默认为vscode插件
       local ls_path = require("spring_boot.vscode").find_one("/language-server")
       local GC_type = "-XX:+UseZGC"
+      local java_bin = util.java_bin()
+
+      if vim.fn.has("wsl") == 1 then
+        java_bin = "/usr/lib/jvm/java-21-openjdk-amd64/bin/java"
+      end
 
       -- 判断packages是否安装了spring-boot
       if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls") then
@@ -140,15 +146,13 @@ return {
         GC_type = "-XX:+UseG1GC"
       end
 
-      local util = require("spring_boot.util")
-
       local server_jar = vim.split(vim.fn.glob(ls_path .. "/spring-boot-language-server*.jar"), "\n")
       if #server_jar == 0 then
         vim.notify("Spring Boot LS jar not found", vim.log.levels.WARN)
         return
       end
       local cmd = {
-        util.java_bin(),
+        java_bin,
         "-XX:TieredStopAtLevel=1",
         "-Xms64m",
         "-Xmx64m",
