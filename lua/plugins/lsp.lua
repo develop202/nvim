@@ -49,6 +49,7 @@ return {
           settings = {
             basedpyright = {
               analysis = {
+                -- basedpyright检查模式:常规
                 typeCheckingMode = "standard",
               },
             },

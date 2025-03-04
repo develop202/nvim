@@ -13,10 +13,10 @@ return {
 
       local inlay_hint_enabled = "all"
 
-      -- termux端inlay_hint经常报错,故将其关闭
-      if HOME == "/data/data/com.termux/files/home" then
-        inlay_hint_enabled = "none"
-      end
+      -- 全端inlay_hint都会报错,无所谓了,开着吧
+      -- if HOME == "/data/data/com.termux/files/home" then
+      --   inlay_hint_enabled = "none"
+      -- end
 
       -- 添加dap扩展jar包
       if LazyVim.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then

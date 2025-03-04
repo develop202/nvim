@@ -2,13 +2,8 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
--- lsp document_highlight高亮组
-vim.cmd([[ hi LspReferenceWrite guibg=#900C3F ]])
-vim.cmd([[ hi LspReferenceRead guibg=#597266 ]])
-vim.cmd([[ hi LspReferenceText guibg=#4c6280 ]])
-
--- 取消fzf选择框背景色
-vim.cmd([[ hi FzfLuaCursorLine guibg=#282828 ]])
+-- lsp inlayhint高亮
+-- vim.cmd([[ hi LspInlayHint guibg=#3a3234 guifg=#928374]])
 
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {

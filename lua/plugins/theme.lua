@@ -30,6 +30,17 @@ return {
         SignColumn = { bg = "NONE" },
         -- 去除光标所在行行号的背景颜色
         CursorLineNr = { fg = "#fabd2f", bg = "NONE" },
+
+        -- lsp document_highlight高亮组
+        LspReferenceWrite = { bg = "#900C3F" },
+        LspReferenceRead = { bg = "#597266" },
+        LspReferenceText = { bg = "#4c6280" },
+
+        -- lsp inlayhint高亮
+        LspInlayHint = { bg = "#3a3234", fg = "#969696" },
+
+        -- fzf选择框背景色
+        FzfLuaCursorLine = { bg = "#282828" },
       },
     },
   },
