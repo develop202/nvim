@@ -1,9 +1,15 @@
 return {
   {
     "hrsh7th/nvim-cmp",
-    -- dependencies = {
-    --   "Jezda1337/nvim-html-css",
-    -- },
+    options = true,
+    dependencies = {
+      -- "Jezda1337/nvim-html-css",
+      {
+        "brenoprata10/nvim-highlight-colors",
+        -- 只用来显示补全栏颜色
+        config = function() end,
+      },
+    },
     opts = function(_, opts)
       opts.formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -23,10 +29,12 @@ return {
             end
           end
           local icons = require("lazyvim.config").icons.kinds
+          local source = entry.source.name
           -- 意义不大" "
           if icons[item.kind] then
             item.kind = icons[item.kind]
           end
+
           if item.kind == " " then
             local utils = require("nvim-highlight-colors.utils")
             local colors = require("nvim-highlight-colors.color.utils")
@@ -49,20 +57,20 @@ return {
             vim.api.nvim_set_hl(0, highlight_group, { fg = color_hex, default = true })
 
             item.kind_hl_group = highlight_group
-            item.kind = "󱓻 "
+            item.kind = "󰝤 "
             return item
           end
-          local source = entry.source.name
           if source == "html-css" then
             item.menu = ("[" .. entry.completion_item.provider .. "]") or "[html-css]"
           end
+
           return item
         end,
       }
       table.insert(opts.sources, {
         name = "html-css",
         option = {
-          enable_on = { "html", "vue", "css" }, -- html is enabled by default
+          enable_on = { "html", "vue" }, -- html is enabled by default
           notify = false,
           documentation = {
             auto_show = true, -- show documentation on select
@@ -75,6 +83,6 @@ return {
   },
   {
     "Jezda1337/nvim-html-css",
-    ft = { "html", "css", "vue" },
+    ft = { "html", "vue" },
   },
 }

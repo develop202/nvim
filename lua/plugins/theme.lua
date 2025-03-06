@@ -32,9 +32,18 @@ return {
         CursorLineNr = { fg = "#fabd2f", bg = "NONE" },
 
         -- lsp document_highlight高亮组
-        LspReferenceWrite = { bg = "#900C3F" },
-        LspReferenceRead = { bg = "#597266" },
-        LspReferenceText = { bg = "#4c6280" },
+        -- LspReferenceWrite = { bg = "#900C3F" },
+        -- LspReferenceRead = { bg = "#597266" },
+        -- LspReferenceText = { bg = "#4c6280" },
+
+        -- vscode的配色方案
+        LspReferenceWrite = { bg = "#0d425f" },
+        LspReferenceRead = { bg = "#4c4c4c" },
+        LspReferenceText = { bg = "#4c4c4c" },
+
+        IlluminatedLspReferenceRead = { bg = "#4a4a4a" },
+        IlluminatedWordWrite = { bg = "#0b405d" },
+        IlluminatedLspReferenceText = { bg = "#4a4a4a" },
 
         -- lsp inlayhint高亮
         LspInlayHint = { bg = "#3a3234", fg = "#969696" },

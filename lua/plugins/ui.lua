@@ -10,15 +10,50 @@ return {
       },
     },
   },
+  -- {
+  --   "brenoprata10/nvim-highlight-colors",
+  --   -- 只用来显示补全栏颜色
+  --   event = { "LazyFile" },
+  --   opts = {
+  --     render = "virtual",
+  --     virtual_symbol = "󱓻 ",
+  --     virtual_symbol_suffix = "",
+  --     enable_tailwind = true,
+  --   },
+  -- },
   {
-    "brenoprata10/nvim-highlight-colors",
-    -- 只用来颜色高亮
-    event = { "LazyFile" },
+    "catgoose/nvim-colorizer.lua",
+    event = {
+      -- "BufReadPre",
+      "BufNew",
+      "BufRead",
+      "BufWritePost",
+      "TextChanged",
+      "TextChangedI",
+      "StdinReadPre",
+    },
     opts = {
-      render = "virtual",
-      virtual_symbol = "󱓻 ",
-      virtual_symbol_suffix = "",
-      enable_tailwind = true,
+      filetypes = {
+        "*", -- Highlight all files, but customize some others.
+        -- 不在cmp补全项里显示
+        "!cmp_menu",
+        -- cmp_menu = {
+        --   always_update = true,
+        -- },
+        -- 不在cmp介绍里面显示
+        "!cmp_docs",
+        -- cmp_docs = {
+        --   always_update = true,
+        -- },
+      },
+      user_default_options = {
+        rgb_fn = true,
+        hsl_fn = true,
+        mode = "virtualtext",
+        virtualtext = "󰝤",
+        virtualtext_inline = "before",
+        tailwind = true,
+      },
     },
   },
   {

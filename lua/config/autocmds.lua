@@ -5,6 +5,9 @@
 -- lsp inlayhint高亮
 -- vim.cmd([[ hi LspInlayHint guibg=#3a3234 guifg=#928374]])
 
+-- 修改高亮
+vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#313008", fg = "NONE" })
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "*" },

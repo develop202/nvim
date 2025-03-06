@@ -55,6 +55,17 @@ return {
             },
           },
         },
+        emmet_language_server = {
+          filetypes = {
+            "eruby",
+            "html",
+            "htmldjango",
+            "javascriptreact",
+            "pug",
+            "typescriptreact",
+            "htmlangular",
+          },
+        },
       },
       setup = {
         -- jdtls = function()
