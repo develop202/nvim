@@ -35,6 +35,11 @@ return {
             item.kind = icons[item.kind]
           end
 
+          -- 自定义emmet样式
+          if entry.source:get_debug_name() == "nvim_lsp:emmet_language_server" then
+            item.kind = " "
+            item.menu = "Emmet 缩写"
+          end
           if item.kind == " " then
             local utils = require("nvim-highlight-colors.utils")
             local colors = require("nvim-highlight-colors.color.utils")
@@ -67,6 +72,16 @@ return {
           return item
         end,
       }
+      -- nvim_lsp源过滤
+      opts.sources[2].entry_filter = function(entry, ctx)
+        local kinds = require("cmp.types").lsp.CompletionItemKind
+        -- 过滤vtsls补全字符串
+        if entry.source:get_debug_name() == "nvim_lsp:vtsls" then
+          return kinds[entry:get_kind()] ~= "Text"
+        end
+
+        return true
+      end
       table.insert(opts.sources, {
         name = "html-css",
         option = {
