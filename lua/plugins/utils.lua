@@ -1,3 +1,7 @@
+local lazygit_icons = "3"
+if OwnUtil.sys.is_termux() then
+  lazygit_icons = ""
+end
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -94,6 +98,19 @@ return {
           F10 = "󱊴 ",
           F11 = "󱊵 ",
           F12 = "󱊶 ",
+        },
+      },
+    },
+  },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      lazygit = {
+        config = {
+          gui = {
+            -- 关闭图标字体
+            nerdFontsVersion = lazygit_icons,
+          },
         },
       },
     },

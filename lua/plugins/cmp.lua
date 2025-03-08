@@ -36,10 +36,10 @@ return {
           end
 
           local is_emmet = source:get_debug_name() == "nvim_lsp:emmet_language_server"
-            or (source:get_debug_name() == "nvim_lsp:volar" and item.kind == "󰉿 ")
+            or (source:get_debug_name() == "nvim_lsp:volar" and item.kind == icons["Text"])
           -- 自定义emmet样式
           if is_emmet then
-            item.kind = " "
+            item.kind = icons["Property"]
             item.menu = "Emmet 缩写"
           end
 
@@ -52,7 +52,7 @@ return {
             end
           end
 
-          if item.kind == " " then
+          if item.kind == icons["Color"] then
             local utils = require("nvim-highlight-colors.utils")
             local colors = require("nvim-highlight-colors.color.utils")
 

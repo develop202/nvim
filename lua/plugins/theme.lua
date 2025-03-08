@@ -47,9 +47,6 @@ return {
 
         -- lsp inlayhint高亮
         LspInlayHint = { bg = "#3a3234", fg = "#969696" },
-
-        -- fzf选择框背景色
-        FzfLuaCursorLine = { bg = "#282828" },
       },
     },
   },

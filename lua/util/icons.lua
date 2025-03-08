@@ -1,0 +1,48 @@
+--- @class util.icons
+local M = {}
+
+--- 补全图标
+M.kinds = {
+  Codeium = "󰘦 ",
+  Copilot = " ",
+  Supermaven = " ",
+  Array = " ",
+  Boolean = " ",
+  Class = " ",
+  Color = " ",
+  Control = " ",
+  Collapsed = " ",
+  Constant = " ",
+  Constructor = " ",
+  Enum = " ",
+  EnumMember = " ",
+  Event = " ",
+  Field = " ",
+  File = " ",
+  Folder = " ",
+  Function = " ",
+  Interface = " ",
+  Key = " ",
+  Keyword = " ",
+  Method = " ",
+  Module = " ",
+  Namespace = " ",
+  Null = " ",
+  Number = "󰎠 ",
+  Object = " ",
+  Operator = " ",
+  Package = " ",
+  Property = " ",
+  Reference = " ",
+  Snippet = " ",
+  String = " ",
+  Struct = " ",
+  TabNine = "󰏚 ",
+  Text = " ",
+  TypeParameter = " ",
+  Unit = " ",
+  Value = " ",
+  Variable = " ",
+}
+
+return M

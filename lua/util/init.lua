@@ -1,5 +1,7 @@
 ---@class util
 ---@field sys util.sys
+---@field icons util.icons
+---@field mini_icons util.mini_icons
 local M = {}
 
 -- 使用元表为全局变量添加字段
