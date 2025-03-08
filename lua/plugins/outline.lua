@@ -1,5 +1,5 @@
 local window_width = 25
-if os.getenv("HOME") == "/data/data/com.termux/files/home" then
+if OwnUtil.sys.is_termux() then
   window_width = 60
 end
 return {

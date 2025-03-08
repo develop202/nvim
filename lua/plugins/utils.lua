@@ -61,7 +61,7 @@ return {
   {
     "mistweaverco/kulala.nvim",
     opts = function(_, opts)
-      if os.getenv("HOME") == "/data/data/com.termux/files/home" then
+      if OwnUtil.sys.is_termux() then
         opts.split_direction = "horizontal"
       end
     end,

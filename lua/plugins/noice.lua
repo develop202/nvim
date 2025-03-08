@@ -1,6 +1,6 @@
 local noice_cmdline_min_width = 60
 local dashboard_width = 60
-if os.getenv("HOME") == "/data/data/com.termux/files/home" then
+if OwnUtil.sys.is_termux() then
   noice_cmdline_min_width = 30
   dashboard_width = 45
 end

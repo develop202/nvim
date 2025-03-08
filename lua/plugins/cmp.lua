@@ -15,11 +15,11 @@ return {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, item)
           -- termux屏幕窄，补全列表显示不全，所以写死了
-          if os.getenv("HOME") == "/data/data/com.termux/files/home" and vim.o.filetype == "java" then
+          if OwnUtil.sys.is_termux() then
             -- 控制cmp补全框宽度
             local str = require("cmp.utils.str")
             local widths = {
-              abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 15,
+              abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
               menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
             }
             for key, width in pairs(widths) do
@@ -29,17 +29,29 @@ return {
             end
           end
           local icons = require("lazyvim.config").icons.kinds
-          local source = entry.source.name
+          local source = entry.source
           -- 意义不大" "
           if icons[item.kind] then
             item.kind = icons[item.kind]
           end
 
+          local is_emmet = source:get_debug_name() == "nvim_lsp:emmet_language_server"
+            or (source:get_debug_name() == "nvim_lsp:volar" and item.kind == "󰉿 ")
           -- 自定义emmet样式
-          if entry.source:get_debug_name() == "nvim_lsp:emmet_language_server" then
+          if is_emmet then
             item.kind = " "
             item.menu = "Emmet 缩写"
           end
+
+          if item.menu == "" or item.menu == nil then
+            if source.name == "nvim_lsp" then
+              local debug_name = source:get_debug_name()
+              item.menu = vim.split(debug_name, ":")[2]
+            else
+              item.menu = source.name
+            end
+          end
+
           if item.kind == " " then
             local utils = require("nvim-highlight-colors.utils")
             local colors = require("nvim-highlight-colors.color.utils")
@@ -65,7 +77,7 @@ return {
             item.kind = "󰝤 "
             return item
           end
-          if source == "html-css" then
+          if source.name == "html-css" then
             item.menu = ("[" .. entry.completion_item.provider .. "]") or "[html-css]"
           end
 

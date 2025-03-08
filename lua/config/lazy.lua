@@ -14,6 +14,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+--- 全局工具变量
+_G.OwnUtil = require("util")
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
