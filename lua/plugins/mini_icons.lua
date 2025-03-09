@@ -49,23 +49,26 @@ local filetype = {
 
   -- go
   gotmpl = { glyph = "󰟓 ", hl = "MiniIconsGrey" },
+
+  -- java
+  jproperties = { glyph = " ", hl = "PropertiesIcon" },
 }
 local lsp = {}
 local os = {}
 
-default = vim.tbl_deep_extend("force", default, OwnUtil.mini_icons.default)
+default = vim.tbl_deep_extend("force", OwnUtil.mini_icons.default, default)
 
-directory = vim.tbl_deep_extend("force", directory, OwnUtil.mini_icons.directory)
+directory = vim.tbl_deep_extend("force", OwnUtil.mini_icons.directory, directory)
 
-extension = vim.tbl_deep_extend("force", extension, OwnUtil.mini_icons.extension)
+extension = vim.tbl_deep_extend("force", OwnUtil.mini_icons.extension, extension)
 
-file = vim.tbl_deep_extend("force", file, OwnUtil.mini_icons.file)
+file = vim.tbl_deep_extend("force", OwnUtil.mini_icons.file, file)
 
-filetype = vim.tbl_deep_extend("force", filetype, OwnUtil.mini_icons.filetype)
+filetype = vim.tbl_deep_extend("force", OwnUtil.mini_icons.filetype, filetype)
 
-lsp = vim.tbl_deep_extend("force", lsp, OwnUtil.mini_icons.lsp)
+lsp = vim.tbl_deep_extend("force", OwnUtil.mini_icons.lsp, lsp)
 
-os = vim.tbl_deep_extend("force", os, OwnUtil.mini_icons.os)
+os = vim.tbl_deep_extend("force", OwnUtil.mini_icons.os, os)
 return {
   {
     "echasnovski/mini.icons",

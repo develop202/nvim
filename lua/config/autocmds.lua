@@ -17,8 +17,10 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   end,
 })
 
--- 自定义SpringBootIcon高亮
+-- SpringBootIcon高亮
 vim.api.nvim_set_hl(0, "SpringBootIcon", { fg = "#57965c" })
+-- PropertiesIcon高亮
+vim.api.nvim_set_hl(0, "PropertiesIcon", { fg = "#ced0d6" })
 
 -- 自动显示光标所在行诊断信息
 -- 干扰太多，暂时取消

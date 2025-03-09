@@ -10,27 +10,10 @@ return {
       },
     },
   },
-  -- {
-  --   "brenoprata10/nvim-highlight-colors",
-  --   -- 只用来显示补全栏颜色
-  --   event = { "LazyFile" },
-  --   opts = {
-  --     render = "virtual",
-  --     virtual_symbol = "󱓻 ",
-  --     virtual_symbol_suffix = "",
-  --     enable_tailwind = true,
-  --   },
-  -- },
   {
     "catgoose/nvim-colorizer.lua",
     event = {
-      -- "BufReadPre",
-      "BufNew",
-      "BufRead",
-      "BufWritePost",
-      "TextChanged",
-      "TextChangedI",
-      "StdinReadPre",
+      "BufReadPre",
     },
     opts = {
       filetypes = {

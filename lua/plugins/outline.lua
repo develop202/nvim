@@ -21,8 +21,6 @@ return {
       icons[key].icon = OwnUtil.icons.kinds[key] or icons[key].icon
     end
 
-    opts.symbols = icons
-
     opts.keymaps = {
       goto_location = "o",
       fold_toggle = "<CR>",

@@ -125,11 +125,13 @@ return {
     dependencies = {
       "mfussenegger/nvim-jdtls",
     },
-    config = function()
+    opts = function()
       if not require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
+        -- spring-boot.nvim使用环境变量获取路径
+        -- 这里强制获取失败以停止spring-boot-ls的启动
+        vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
         return
       end
-
       local util = require("spring_boot.util")
       -- 默认为vscode插件
       local ls_path = require("spring_boot.vscode").find_one("/language-server")
@@ -162,8 +164,7 @@ return {
         "-jar",
         server_jar[1],
       }
-
-      require("spring_boot").setup({
+      return {
         jdtls_name = "jdtls",
         exploded_ls_jar_data = false,
         autocmd = true,
@@ -171,14 +172,14 @@ return {
           cmd = cmd,
         },
         ls_path = ls_path,
-      })
+      }
     end,
   },
   {
     "JavaHello/java-deps.nvim",
     ft = "java",
     dependencies = "mfussenegger/nvim-jdtls",
-    config = function()
+    opts = function()
       local node_data = require("java-deps.java.nodeData")
       local PackageRootKind = require("java-deps.java.IPackageRootNodeData").PackageRootKind
       local NodeKind = node_data.NodeKind
@@ -210,7 +211,6 @@ return {
         [PackageRootKind.K_SOURCE] = { icon = " ", hl = "@property" },
         [PackageRootKind.K_BINARY] = { icon = " ", hl = "@property" },
       }
-      require("java-deps").setup({})
     end,
   },
   {
