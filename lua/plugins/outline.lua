@@ -5,62 +5,30 @@ end
 return {
   "hedyhli/outline.nvim",
   cmd = "Outline",
-  opts = {
-    outline_window = {
+  opts = function(_, opts)
+    opts.outline_window = {
       width = window_width,
-    },
-    symbol_folding = {
-      markers = { " ", " " },
-    },
-    providers = {
+    }
+    opts.providers = {
       lsp = {
         -- 忽略lsp
         blacklist_clients = { "spring-boot", "ruff" },
       },
-    },
-    symbols = {
-      icons = {
-        File = { icon = " ", hl = "Identifier" },
-        Module = { icon = " ", hl = "Include" },
-        Namespace = { icon = " ", hl = "Include" },
-        Package = { icon = "󰏗 ", hl = "Include" },
-        Class = { icon = " ", hl = "Type" },
-        Method = { icon = " ", hl = "Function" },
-        Property = { icon = " ", hl = "Identifier" },
-        Field = { icon = " ", hl = "Identifier" },
-        Constructor = { icon = " ", hl = "Special" },
-        Enum = { icon = " ", hl = "Type" },
-        Interface = { icon = " ", hl = "Type" },
-        Function = { icon = "󰊕 ", hl = "Function" },
-        Variable = { icon = " ", hl = "Constant" },
-        Constant = { icon = " ", hl = "Constant" },
-        String = { icon = " ", hl = "String" },
-        Number = { icon = "󰎠 ", hl = "Number" },
-        Boolean = { icon = " ", hl = "Boolean" },
-        Array = { icon = " ", hl = "Constant" },
-        Object = { icon = " ", hl = "Type" },
-        Key = { icon = "󰌋 ", hl = "Type" },
-        Null = { icon = " ", hl = "Type" },
-        EnumMember = { icon = " ", hl = "Identifier" },
-        Struct = { icon = " ", hl = "Structure" },
-        Event = { icon = " ", hl = "Type" },
-        Operator = { icon = " ", hl = "Identifier" },
-        TypeParameter = { icon = " ", hl = "Identifier" },
-        Component = { icon = "󰡀 ", hl = "Function" },
-        Fragment = { icon = "󰅴 ", hl = "Constant" },
-        -- ccls
-        TypeAlias = { icon = " ", hl = "Type" },
-        Parameter = { icon = " ", hl = "Identifier" },
-        StaticMethod = { icon = " ", hl = "Function" },
-        Macro = { icon = " ", hl = "Function" },
-      },
-    },
-    keymaps = {
+    }
+    local icons = require("outline.config").defaults.symbols.icons
+    for key, _ in pairs(icons) do
+      -- 使用自己的图标
+      icons[key].icon = OwnUtil.icons.kinds[key] or icons[key].icon
+    end
+
+    opts.symbols = icons
+
+    opts.keymaps = {
       goto_location = "o",
       fold_toggle = "<CR>",
       peek_location = "p",
-    },
-  },
+    }
+  end,
   -- 使用init会导致大纲字段颜色被修改,所以使用config
   config = function(_, opts)
     local sidebar = require("outline.sidebar")
