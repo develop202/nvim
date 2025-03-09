@@ -32,6 +32,15 @@ local file = {
 
   -- go
   [".go-version"] = { glyph = " ", hl = "MiniIconsBlue" },
+
+  -- maven
+  ["pom.xml"] = { glyph = " ", hl = "MiniIconsRed" },
+
+  -- spring
+  ["application.properties"] = { glyph = " ", hl = "SpringBootIcon" },
+  ["application.yml"] = { glyph = " ", hl = "SpringBootIcon" },
+  ["bootstrap.properties"] = { glyph = " ", hl = "SpringBootIcon" },
+  ["bootstrap.yml"] = { glyph = " ", hl = "SpringBootIcon" },
 }
 
 local filetype = {
