@@ -27,6 +27,12 @@ return {
         GruvboxYellowSign = { fg = "#fabd2f", bg = "NONE" },
         GruvboxAquaSign = { fg = "#8ec07c", bg = "NONE" },
 
+        -- 关闭neo-tree git斜体
+        NeoTreeMessage = { fg = "#625d51" },
+        NeoTreeRootName = { bold = true },
+        NeoTreeGitConflict = { bold = true, fg = "#ff8700" },
+        NeoTreeGitUntracked = { fg = "#ff8700" },
+
         SignColumn = { bg = "NONE" },
         -- 去除光标所在行行号的背景颜色
         CursorLineNr = { fg = "#fabd2f", bg = "NONE" },
