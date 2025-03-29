@@ -18,7 +18,7 @@ return {
             "yamlfmt",
             -- 对Python导入包进行排序
             "isort",
-            "gradle_ls",
+            "gradle-language-server",
           })
         end,
       },

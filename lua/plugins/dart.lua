@@ -4,8 +4,19 @@ return {
     ft = "dart",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "stevearc/dressing.nvim", -- optional for vim.ui.select
     },
     config = true,
+  },
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      "sidlatau/neotest-dart",
+    },
+    opts = {
+      adapters = {
+        ["neotest-dart"] = {},
+      },
+    },
   },
 }

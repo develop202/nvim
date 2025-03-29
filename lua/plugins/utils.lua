@@ -115,4 +115,13 @@ return {
       },
     },
   },
+  -- 注释插件
+  {
+    "numToStr/Comment.nvim",
+    event = "LazyFile",
+    dependencies = {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+    },
+    opts = {},
+  },
 }
