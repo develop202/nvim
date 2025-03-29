@@ -18,6 +18,7 @@ return {
             "yamlfmt",
             -- 对Python导入包进行排序
             "isort",
+            "gradle_ls",
           })
         end,
       },
@@ -127,7 +128,7 @@ return {
     opts = function(_, opts)
       -- 关闭指定文件缩进
       opts.indent.disable = { "xml" }
-      table.insert(opts.ensure_installed, { "scss" })
+      table.insert(opts.ensure_installed, { "scss", "dart" })
     end,
   },
 }
