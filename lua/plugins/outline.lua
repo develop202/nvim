@@ -18,7 +18,7 @@ return {
     local icons = require("outline.config").defaults.symbols.icons
     for key, _ in pairs(icons) do
       -- 使用自己的图标
-      icons[key].icon = OwnUtil.icons.kinds[key] or icons[key].icon
+      icons[key].icon = OwnUtil.icons.kinds[key] or icons[key].icon .. " "
     end
 
     opts.keymaps = {

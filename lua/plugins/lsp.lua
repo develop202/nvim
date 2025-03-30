@@ -125,10 +125,17 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      -- 关闭指定文件缩进
-      opts.indent.disable = { "xml" }
-      table.insert(opts.ensure_installed, { "scss", "dart" })
-    end,
+    opts = {
+      ensure_installed = {
+        "scss",
+        "dart",
+      },
+      indent = {
+        -- 关闭指定文件缩进
+        disable = {
+          "xml",
+        },
+      },
+    },
   },
 }
