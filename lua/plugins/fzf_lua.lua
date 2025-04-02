@@ -1,3 +1,13 @@
+local function symbols_filter(entry, ctx)
+  if ctx.symbols_filter == nil then
+    ctx.symbols_filter = LazyVim.config.get_kind_filter(ctx.bufnr) or false
+  end
+  if ctx.symbols_filter == false then
+    return true
+  end
+  return vim.tbl_contains(ctx.symbols_filter, entry.kind)
+end
+
 return {
   {
     "ibhagwan/fzf-lua",
@@ -18,6 +28,19 @@ return {
           },
         })
       end,
+    },
+    keys = {
+      {
+        "<leader>ss",
+        function()
+          require("fzf-lua").lsp_document_symbols({
+            regex_filter = symbols_filter,
+            -- 解决lsp_document_symbols列表不显示的问题
+            fzf_opts = { ["--with-nth"] = "1.." },
+          })
+        end,
+        desc = "Goto Symbol",
+      },
     },
   },
 }

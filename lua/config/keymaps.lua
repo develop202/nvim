@@ -63,3 +63,6 @@ end, { desc = "Delete Current Session" })
 -- vim.keymap.set("n", "<leader>xd", function()
 --   vim.cmd("TodoTelescope cwd=" .. LazyVim.root.detect({ all = true })[1].paths[1])
 -- end, { desc = "打开当前项目的TODO列表" })
+
+-- JavaProject
+vim.keymap.set("n", "<leader>jp", "<cmd>JavaProject<CR>", { desc = "Java Projects" })
