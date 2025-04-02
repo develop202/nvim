@@ -101,10 +101,7 @@ return {
         or LazyVim.lsp.get_raw_config("jdtls").default_config.root_dir
 
       -- 修改jdtls启动命令
-      local java_bin = "java"
-      if vim.env["JAVA_HOME"] then
-        java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
-      end
+      local java_bin = require("spring_boot.util").java_bin()
       if vim.env["JAVA21_HOME"] then
         java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
       end
@@ -112,6 +109,7 @@ return {
         "--java-executable",
         java_bin,
       })
+
       opts.jdtls = jdtls_config
       opts.settings = {
         java = {

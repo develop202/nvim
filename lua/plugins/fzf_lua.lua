@@ -22,7 +22,7 @@ return {
       },
       -- ui布局
       ui_select = function(fzf_opts, items)
-        return vim.tbl_deep_extend("force", fzf_opts, { prompt = " " }, {
+        return vim.tbl_deep_extend("force", fzf_opts, {
           winopts = {
             width = 0.8,
           },
