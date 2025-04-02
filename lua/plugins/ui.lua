@@ -46,6 +46,19 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
+      if OwnUtil.sys.is_termux() then
+        opts.sections.lualine_c[4] = {
+          function()
+            return "󰌾"
+          end,
+          cond = function()
+            return vim.bo.readonly
+          end,
+          color = function()
+            return { gui = "bold" }
+          end,
+        }
+      end
       opts.sections.lualine_z = nil
       opts.sections.lualine_y = nil
     end,

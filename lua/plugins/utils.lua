@@ -113,6 +113,17 @@ return {
           },
         },
       },
+      notifier = {
+        margin = { top = 1, right = 1, bottom = 0 },
+        icons = {
+          -- 解决光标行图标显示问题
+          error = " ",
+          warn = " ",
+          info = " ",
+          debug = " ",
+          trace = " ",
+        },
+      },
     },
   },
   -- 注释插件
@@ -121,17 +132,13 @@ return {
     event = "LazyFile",
     dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
-      config = function()
-        require("ts_context_commentstring").setup({
-          enable_autocmd = false,
-        })
-      end,
+      -- 使用opts设置enable_autocmd会导致插件无效
     },
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("Comment").setup({
+    opts = function()
+      -- 不知道为什么只能用function
+      return {
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      })
+      }
     end,
   },
 }

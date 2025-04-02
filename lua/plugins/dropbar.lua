@@ -7,6 +7,7 @@ local sources = {
 }
 if OwnUtil.sys.is_termux() then
   truncate = false
+  -- 手机上隐藏路径
   sources.path.max_depth = 1
 end
 return {

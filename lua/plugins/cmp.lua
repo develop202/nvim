@@ -78,7 +78,7 @@ return {
             return item
           end
           if source.name == "html-css" then
-            item.menu = ("[" .. entry.completion_item.provider .. "]") or "[html-css]"
+            item.menu = "[" .. (entry.completion_item.provider or "html-css") .. "]"
           end
 
           return item
@@ -96,20 +96,18 @@ return {
       end
       table.insert(opts.sources, {
         name = "html-css",
-        option = {
-          enable_on = { "html", "vue" }, -- html is enabled by default
-          notify = false,
-          documentation = {
-            auto_show = true, -- show documentation on select
-          },
-          -- add any external scss like one below
-          style_sheets = {},
-        },
       })
     end,
   },
   {
     "Jezda1337/nvim-html-css",
-    ft = { "html", "vue" },
+    ft = OwnUtil.utils.ft.cmp_html_css_ft,
+    opts = {
+      enable_on = OwnUtil.utils.ft.cmp_html_css_ft,
+      documentation = {
+        auto_show = true,
+      },
+      style_sheets = {},
+    },
   },
 }

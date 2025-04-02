@@ -7,7 +7,7 @@
 
 -- 修改高亮
 vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
-vim.api.nvim_set_hl(0, "PmenuSel", { bold = true, bg = "#46484a", fg = "NONE" })
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#46484a", fg = "NONE" })
 vim.api.nvim_set_hl(0, "Pmenu", { fg = "#ebdbb2", bg = "#32302f" })
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
