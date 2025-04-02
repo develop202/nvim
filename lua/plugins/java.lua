@@ -99,24 +99,19 @@ return {
           end
         ---@diagnostic disable-next-line: undefined-field
         or LazyVim.lsp.get_raw_config("jdtls").default_config.root_dir
-      opts.cmd = opts.full_cmd(opts)
-      -- 防止重复添加
-      opts.init_cmd = false
-      opts.full_cmd = function(opt)
-        if opt.init_cmd then
-          return
-        end
-        local java_bin = vim.env["JAVA_HOME"] .. "/bin/java" or "java"
-        if vim.env["JAVA21_HOME"] then
-          java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
-        end
-        vim.list_extend(opt.cmd, {
-          "--java-executable",
-          java_bin,
-        })
-        opt.init_cmd = true
-        return opt.cmd
+
+      -- 修改jdtls启动命令
+      local java_bin = "java"
+      if vim.env["JAVA_HOME"] then
+        java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
       end
+      if vim.env["JAVA21_HOME"] then
+        java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
+      end
+      vim.list_extend(opts.cmd, {
+        "--java-executable",
+        java_bin,
+      })
       opts.jdtls = jdtls_config
       opts.settings = {
         java = {
@@ -155,8 +150,8 @@ return {
       local GC_type = "-XX:+UseZGC"
       local java_bin = util.java_bin()
 
-      if vim.fn.has("wsl") == 1 then
-        java_bin = "/usr/lib/jvm/java-21-openjdk-amd64/bin/java"
+      if vim.env["JAVA21_HOME"] then
+        java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
       end
 
       -- 判断packages是否安装了spring-boot
