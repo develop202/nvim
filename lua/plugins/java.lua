@@ -63,7 +63,7 @@ return {
       local java_dependency_bundle = vim.split(
         vim.fn.glob(
           java_dependency_path
-            .. "/vscjava.vscode-java-dependency-*-universal/server/com.microsoft.jdtls.ext.core-*.jar"
+            .. "/vscjava.vscode-java-dependency-*/server/com.microsoft.jdtls.ext.core-*.jar"
         ),
         "\n"
       )
