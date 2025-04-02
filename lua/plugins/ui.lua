@@ -25,6 +25,7 @@ return {
         -- },
         -- 不在cmp介绍里面显示
         "!cmp_docs",
+        "!lazy",
         -- cmp_docs = {
         --   always_update = true,
         -- },
