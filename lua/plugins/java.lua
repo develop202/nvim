@@ -295,6 +295,7 @@ return {
 
           local hl_icon = icons.get_icon(node.data)
           local icon = hl_icon.icon
+          -- 删除了空格
           table.insert(lines, string_prefix .. icon .. node.label)
 
           local hl_start = #string_prefix
