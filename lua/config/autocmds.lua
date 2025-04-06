@@ -6,7 +6,7 @@
 -- vim.cmd([[ hi LspInlayHint guibg=#3a3234 guifg=#928374]])
 
 -- 修改高亮
-vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
+vim.api.nvim_set_hl(0, "BlinkCmpLabelDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
 vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#46484a", fg = "NONE" })
 vim.api.nvim_set_hl(0, "Pmenu", { fg = "#ebdbb2", bg = "#32302f" })
 -- 取消换行自动注释
