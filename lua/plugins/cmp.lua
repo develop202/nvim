@@ -1,3 +1,9 @@
+local label_width = 40
+local label_description_width = 30
+if OwnUtil.sys.is_termux() then
+  label_width = 0.6 * vim.o.columns
+  label_description_width = 0.35 * vim.o.columns
+end
 return {
   {
     "Jezda1337/nvim-html-css",
@@ -77,12 +83,12 @@ return {
               label = {
                 width = {
                   fill = true,
-                  max = 30,
+                  max = label_width,
                 },
               },
               label_description = {
                 width = {
-                  max = 20,
+                  max = label_description_width,
                 },
               },
             },
