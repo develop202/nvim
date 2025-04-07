@@ -62,6 +62,9 @@ return {
     },
     opts = {
       completion = {
+        ghost_text = {
+          show_with_selection = false,
+        },
         documentation = {
           window = {
             -- 特殊手段防止遮挡补全项
