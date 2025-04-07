@@ -39,6 +39,8 @@ return {
         },
         menu = {
           draw = {
+            -- 取消补全项图标与文本间的空格
+            gap = 0,
             treesitter = { "lsp" },
             columns = { { "kind_icon" }, { "label", "label_description", gap = 1 } },
 
