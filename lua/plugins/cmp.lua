@@ -102,12 +102,30 @@ return {
   {
     "Jezda1337/nvim-html-css",
     ft = OwnUtil.utils.ft.cmp_html_css_ft,
-    opts = {
-      enable_on = OwnUtil.utils.ft.cmp_html_css_ft,
-      documentation = {
-        auto_show = true,
-      },
-      style_sheets = {},
-    },
+    opts = function()
+      require("html-css.utils").read_file = function(path, cb)
+        path = vim.split(path, ":")[2]
+        vim.uv.fs_open(path, "r", 438, function(err, fd)
+          assert(not err, err)
+          vim.uv.fs_fstat(fd, function(err, stat)
+            assert(not err, err)
+            vim.uv.fs_read(fd, stat.size, 0, function(err, data)
+              assert(not err, err)
+              vim.uv.fs_close(fd, function(err)
+                assert(not err, err)
+                return cb(data)
+              end)
+            end)
+          end)
+        end)
+      end
+      return {
+        enable_on = OwnUtil.utils.ft.cmp_html_css_ft,
+        documentation = {
+          auto_show = true,
+        },
+        style_sheets = {},
+      }
+    end,
   },
 }
