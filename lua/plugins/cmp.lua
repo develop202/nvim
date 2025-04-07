@@ -7,7 +7,7 @@ if OwnUtil.sys.is_termux() then
   label_width = math.floor(0.6 * vim.o.columns)
   label_description_width = math.floor(0.35 * vim.o.columns)
   cmp_docs_max_width = math.floor(0.5 * vim.o.columns)
-  cmp_docs_max_height = 10
+  cmp_docs_max_height = 7
 end
 return {
   {
