@@ -104,7 +104,9 @@ return {
     ft = OwnUtil.utils.ft.cmp_html_css_ft,
     opts = function()
       require("html-css.utils").read_file = function(path, cb)
-        path = vim.split(path, ":")[2]
+        if string.match(path, "buffer:") then
+          path = vim.split(path, ":")[2]
+        end
         vim.uv.fs_open(path, "r", 438, function(err, fd)
           assert(not err, err)
           vim.uv.fs_fstat(fd, function(err, stat)
