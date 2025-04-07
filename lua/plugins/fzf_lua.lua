@@ -31,6 +31,16 @@ return {
     },
     keys = {
       {
+        "<leader>sh",
+        function()
+          require("fzf-lua").help_tags({
+            fzf_opts = { ["--with-nth"] = "1.." },
+          })
+        end,
+        desc = "Help Pages",
+      },
+
+      {
         "<leader>ss",
         function()
           require("fzf-lua").lsp_document_symbols({
