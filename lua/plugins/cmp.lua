@@ -37,6 +37,12 @@ return {
     },
     opts = {
       completion = {
+        documentation = {
+          window = {
+            -- 特殊手段防止遮挡补全项
+            min_width = 1,
+          },
+        },
         list = {
           selection = {
             -- 禁用自动插入
