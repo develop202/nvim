@@ -1,8 +1,13 @@
 local label_width = 40
 local label_description_width = 30
+
+local cmp_docs_max_width = 80
+local cmp_docs_max_height = 20
 if OwnUtil.sys.is_termux() then
-  label_width = 0.6 * vim.o.columns
-  label_description_width = 0.35 * vim.o.columns
+  label_width = math.floor(0.6 * vim.o.columns)
+  label_description_width = math.floor(0.35 * vim.o.columns)
+  cmp_docs_max_width = math.floor(0.5 * vim.o.columns)
+  cmp_docs_max_height = 10
 end
 return {
   {
@@ -41,6 +46,8 @@ return {
           window = {
             -- 特殊手段防止遮挡补全项
             min_width = 1,
+            max_height = cmp_docs_max_height,
+            max_width = cmp_docs_max_width,
           },
         },
         list = {
