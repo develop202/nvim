@@ -17,18 +17,29 @@ return {
     },
     opts = {
       filetypes = {
-        "*", -- Highlight all files, but customize some others.
-        -- 不在cmp补全项里显示
-        "!cmp_menu",
-        -- cmp_menu = {
-        --   always_update = true,
-        -- },
-        -- 不在cmp介绍里面显示
-        "!cmp_docs",
-        "!lazy",
-        -- cmp_docs = {
-        --   always_update = true,
-        -- },
+        "htmldjango",
+        "tsx",
+        "jsx",
+        "erb",
+        "svelte",
+        "vue",
+        "blade",
+        "php",
+        "templ",
+        "astro",
+        "html",
+        "scss",
+        "css",
+        "less",
+        "javascript",
+        "typescript",
+        "json",
+        "yaml",
+        "markdown",
+        "lua",
+        "go",
+        "kotlin",
+        "dart",
       },
       user_default_options = {
         rgb_fn = true,
