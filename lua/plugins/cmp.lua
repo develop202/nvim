@@ -122,16 +122,22 @@ return {
                   max = label_width,
                 },
                 text = function(ctx)
-                  -- 在Java和XML文件里面分割补全项
-                  if string.match(ctx.label, " - ") then
+                  -- 在Java和XML里面分割补全项
+                  if string.find(ctx.label, "-") and (vim.o.filetype == "java" or vim.o.filetype == "xml") then
                     local after_split_label = vim.split(ctx.label, " - ")
                     ctx.label = after_split_label[1]
-                    local desc = after_split_label[3]
-                    if string.match(after_split_label[3], ":") then
+                    local desc = after_split_label[#after_split_label]
+                    if #after_split_label == 3 and string.find(after_split_label[3], ":") then
                       local after_split_desc = vim.split(after_split_label[3], ":")
                       desc = after_split_desc[1] .. ":" .. after_split_desc[3]
                     end
                     ctx.label_description = desc
+                  end
+                  -- 处理Java方法列表
+                  if string.find(ctx.label, ":") and vim.o.filetype == "java" then
+                    local after_split_label = vim.split(ctx.label, " : ")
+                    ctx.label = after_split_label[1]
+                    ctx.label_description = after_split_label[#after_split_label]
                   end
 
                   return ctx.label .. ctx.label_detail
