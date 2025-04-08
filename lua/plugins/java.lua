@@ -334,11 +334,9 @@ return {
           end
 
           local string_prefix = ""
-
           for _, value in ipairs(line) do
             string_prefix = string_prefix .. tostring(value)
           end
-
           local hl_icon = icons.get_icon(node.data)
           local icon = hl_icon.icon
           -- 删除了空格
@@ -354,24 +352,4 @@ return {
       end
     end,
   },
-  -- {
-  --   "javiorfo/nvim-springtime",
-  --   lazy = true,
-  --   cmd = { "Springtime", "SpringtimeUpdate" },
-  --   dependencies = {
-  --     "javiorfo/nvim-popcorn",
-  --     "javiorfo/nvim-spinetta",
-  --     "hrsh7th/nvim-cmp",
-  --   },
-  --   build = function()
-  --     require("springtime.core").update()
-  --   end,
-  --   opts = function(_, opts)
-  --     opts.dialog = {
-  --       -- 自定义快捷键
-  --       generate_keymap = "<leader>gn",
-  --     }
-  --     return opts
-  --   end,
-  -- },
 }
