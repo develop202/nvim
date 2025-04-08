@@ -4,8 +4,8 @@ local label_description_width = 30
 local cmp_docs_max_width = 80
 local cmp_docs_max_height = 20
 if OwnUtil.sys.is_termux() then
-  label_width = math.floor(0.6 * vim.o.columns)
-  label_description_width = math.floor(0.35 * vim.o.columns)
+  label_width = math.floor(0.5 * vim.o.columns)
+  label_description_width = math.floor(0.4 * vim.o.columns)
   cmp_docs_max_width = math.floor(0.5 * vim.o.columns)
   cmp_docs_max_height = 7
 end
@@ -121,6 +121,21 @@ return {
                   fill = true,
                   max = label_width,
                 },
+                text = function(ctx)
+                  -- 在Java和XML文件里面分割补全项
+                  if string.match(ctx.label, " - ") then
+                    local after_split_label = vim.split(ctx.label, " - ")
+                    ctx.label = after_split_label[1]
+                    local desc = after_split_label[3]
+                    if string.match(after_split_label[3], ":") then
+                      local after_split_desc = vim.split(after_split_label[3], ":")
+                      desc = after_split_desc[1] .. ":" .. after_split_desc[3]
+                    end
+                    ctx.label_description = desc
+                  end
+
+                  return ctx.label .. ctx.label_detail
+                end,
               },
               label_description = {
                 width = {
