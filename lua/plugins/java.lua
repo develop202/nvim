@@ -12,7 +12,7 @@ return {
       local bundles = {}
 
       -- 全端inlay_hint都会报错
-      local inlay_hint_enabled = "none"
+      local inlay_hint_enabled = "all"
 
       -- 添加dap扩展jar包
       if LazyVim.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
@@ -104,10 +104,54 @@ return {
       if vim.env["JAVA21_HOME"] then
         java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
       end
-      vim.list_extend(opts.cmd, {
-        "--java-executable",
+      local function get_config_file()
+        local os_type = OwnUtil.sys.get_os_type()
+        if os_type == "Linux" then
+          return "/config_linux"
+        elseif os_type == "macOS" then
+          return "/config_mac"
+        elseif os_type == "Windows" then
+          return "/config_win"
+        end
+        error("未知系统")
+      end
+      -- jdtls目录
+      local base_dir = mason_registry.get_package("jdtls"):get_install_path()
+      local project_name = opts.project_name(opts.root_dir())
+      local lombok_jar_args = ""
+      -- lombok
+      if LazyVim.has("mason.nvim") then
+        local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
+        lombok_jar_args = string.format("-javaagent:%s", lombok_jar)
+      end
+      -- 自定义启动命令
+      local cmd = {
         java_bin,
-      })
+        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+        "-Dosgi.bundles.defaultStartLevel=4",
+        "-Declipse.product=org.eclipse.jdt.ls.core.product",
+        "-Dosgi.checkConfiguration=true",
+        "-Dosgi.sharedConfiguration.area=" .. base_dir .. get_config_file(),
+        "-Dosgi.sharedConfiguration.area.readOnly=true",
+        "-Dosgi.configuration.cascaded=true",
+        "-Xms256M",
+        "-Xmx256M",
+        "-XX:+UseG1GC",
+        "--add-modules=ALL-SYSTEM",
+        "--add-opens",
+        "java.base/java.util=ALL-UNNAMED",
+        "--add-opens",
+        "java.base/java.lang=ALL-UNNAMED",
+        lombok_jar_args,
+
+        "-jar",
+        vim.fn.glob(base_dir .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
+        "-configuration",
+        opts.jdtls_config_dir(project_name),
+        "-data",
+        opts.jdtls_workspace_dir(project_name),
+      }
+      opts.cmd = cmd
 
       opts.jdtls = jdtls_config
       opts.settings = {
@@ -122,6 +166,16 @@ return {
           inlayHints = {
             parameterNames = {
               enabled = inlay_hint_enabled,
+            },
+          },
+          completion = {
+            filteredTypes = {
+              "com.sun.*",
+              "io.micrometer.shaded.*",
+              "java.awt.*",
+              "org.graalvm.*",
+              "jdk.*",
+              "sun.*",
             },
           },
         },
