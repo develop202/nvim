@@ -1,104 +1,15 @@
+local label_width = 40
+local label_description_width = 30
+
+local cmp_docs_max_width = 80
+local cmp_docs_max_height = 20
+if OwnUtil.sys.is_termux() then
+  label_width = math.floor(0.5 * vim.o.columns)
+  label_description_width = math.floor(0.4 * vim.o.columns)
+  cmp_docs_max_width = math.floor(0.5 * vim.o.columns)
+  cmp_docs_max_height = 7
+end
 return {
-  {
-    "hrsh7th/nvim-cmp",
-    options = true,
-    dependencies = {
-      -- "Jezda1337/nvim-html-css",
-      {
-        "brenoprata10/nvim-highlight-colors",
-        -- 只用来显示补全栏颜色
-        config = function() end,
-      },
-    },
-    opts = function(_, opts)
-      opts.formatting = {
-        fields = { "kind", "abbr", "menu" },
-        format = function(entry, item)
-          -- termux屏幕窄，补全列表显示不全，所以写死了
-          if OwnUtil.sys.is_termux() then
-            -- 控制cmp补全框宽度
-            local str = require("cmp.utils.str")
-            local widths = {
-              abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
-              menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
-            }
-            for key, width in pairs(widths) do
-              if item[key] and vim.fn.strdisplaywidth(str.trim(item[key])) > width then
-                item[key] = vim.fn.strcharpart(str.trim(item[key]), 0, width - 1) .. "…"
-              end
-            end
-          end
-          local icons = require("lazyvim.config").icons.kinds
-          local source = entry.source
-          -- 意义不大" "
-          if icons[item.kind] then
-            item.kind = icons[item.kind]
-          end
-
-          local is_emmet = source:get_debug_name() == "nvim_lsp:emmet_language_server"
-            or (source:get_debug_name() == "nvim_lsp:volar" and item.kind == icons["Text"])
-          -- 自定义emmet样式
-          if is_emmet then
-            item.kind = icons["Property"]
-            item.menu = "Emmet 缩写"
-          end
-
-          if item.menu == "" or item.menu == nil then
-            if source.name == "nvim_lsp" then
-              local debug_name = source:get_debug_name()
-              item.menu = vim.split(debug_name, ":")[2]
-            else
-              item.menu = source.name
-            end
-          end
-
-          if item.kind == icons["Color"] then
-            local utils = require("nvim-highlight-colors.utils")
-            local colors = require("nvim-highlight-colors.color.utils")
-
-            local entryItem = entry:get_completion_item()
-            if entryItem == nil then
-              return item
-            end
-
-            local entryDoc = entryItem.documentation
-            if entryDoc == nil or type(entryDoc) ~= "string" then
-              return item
-            end
-
-            local color_hex = colors.get_color_value(entryDoc)
-            if color_hex == nil then
-              return item
-            end
-            local highlight_group = utils.create_highlight_name("fg-" .. color_hex)
-            vim.api.nvim_set_hl(0, highlight_group, { fg = color_hex, default = true })
-
-            item.kind_hl_group = highlight_group
-            item.kind = "󰝤 "
-            return item
-          end
-          if source.name == "html-css" then
-            item.menu = "[" .. (entry.completion_item.provider or "html-css") .. "]"
-          end
-
-          return item
-        end,
-      }
-      -- nvim_lsp源过滤
-      opts.sources[2].entry_filter = function(entry, ctx)
-        local kinds = require("cmp.types").lsp.CompletionItemKind
-        -- 过滤vtsls补全字符串
-        if entry.source:get_debug_name() == "nvim_lsp:vtsls" then
-          return kinds[entry:get_kind()] ~= "Text"
-        end
-
-        return true
-      end
-      table.insert(opts.sources, {
-        name = "html-css",
-      })
-    end,
-  },
   {
     "Jezda1337/nvim-html-css",
     ft = OwnUtil.utils.ft.cmp_html_css_ft,
@@ -129,5 +40,128 @@ return {
         style_sheets = {},
       }
     end,
+  },
+
+  {
+    -- nvim-cmp补全源兼容层
+    "saghen/blink.compat",
+    version = "*",
+    lazy = true, -- Automatically loads when required by blink.cmp
+    opts = {},
+  },
+  {
+    "Saghen/blink.cmp",
+    optional = true,
+    dependencies = {
+      -- "Jezda1337/nvim-html-css",
+      {
+        "brenoprata10/nvim-highlight-colors",
+        -- 只用来显示补全栏颜色
+        config = function() end,
+      },
+    },
+    opts = {
+      completion = {
+        ghost_text = {
+          show_with_selection = false,
+        },
+        documentation = {
+          window = {
+            -- 特殊手段防止遮挡补全项
+            min_width = 1,
+            max_height = cmp_docs_max_height,
+            max_width = cmp_docs_max_width,
+          },
+        },
+        list = {
+          selection = {
+            -- 禁用自动插入
+            auto_insert = false,
+          },
+        },
+        menu = {
+          draw = {
+            -- 取消补全项图标与文本间的空格
+            gap = 0,
+            treesitter = { "lsp" },
+            columns = { { "kind_icon" }, { "label", "label_description", gap = 1 } },
+
+            components = {
+              -- customize the drawing of kind icons
+              kind_icon = {
+                text = function(ctx)
+                  -- default kind icon
+                  local icon = ctx.kind_icon
+                  -- if LSP source, check for color derived from documentation
+                  if ctx.item.source_name == "LSP" and ctx.kind_icon == " " then
+                    local color_item =
+                      require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                    if color_item and color_item.abbr then
+                      icon = "󰝤 "
+                    end
+                  end
+                  return icon .. ctx.icon_gap
+                end,
+                highlight = function(ctx)
+                  -- default highlight group
+                  local highlight = "BlinkCmpKind" .. ctx.kind
+                  -- if LSP source, check for color derived from documentation
+                  if ctx.item.source_name == "LSP" then
+                    local color_item =
+                      require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                    if color_item and color_item.abbr_hl_group then
+                      highlight = color_item.abbr_hl_group
+                    end
+                  end
+                  return highlight
+                end,
+              },
+              label = {
+                width = {
+                  fill = true,
+                  max = label_width,
+                },
+                text = function(ctx)
+                  -- 在Java和XML里面分割补全项
+                  if string.find(ctx.label, "-") and (vim.o.filetype == "java" or vim.o.filetype == "xml") then
+                    local after_split_label = vim.split(ctx.label, " - ")
+                    ctx.label = after_split_label[1]
+                    local desc = after_split_label[#after_split_label]
+                    if #after_split_label == 3 and string.find(after_split_label[3], ":") then
+                      local after_split_desc = vim.split(after_split_label[3], ":")
+                      desc = after_split_desc[1] .. ":" .. after_split_desc[3]
+                    end
+                    ctx.label_description = desc
+                  end
+                  -- 处理Java方法列表
+                  if string.find(ctx.label, ":") and vim.o.filetype == "java" then
+                    local after_split_label = vim.split(ctx.label, " : ")
+                    ctx.label = after_split_label[1]
+                    ctx.label_description = after_split_label[#after_split_label]
+                  end
+
+                  return ctx.label .. ctx.label_detail
+                end,
+              },
+              label_description = {
+                width = {
+                  max = label_description_width,
+                },
+              },
+            },
+          },
+        },
+      },
+      sources = {
+        default = { "html-css" },
+        providers = {
+          -- 添加源
+          ["html-css"] = {
+            name = "html-css",
+            module = "blink.compat.source",
+          },
+        },
+      },
+    },
   },
 }

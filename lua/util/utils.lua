@@ -16,4 +16,20 @@ M.ft.cmp_html_css_ft = {
   "templ",
   "astro",
 }
+M.ft.show_color_ft = {
+  -- 解包
+  unpack(M.ft.cmp_html_css_ft),
+  "scss",
+  "css",
+  "less",
+  "javascript",
+  "typescript",
+  "json",
+  "yaml",
+  "markdown",
+  "lua",
+  "go",
+  "kotlin",
+  "dart",
+}
 return M
