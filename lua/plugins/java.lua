@@ -1,4 +1,10 @@
 local HOME = os.getenv("HOME")
+
+local GC_type = "-XX:+UseZGC"
+if OwnUtil.sys.is_termux() then
+  -- termux不支持ZGC
+  GC_type = "-XX:+UseG1GC"
+end
 return {
   -- Set up nvim-jdtls to attach to java files.
   {
@@ -118,12 +124,6 @@ return {
       -- jdtls目录
       local base_dir = mason_registry.get_package("jdtls"):get_install_path()
       local project_name = opts.project_name(opts.root_dir())
-      local lombok_jar_args = ""
-      -- lombok
-      if LazyVim.has("mason.nvim") then
-        local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
-        lombok_jar_args = string.format("-javaagent:%s", lombok_jar)
-      end
       -- 自定义启动命令
       local cmd = {
         java_bin,
@@ -136,21 +136,26 @@ return {
         "-Dosgi.configuration.cascaded=true",
         "-Xms256M",
         "-Xmx256M",
-        "-XX:+UseG1GC",
+        GC_type,
         "--add-modules=ALL-SYSTEM",
         "--add-opens",
         "java.base/java.util=ALL-UNNAMED",
         "--add-opens",
         "java.base/java.lang=ALL-UNNAMED",
-        lombok_jar_args,
-
-        "-jar",
-        vim.fn.glob(base_dir .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
-        "-configuration",
-        opts.jdtls_config_dir(project_name),
-        "-data",
-        opts.jdtls_workspace_dir(project_name),
       }
+
+      -- lombok
+      if mason_registry.is_installed("jdtls") then
+        local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
+        table.insert(cmd, string.format("-javaagent:%s", lombok_jar))
+      end
+
+      table.insert(cmd, "-jar")
+      table.insert(cmd, vim.fn.glob(base_dir .. "/plugins/org.eclipse.equinox.launcher_*.jar"))
+      table.insert(cmd, "-configuration")
+      table.insert(cmd, opts.jdtls_config_dir(project_name))
+      table.insert(cmd, "-data")
+      table.insert(cmd, opts.jdtls_workspace_dir(project_name))
       opts.cmd = cmd
 
       opts.jdtls = jdtls_config
@@ -198,7 +203,6 @@ return {
       local util = require("spring_boot.util")
       -- 默认为vscode插件
       local ls_path = require("spring_boot.vscode").find_one("/language-server")
-      local GC_type = "-XX:+UseZGC"
       local java_bin = util.java_bin()
 
       if vim.env["JAVA21_HOME"] then
@@ -208,7 +212,6 @@ return {
       -- 判断packages是否安装了spring-boot
       if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls") then
         ls_path = HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls/language-server"
-        GC_type = "-XX:+UseG1GC"
       end
 
       local server_jar = vim.split(vim.fn.glob(ls_path .. "/spring-boot-language-server*.jar"), "\n")
