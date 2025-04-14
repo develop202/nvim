@@ -1,3 +1,7 @@
+local kulala_ls_cmd = { "kulala-ls", "--stdio" }
+if OwnUtil.sys.is_termux() then
+  table.insert(kulala_ls_cmd, 1, "nasl")
+end
 return {
   {
     "neovim/nvim-lspconfig",
@@ -45,7 +49,9 @@ return {
             },
           },
         },
-        kulala_ls = {},
+        kulala_ls = {
+          cmd = kulala_ls_cmd,
+        },
         basedpyright = {
           settings = {
             basedpyright = {
