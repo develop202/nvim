@@ -5,6 +5,14 @@ if OwnUtil.sys.is_termux() then
   -- termux不支持ZGC
   GC_type = "-XX:+UseG1GC"
 end
+
+-- Java启动命令
+local java_bin = vim.env["JAVA_HOME"] .. "/bin/java" or "java"
+local java21_bin = vim.env["JAVA21_HOME"]
+if java21_bin then
+  java_bin = java21_bin .. "/bin/java"
+end
+
 return {
   -- Set up nvim-jdtls to attach to java files.
   {
@@ -105,11 +113,6 @@ return {
         ---@diagnostic disable-next-line: undefined-field
         or LazyVim.lsp.get_raw_config("jdtls").default_config.root_dir
 
-      -- 修改jdtls启动命令
-      local java_bin = require("spring_boot.util").java_bin()
-      if vim.env["JAVA21_HOME"] then
-        java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
-      end
       local function get_config_file()
         local os_type = OwnUtil.sys.get_os_type()
         if os_type == "Linux" then
@@ -200,14 +203,8 @@ return {
         vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
         return
       end
-      local util = require("spring_boot.util")
       -- 默认为vscode插件
       local ls_path = require("spring_boot.vscode").find_one("/language-server")
-      local java_bin = util.java_bin()
-
-      if vim.env["JAVA21_HOME"] then
-        java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
-      end
 
       -- 判断packages是否安装了spring-boot
       if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/nvim/mason/packages/spring-boot-ls") then
@@ -236,6 +233,12 @@ return {
         autocmd = true,
         server = {
           cmd = cmd,
+          handlers = {
+            -- 与jdtls的inlay hints存在冲突,故暂停
+            ["textDocument/inlayHint"] = function()
+              return nil
+            end,
+          },
         },
         ls_path = ls_path,
       }
