@@ -7,10 +7,12 @@ if OwnUtil.sys.is_termux() then
 end
 
 -- Java启动命令
-local java_bin = vim.env["JAVA_HOME"] .. "/bin/java" or "java"
-local java21_bin = vim.env["JAVA21_HOME"]
-if java21_bin then
-  java_bin = java21_bin .. "/bin/java"
+local java_bin = "java"
+if vim.env["JAVA_HOME"] then
+  java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
+end
+if vim.env["JAVA21_HOME"] then
+  java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
 end
 
 return {
