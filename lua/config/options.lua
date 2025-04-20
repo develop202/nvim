@@ -39,3 +39,7 @@ if vim.fn.has("wsl") == 1 then
     cache_enable = 0,
   }
 end
+-- :e刷新文件不显示inlay hints,这里强制全部开启
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.lsp.inlay_hint.enable()
+end
