@@ -205,12 +205,15 @@ return {
       end
       -- 默认为vscode插件
       local ls_path = require("spring_boot.vscode").find_one("/language-server")
-      local mason_registry = require("mason-registry")
 
-      -- 判断packages是否安装了spring-boot
+      local mason_registry = require("mason-registry")
+      -- 判断mason是否安装了spring-boot
       if mason_registry.is_installed("spring-boot-tools") then
         local spring_boot_pkg = mason_registry.get_package("spring-boot-tools")
         ls_path = spring_boot_pkg:get_install_path() .. "/extension/language-server"
+      else
+        vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
+        return
       end
 
       local server_jar = vim.split(vim.fn.glob(ls_path .. "/spring-boot-language-server*.jar"), "\n")

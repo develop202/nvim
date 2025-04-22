@@ -23,6 +23,7 @@ return {
             -- 对Python导入包进行排序
             "isort",
             "gradle-language-server",
+            "spring-boot-tools",
           })
 
           opts.registries = {
