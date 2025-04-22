@@ -24,6 +24,12 @@ return {
             "isort",
             "gradle-language-server",
           })
+
+          opts.registries = {
+            "github:mason-org/mason-registry",
+            -- 自定义spring-boot-tools
+            "github:develop202/mason-registry",
+          }
         end,
       },
     },
