@@ -68,21 +68,33 @@ return {
       end
 
       -- 添加Java-dep
-      -- 默认使用vscode插件
-      local java_dependency_path = HOME .. "/.vscode/extensions"
-      -- 使用code-server
-      if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/code-server/") then
-        java_dependency_path = HOME .. "/.local/share/code-server/extensions"
+      local java_dependency_path = nil
+      local java_dependency_bundle = nil
+      local path_prefix = ""
+      -- 是否在mason安装
+      if mason_registry.is_installed("java-project-manager") then
+        local java_project_manager = mason_registry.get_package("java-project-manager"):get_install_path()
+        java_dependency_path = java_project_manager .. "/extensions/server"
+      else
+        -- 默认使用vscode插件
+        if (vim.uv or vim.loop).fs_stat(HOME .. "/.vscode/extensions") then
+          java_dependency_path = HOME .. "/.vscode/extensions"
+        end
+        -- 使用code-server
+        if (vim.uv or vim.loop).fs_stat(HOME .. "/.local/share/code-server/") then
+          java_dependency_path = HOME .. "/.local/share/code-server/extensions"
+        end
+        path_prefix = "/vscjava.vscode-java-dependency-*/server"
       end
-      local java_dependency_bundle = vim.split(
-        vim.fn.glob(
-          java_dependency_path .. "/vscjava.vscode-java-dependency-*/server/com.microsoft.jdtls.ext.core-*.jar"
-        ),
-        "\n"
-      )
 
-      if java_dependency_bundle[1] ~= "" then
-        vim.list_extend(bundles, java_dependency_bundle)
+      if java_dependency_path then
+        java_dependency_bundle =
+          vim.split(vim.fn.glob(java_dependency_path .. path_prefix .. "/com.microsoft.jdtls.ext.core-*.jar"), "\n")
+      end
+      if java_dependency_bundle then
+        if java_dependency_bundle[1] ~= "" then
+          vim.list_extend(bundles, java_dependency_bundle)
+        end
       end
 
       local jdtls = require("jdtls")

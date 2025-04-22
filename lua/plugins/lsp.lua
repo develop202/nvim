@@ -24,6 +24,7 @@ return {
             "isort",
             "gradle-language-server",
             "spring-boot-tools",
+            "java-project-manager",
           })
 
           opts.registries = {
