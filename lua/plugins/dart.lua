@@ -5,7 +5,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    opts = function()
+    opts = function(_, opts)
       local utils = require("flutter-tools.utils")
       require("flutter-tools.ui").notify = function(msg, level, opts)
         opts, level = opts or {}, level or require("flutter-tools.ui").INFO
@@ -20,6 +20,11 @@ return {
           vim.notify(msg, level, args)
         end
       end
+      opts.lsp = {
+        settings = {
+          completeFunctionCalls = false,
+        },
+      }
     end,
     config = true,
   },

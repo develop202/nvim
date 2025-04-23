@@ -152,6 +152,7 @@ return {
         "-Xms256M",
         "-Xmx256M",
         GC_type,
+        "--enable-native-access=ALL-UNNAMED",
         "--add-modules=ALL-SYSTEM",
         "--add-opens",
         "java.base/java.util=ALL-UNNAMED",
@@ -186,16 +187,6 @@ return {
           inlayHints = {
             parameterNames = {
               enabled = inlay_hint_enabled,
-            },
-          },
-          completion = {
-            filteredTypes = {
-              "com.sun.*",
-              "io.micrometer.shaded.*",
-              "java.awt.*",
-              "org.graalvm.*",
-              "jdk.*",
-              "sun.*",
             },
           },
         },
@@ -239,6 +230,7 @@ return {
         "-Xms64m",
         "-Xmx64m",
         GC_type,
+        "--enable-native-access=ALL-UNNAMED",
         "-Dsts.lsp.client=vscode",
         "-Dsts.log.file=/dev/null",
         "-jar",
