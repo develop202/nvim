@@ -97,6 +97,9 @@ return {
         -- jdtls = function()
         --   return true
         -- end,
+        marksman = function()
+          return OwnUtil.sys.is_termux()
+        end,
       },
     },
   },
