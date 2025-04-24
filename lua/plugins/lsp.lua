@@ -25,12 +25,14 @@ return {
             "gradle-language-server",
             "spring-boot-tools",
             "java-project-manager",
+            "kulala-fmt",
+            "kulala-ls",
           })
 
           opts.registries = {
-            "github:mason-org/mason-registry",
-            -- 自定义spring-boot-tools
+            -- 自定义注册表
             "github:develop202/mason-registry",
+            "github:mason-org/mason-registry",
           }
         end,
       },
@@ -116,7 +118,7 @@ return {
         -- .http格式化工具
         kulala = {
           command = "kulala-fmt",
-          args = { "$FILENAME" },
+          args = { "format", "$FILENAME" },
           stdin = false,
         },
         sqlfluff = {
