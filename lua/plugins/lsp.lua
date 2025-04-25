@@ -25,6 +25,8 @@ return {
             "gradle-language-server",
             "spring-boot-tools",
             "java-project-manager",
+            "lemminx",
+            "lemminx-maven",
             "kulala-fmt",
             "kulala-ls",
           })

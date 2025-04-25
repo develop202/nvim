@@ -6,14 +6,7 @@ if OwnUtil.sys.is_termux() then
   GC_type = "-XX:+UseG1GC"
 end
 
--- Java启动命令
-local java_bin = "java"
-if vim.env["JAVA_HOME"] then
-  java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
-end
-if vim.env["JAVA21_HOME"] then
-  java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
-end
+local java_bin = OwnUtil.utils.cmd.java_bin()
 
 return {
   -- Set up nvim-jdtls to attach to java files.
@@ -27,7 +20,7 @@ return {
       local jdtls_config = {}
       local bundles = {}
 
-      -- 全端inlay_hint都会报错
+      -- 开启inlay_hint
       local inlay_hint_enabled = "all"
 
       -- 添加dap扩展jar包
@@ -74,7 +67,7 @@ return {
       -- 是否在mason安装
       if mason_registry.is_installed("java-project-manager") then
         local java_project_manager = mason_registry.get_package("java-project-manager"):get_install_path()
-        java_dependency_path = java_project_manager .. "/extensions/server"
+        java_dependency_path = java_project_manager
       else
         -- 默认使用vscode插件
         if (vim.uv or vim.loop).fs_stat(HOME .. "/.vscode/extensions") then

@@ -2,6 +2,7 @@
 local M = {}
 
 M.ft = {}
+M.cmd = {}
 
 M.ft.cmp_html_css_ft = {
   "html",
@@ -32,4 +33,17 @@ M.ft.show_color_ft = {
   "kotlin",
   "dart",
 }
+
+M.cmd.java_bin = function()
+  -- Java启动命令
+  local java_bin = "java"
+  if vim.env["JAVA_HOME"] then
+    java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
+  end
+  if vim.env["JAVA21_HOME"] then
+    java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
+  end
+  return java_bin
+end
+
 return M
