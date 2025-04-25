@@ -10,6 +10,20 @@ return {
         "williamboman/mason.nvim",
         optional = true,
         opts = function(_, opts)
+          if OwnUtil.sys.is_termux() then
+            local mason_registry = require("mason-registry")
+            -- termux上部分lsp不能直接安装，需要在本地安装后链接过去
+            -- ruff 编译过慢
+            OwnUtil.utils.termux_use_local_lsp(mason_registry, "ruff")
+            -- clangd 不支持termux
+            OwnUtil.utils.termux_use_local_lsp(mason_registry, "clangd")
+            -- codelldb 不支持termux
+            if not mason_registry.is_installed("codelldb") then
+              -- 创建lsp目录
+              vim.cmd("!mkdir -p " .. vim.fn.stdpath("data") .. "/mason/packages/codelldb")
+              vim.notify("codelldb无法安装，仅提示操作成功！")
+            end
+          end
           vim.list_extend(opts.ensure_installed, {
             "bash-language-server",
             "css-lsp",
