@@ -6,7 +6,7 @@ vim.g.lemminx_enabled = true
 local mason_registry = require("mason-registry")
 if mason_registry.is_installed("lemminx") then
   local seg = ":"
-  if OwnUtil.sys.get_os_type() == "Windows" then
+  if OwnUtil.sys.is_windows() then
     seg = ";"
   end
   local lemminx_jars = {}

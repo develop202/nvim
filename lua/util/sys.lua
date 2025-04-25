@@ -1,12 +1,6 @@
 ---@class util.sys
 local M = {}
 
---- 判断termux环境
----@return boolean
-M.is_termux = function()
-  return os.getenv("HOME") == "/data/data/com.termux/files/home"
-end
-
 --- 判断系统,全部小写。win|mac|linux|unknown
 ---@return string
 M.get_os_type = function()
@@ -32,4 +26,27 @@ M.get_os_type = function()
   return "unknown"
 end
 
+--- 判断termux环境
+---@return boolean
+M.is_termux = function()
+  return os.getenv("HOME") == "/data/data/com.termux/files/home"
+end
+
+--- 判断是不是linux系统
+---@return  boolean
+M.is_linux = function()
+  return M.get_os_type() == "linux"
+end
+
+--- 判断是不是macos系统
+---@return boolean
+M.is_macos = function()
+  return M.get_os_type() == "mac"
+end
+
+--- 判断是不是windows系统
+---@return boolean
+M.is_windows = function()
+  return M.get_os_type() == "win"
+end
 return M

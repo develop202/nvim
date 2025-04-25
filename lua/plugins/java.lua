@@ -119,12 +119,12 @@ return {
         or LazyVim.lsp.get_raw_config("jdtls").default_config.root_dir
 
       local function get_config_file()
-        local os_type = OwnUtil.sys.get_os_type()
-        if os_type == "Linux" then
+        local sys = OwnUtil.sys
+        if sys.is_linux() then
           return "/config_linux"
-        elseif os_type == "macOS" then
+        elseif sys.is_macos() then
           return "/config_mac"
-        elseif os_type == "Windows" then
+        elseif sys.is_windows() then
           return "/config_win"
         end
         error("未知系统")
