@@ -80,4 +80,47 @@ M.termux_use_local_lsp = function(mason_registry, server_name)
   end
 end
 
+--- termux端时修改文件某行文本，性能挺好
+---@param file_path string 要修改的文件路径
+---@param line_number integer 要修改的行号（从 1 开始）
+---@param new_line_content string 新的行内容
+M.termux_change_file_line = function(file_path, line_number, new_line_content)
+  -- 打开文件以读取模式
+  local file = io.open(file_path, "r")
+  if not file then
+    vim.notify("无法打开文件: " .. file_path)
+    return
+  end
+
+  -- 读取文件的所有行到一个表中
+  local lines = {}
+  for line in file:lines() do
+    table.insert(lines, line)
+  end
+  file:close()
+
+  -- 检查行号是否在有效范围内
+  if line_number > 0 and line_number <= #lines then
+    -- 修改指定行的内容
+    lines[line_number] = new_line_content
+  else
+    vim.notify("无效的行号")
+    return
+  end
+  -- 打开文件以写入模式
+  file = io.open(file_path, "w")
+  if not file then
+    vim.notify("无法打开文件以写入: " .. file_path)
+    return
+  end
+
+  -- 将修改后的行写回到文件中
+  for _, line in ipairs(lines) do
+    file:write(line .. "\n")
+  end
+  file:close()
+
+  -- print("文件已成功修改")
+end
+
 return M

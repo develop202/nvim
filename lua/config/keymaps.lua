@@ -9,7 +9,27 @@ vim.keymap.set("n", "<leader>fd", function()
 end, { desc = "格式化文档" })
 -- local opts = { noremap = true, silent = true }
 -- 大纲
-vim.keymap.set("n", "<leader>ol", "<cmd>Outline<CR>", { desc = "文件大纲" })
+vim.keymap.set("n", "<leader>ol", function()
+  if not vim.g.outline_is_loaded then
+    -- 去空格
+    OwnUtil.utils.termux_change_file_line(
+      vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
+      867,
+      "    line = line .. node.name"
+    )
+    -- 去高亮
+    OwnUtil.utils.termux_change_file_line(
+      vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
+      881,
+      "    node.prefix_length = hl_end"
+    )
+    -- 描述outline已被使用
+    vim.g.outline_is_loaded = 1
+  end
+
+  -- 显示大纲
+  vim.cmd("Outline")
+end, { desc = "文件大纲" })
 
 --窗口大小
 vim.keymap.set("n", "<C-left>", "<C-w><", { desc = "向左调整窗口" })

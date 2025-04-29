@@ -30,3 +30,44 @@ vim.api.nvim_set_hl(0, "PropertiesIcon", { fg = "#ced0d6" })
 --     vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
 --   end,
 -- })
+
+-- 退出前恢复文件
+vim.api.nvim_create_autocmd("QuitPre", {
+  group = vim.api.nvim_create_augroup("restore_files", { clear = true }),
+  callback = function()
+    -- 恢复java-dep图标与文字间隔
+    if vim.g.java_deps_loaded then
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
+        77,
+        '    table.insert(lines, string_prefix .. icon .. " " .. node.label)'
+      )
+    end
+
+    -- 恢复outline图标与文本间空格和高亮
+    if vim.g.outline_is_loaded then
+      -- 空格
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
+        867,
+        "    line = line .. ' ' .. node.name"
+      )
+      -- 高亮
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
+        881,
+        "    node.prefix_length = hl_end + 1"
+      )
+    end
+
+    -- 恢复dbui图标与文字间隔
+    if vim.g.dbui_loaded then
+      -- 恢复
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/vim-dadbod-ui/autoload/db_ui/drawer.vim",
+        362,
+        '  let content = map(copy(self.content), \'repeat(" ", shiftwidth() * v:val.level).v:val.icon.(!empty(v:val.icon) ? " " : "").v:val.label\')'
+      )
+    end
+  end,
+})
