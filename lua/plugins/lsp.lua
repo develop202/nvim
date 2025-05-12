@@ -7,7 +7,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         optional = true,
         opts = function(_, opts)
           if OwnUtil.sys.is_termux() then
@@ -51,6 +51,10 @@ return {
             "github:mason-org/mason-registry",
           }
         end,
+      },
+      {
+        "mason-org/mason-lspconfig.nvim",
+        event = "LazyFile",
       },
     },
     opts = {
