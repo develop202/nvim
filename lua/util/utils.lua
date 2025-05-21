@@ -5,6 +5,8 @@ local M = {}
 M.ft = {}
 --- 命令
 M.cmd = {}
+-- 启动页
+M.dashboard = {}
 
 --- 需要加载插件html-css-cmp的文件类型
 M.ft.cmp_html_css_ft = {
@@ -36,7 +38,7 @@ M.ft.show_color_ft = {
   "dart",
 }
 
--- 合并数组
+-- 合并数组,合并到第一个数组里面
 vim.list_extend(M.ft.show_color_ft, M.ft.cmp_html_css_ft)
 
 --- Java启动命令
@@ -122,5 +124,17 @@ M.termux_change_file_line = function(file_path, line_number, new_line_content)
 
   -- print("文件已成功修改")
 end
+
+M.dashboard.preset = {
+  header = table.concat({
+    -- 这样不太直观，看着挺丑的
+    "                 __                ",
+    "  ___    __  __ /\\_\\    ___ ___    ",
+    " / _ `\\ /\\ \\/\\ \\\\/\\ \\  / __` __`\\  ",
+    "/\\ \\/\\ \\\\ \\ \\_/ |\\ \\ \\/\\ \\/\\ \\/\\ \\ ",
+    "\\ \\_\\ \\_\\\\ \\___/  \\ \\_\\ \\_\\ \\_\\ \\_\\",
+    " \\/_/\\/_/ \\/__/    \\/_/\\/_/\\/_/\\/_/",
+  }, "\n"),
+}
 
 return M

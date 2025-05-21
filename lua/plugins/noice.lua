@@ -2,7 +2,11 @@ local noice_cmdline_min_width = 60
 local dashboard_width = 60
 if OwnUtil.sys.is_termux() then
   noice_cmdline_min_width = 30
-  dashboard_width = 45
+  -- 减少启动页面整体宽度
+  local width = vim.o.columns
+  if width < 75 then
+    dashboard_width = math.floor(0.8 * width)
+  end
 end
 
 return {
@@ -31,14 +35,7 @@ return {
       dashboard = {
         width = dashboard_width,
         preset = {
-          header = [[
-                 __                
-  ___    __  __ /\_\    ___ ___    
- / _ `\ /\ \/\ \\/\ \  / __` __`\  
-/\ \/\ \\ \ \_/ |\ \ \/\ \/\ \/\ \ 
-\ \_\ \_\\ \___/  \ \_\ \_\ \_\ \_\
- \/_/\/_/ \/__/    \/_/\/_/\/_/\/_/
-]],
+          header = OwnUtil.utils.dashboard.preset.header,
         },
       },
     },
