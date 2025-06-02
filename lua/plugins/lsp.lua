@@ -23,6 +23,12 @@ return {
               vim.cmd("!mkdir -p " .. vim.fn.stdpath("data") .. "/mason/packages/codelldb")
               vim.notify("codelldb无法安装，仅提示操作成功！")
             end
+            opts.ui = {
+              -- termux 边距相同
+              width = OwnUtil.utils.termux_dash_width(),
+              -- 0.9最上面有个_，看着难受
+              height = 0.8,
+            }
           end
           vim.list_extend(opts.ensure_installed, {
             "bash-language-server",

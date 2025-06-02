@@ -18,6 +18,13 @@ vim.opt.rtp:prepend(lazypath)
 _G.OwnUtil = require("util")
 
 require("lazy").setup({
+  git = {
+    -- 超时时间 秒
+    timeout = 10,
+  },
+  ui = {
+    size = { width = OwnUtil.utils.termux_dash_width() },
+  },
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },

@@ -137,4 +137,21 @@ M.dashboard.preset = {
   }, "\n"),
 }
 
+--- termux 边距相同的宽度
+---@return number
+M.termux_dash_width = function()
+  local width = vim.o.columns
+  local dash_width = math.floor(0.8 * width)
+  if OwnUtil.sys.is_termux() then
+    -- 减少启动页面整体宽度
+    if width < 75 then
+      -- 让两边边距相同
+      if (width - dash_width) % 2 == 1 then
+        dash_width = dash_width + 1
+      end
+    end
+  end
+  return dash_width
+end
+
 return M
