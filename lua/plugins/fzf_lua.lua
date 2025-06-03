@@ -24,10 +24,13 @@ return {
       ui_select = function(fzf_opts, items)
         return vim.tbl_deep_extend("force", fzf_opts, {
           winopts = {
-            width = 0.8,
+            width = OwnUtil.utils.termux_dash_width(),
           },
         })
       end,
+      winopts = {
+        width = OwnUtil.utils.termux_dash_width(),
+      },
     },
     keys = {
       {
