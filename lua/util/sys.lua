@@ -49,4 +49,20 @@ end
 M.is_windows = function()
   return M.get_os_type() == "win"
 end
+
+--- 判断是不是android系统
+---@return boolean
+M.is_android = function()
+  -- Check for Linux(Android) using uname command
+  local f1 = io.popen("uname -a", "r")
+  if f1 then
+    local uname = f1:read("*a")
+    f1:close()
+    if uname and uname:lower():find("android") then
+      return true
+    end
+  end
+  return false
+end
+
 return M

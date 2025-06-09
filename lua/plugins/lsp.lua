@@ -174,6 +174,21 @@ return {
             "--dialect=mysql",
           },
         },
+        phpcs = {
+          args = {
+            -- 不诊断注释内容
+            "--exclude=PEAR.Commenting.ClassComment"
+              .. ",PEAR.Commenting.FileComment"
+              .. ",Generic.Commenting.DocComment"
+              .. ",PEAR.Commenting.FunctionComment",
+            "-q",
+            "--report=json",
+            function()
+              return "--stdin-path=" .. vim.fn.expand("%:p:.")
+            end,
+            "-", -- need `-` at the end for stdin support
+          },
+        },
       },
     },
   },
