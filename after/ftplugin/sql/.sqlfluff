@@ -1,0 +1,4 @@
+[sqlfluff]
+dialect = mysql
+[sqlfluff:indentation]
+tab_space_size = 2

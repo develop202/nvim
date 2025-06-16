@@ -67,14 +67,14 @@ M.termux_use_local_lsp = function(mason_registry, server_name)
         -- 链接执行文件
         vim.cmd(
           string.format(
-            "!ln -sf %s %s",
+            "silent! !ln -sf %s %s",
             os.getenv("HOME") .. "/../usr/bin/" .. server_name,
             vim.fn.stdpath("data") .. "/mason/bin/" .. server_name
           )
         )
         -- 创建lsp目录
-        vim.cmd(string.format("!mkdir -p %s", vim.fn.stdpath("data") .. "/mason/packages/" .. server_name))
-        vim.notify(server_name .. "安装完成，请重启Neovim！")
+        vim.cmd(string.format("silent! !mkdir -p %s", vim.fn.stdpath("data") .. "/mason/packages/" .. server_name))
+        vim.notify(server_name .. "链接完成，请重启Neovim！")
       else
         vim.notify("未安装" .. server_name .. "!", vim.log.levels.WARN)
       end

@@ -154,6 +154,16 @@ return {
           -- 将方言改为mysql
           args = { "format", "--dialect=mysql", "-" },
         },
+        php_cs_fixer = {
+          args = {
+            "fix",
+            "$FILENAME",
+            -- 缩进两个空格
+            "--config="
+              .. vim.fn.stdpath("config")
+              .. "/after/ftplugin/php/phpCsFixerConfig.php",
+          },
+        },
       },
     },
   },
@@ -176,11 +186,9 @@ return {
         },
         phpcs = {
           args = {
-            -- 不诊断注释内容
-            "--exclude=PEAR.Commenting.ClassComment"
-              .. ",PEAR.Commenting.FileComment"
-              .. ",Generic.Commenting.DocComment"
-              .. ",PEAR.Commenting.FunctionComment",
+            -- 切换诊断宽松的规则
+            "--standard=PSR1",
+            -- "--exclude=PEAR.Commenting.ClassComment"
             "-q",
             "--report=json",
             function()

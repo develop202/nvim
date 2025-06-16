@@ -65,4 +65,14 @@ M.is_android = function()
   return false
 end
 
+--- 获得系统tmp目录
+---@return string tmp目录
+M.get_tmp_dir = function()
+  local tmp_dir = os.getenv("TMPDIR") or os.getenv("TEMP") or os.getenv("TMP")
+  if tmp_dir == nil or tmp_dir == "" then
+    tmp_dir = "/tmp"
+  end
+  return tmp_dir
+end
+
 return M
