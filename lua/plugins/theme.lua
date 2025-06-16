@@ -44,7 +44,7 @@ return {
         },
       }
 
-      if OwnUtil.sys.is_termux() then
+      if not vim.g.termux_italic then
         opts.italic = {
           -- termux上关闭斜体
           strings = vim.g.termux_italic,
