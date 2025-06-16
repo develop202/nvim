@@ -17,6 +17,12 @@ vim.opt.rtp:prepend(lazypath)
 --- 全局工具变量
 _G.OwnUtil = require("util")
 
+-- 主题中斜体
+vim.g.termux_italic = true
+if OwnUtil.sys.is_termux() then
+  vim.g.termux_italic = false
+end
+
 require("lazy").setup({
   git = {
     -- 超时时间 秒
