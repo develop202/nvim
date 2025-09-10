@@ -49,13 +49,13 @@ vim.api.nvim_create_autocmd("QuitPre", {
       -- 空格
       OwnUtil.utils.termux_change_file_line(
         vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
-        867,
+        872,
         "    line = line .. ' ' .. node.name"
       )
       -- 高亮
       OwnUtil.utils.termux_change_file_line(
         vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
-        881,
+        886,
         "    node.prefix_length = hl_end + 1"
       )
     end
