@@ -41,6 +41,9 @@ return {
       },
     },
     opts = {
+      cmdline = {
+        enabled = false,
+      },
       completion = {
         ghost_text = {
           show_with_selection = false,

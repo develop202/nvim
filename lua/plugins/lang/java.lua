@@ -25,8 +25,7 @@ return {
 
       -- 添加dap扩展jar包
       if LazyVim.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
-        local java_dbg_pkg = mason_registry.get_package("java-debug-adapter")
-        local java_dbg_path = java_dbg_pkg:get_install_path()
+        local java_dbg_path = vim.fn.expand("$MASON/packages/java-debug-adapter")
         local jar_patterns = {
           java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
         }
@@ -34,8 +33,7 @@ return {
         -- 添加test扩展jar包
         -- java-test also depends on java-debug-adapter.
         if mason_registry.is_installed("java-test") then
-          local java_test_pkg = mason_registry.get_package("java-test")
-          local java_test_path = java_test_pkg:get_install_path()
+          local java_test_path = vim.fn.expand("$MASON/packages/java-test")
           vim.list_extend(jar_patterns, {
             java_test_path .. "/extension/server/*.jar",
           })
@@ -52,8 +50,7 @@ return {
       -- 添加spring-boot jdtls扩展jar包
       if require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
         if mason_registry.is_installed("spring-boot-tools") then
-          local spring_boot_pkg = mason_registry.get_package("spring-boot-tools")
-          local jars = spring_boot_pkg:get_install_path() .. "/extension/jars/*.jar"
+          local jars = vim.fn.expand("$MASON/packages/spring-boot-tools/extension/jars/*.jar")
           -- 添加jars目录下所有的jar文件
           local bundle = vim.split(vim.fn.glob(jars), "\n")
           vim.list_extend(bundles, bundle)
@@ -66,8 +63,7 @@ return {
       local path_prefix = ""
       -- 是否在mason安装
       if mason_registry.is_installed("java-project-manager") then
-        local java_project_manager = mason_registry.get_package("java-project-manager"):get_install_path()
-        java_dependency_path = java_project_manager
+        java_dependency_path = vim.fn.expand("$MASON/packages/java-project-manager")
       else
         -- 默认使用vscode插件
         if (vim.uv or vim.loop).fs_stat(HOME .. "/.vscode/extensions") then
@@ -130,7 +126,7 @@ return {
         error("未知系统")
       end
       -- jdtls目录
-      local base_dir = mason_registry.get_package("jdtls"):get_install_path()
+      local base_dir = vim.fn.expand("$MASON/packages/jdtls")
       local project_name = opts.project_name(opts.root_dir())
       -- 自定义启动命令
       local cmd = {
@@ -155,7 +151,7 @@ return {
 
       -- lombok
       if mason_registry.is_installed("jdtls") then
-        local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
+        local lombok_jar = vim.fn.expand("$MASON/packages/jdtls/lombok.jar")
         table.insert(cmd, string.format("-javaagent:%s", lombok_jar))
       end
 
@@ -205,8 +201,7 @@ return {
       local mason_registry = require("mason-registry")
       -- 判断mason是否安装了spring-boot
       if mason_registry.is_installed("spring-boot-tools") then
-        local spring_boot_pkg = mason_registry.get_package("spring-boot-tools")
-        ls_path = spring_boot_pkg:get_install_path() .. "/extension/language-server"
+        ls_path = vim.fn.expand("$MASON/packages/spring-boot-tools/extension/language-server")
       else
         vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
         return

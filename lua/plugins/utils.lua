@@ -59,7 +59,7 @@ return {
     config = true,
   },
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     enabled = false,
   },
   {
