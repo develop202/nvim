@@ -60,6 +60,15 @@ vim.api.nvim_create_autocmd("QuitPre", {
       )
     end
 
+    -- vue文件请求outline特殊处理
+    if vim.g.outline_is_loaded_on_vue then
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/providers/nvim-lsp.lua",
+        62,
+        ""
+      )
+    end
+
     -- 恢复dbui图标与文字间隔
     if vim.g.dbui_loaded then
       -- 恢复

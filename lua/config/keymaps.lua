@@ -26,6 +26,14 @@ vim.keymap.set("n", "<leader>ol", function()
     -- 描述outline已被使用
     vim.g.outline_is_loaded = 1
   end
+  if vim.o.filetype == "vue" and not vim.g.outline_is_loaded_on_vue then
+    OwnUtil.utils.termux_change_file_line(
+      vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/providers/nvim-lsp.lua",
+      62,
+      "  if vim.o.filetype == 'vue' and use_client.name =='vtsls' and #clients >=2 then use_client = clients[2] end"
+    )
+    vim.g.outline_is_loaded_on_vue = true
+  end
 
   -- 显示大纲
   vim.cmd("Outline")
