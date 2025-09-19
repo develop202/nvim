@@ -1,4 +1,4 @@
-local HOME = os.getenv("HOME")
+local HOME = vim.env["HOME"]
 
 local GC_type = "-XX:+UseZGC"
 if OwnUtil.sys.is_termux() then

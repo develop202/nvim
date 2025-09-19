@@ -5,12 +5,12 @@ local M = {}
 ---@return string
 M.get_os_type = function()
   -- Check for Windows
-  if os.getenv("OS") and os.getenv("OS"):lower():find("windows") then
+  if vim.env["OS"] and vim.env["OS"]:lower():find("windows") then
     return "win"
   end
 
   -- Check for macOS
-  if os.getenv("OSTYPE") and os.getenv("OSTYPE"):lower():find("darwin") then
+  if vim.env["OSTYPE"] and vim.env["OSTYPE"]:lower():find("darwin") then
     return "mac"
   end
 
@@ -29,7 +29,7 @@ end
 --- 判断termux环境
 ---@return boolean
 M.is_termux = function()
-  return os.getenv("HOME") == "/data/data/com.termux/files/home"
+  return vim.env["HOME"] == "/data/data/com.termux/files/home"
 end
 
 --- 判断是不是linux系统
@@ -68,7 +68,7 @@ end
 --- 获得系统tmp目录
 ---@return string tmp目录
 M.get_tmp_dir = function()
-  local tmp_dir = os.getenv("TMPDIR") or os.getenv("TEMP") or os.getenv("TMP")
+  local tmp_dir = vim.env["TMPDIR"] or vim.env["TEMP"] or vim.env["TMP"]
   if tmp_dir == nil or tmp_dir == "" then
     tmp_dir = "/tmp"
   end

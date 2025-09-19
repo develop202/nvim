@@ -1,5 +1,5 @@
 local is_enabled = false
-local HOME = os.getenv("HOME")
+local HOME = vim.env["HOME"]
 
 if vim.env.TERM == "xterm-kitty" then
   -- Example for configuring Neovim to load user-installed installed Lua rocks:

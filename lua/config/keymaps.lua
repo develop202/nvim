@@ -23,16 +23,15 @@ vim.keymap.set("n", "<leader>ol", function()
       886,
       "    node.prefix_length = hl_end"
     )
-    -- 描述outline已被使用
-    vim.g.outline_is_loaded = 1
-  end
-  if vim.o.filetype == "vue" and not vim.g.outline_is_loaded_on_vue then
+
+    -- 处理vue lsp的特殊情况
     OwnUtil.utils.termux_change_file_line(
       vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/providers/nvim-lsp.lua",
       62,
       "  if vim.o.filetype == 'vue' and use_client.name =='vtsls' and #clients >=2 then use_client = clients[2] end"
     )
-    vim.g.outline_is_loaded_on_vue = true
+    -- 描述outline已被使用
+    vim.g.outline_is_loaded = 1
   end
 
   -- 显示大纲
@@ -94,3 +93,27 @@ end, { desc = "Delete Current Session" })
 
 -- JavaProject
 vim.keymap.set("n", "<leader>jp", "<cmd>JavaProject<CR>", { desc = "Java Projects" })
+
+-- 当mason无法安装lsp,本地可以安装,但显示需要更新时，可以去除更新显示
+vim.keymap.set("n", "<leader>su", function()
+  -- 获取lsp全称
+  vim.ui.input({
+    prompt = "📝 LSP全称: ",
+    default = "",
+  }, function(lspname)
+    if not lspname or lspname == "" then
+      return
+    end
+
+    -- 获取文件内容
+    vim.ui.input({
+      prompt = "📋 版本号: ",
+      default = "",
+    }, function(version)
+      if not version or version == "" then
+        return
+      end
+      OwnUtil.utils.update_lsp_version_when_not_newest(lspname, version)
+    end)
+  end)
+end, { desc = "强制修改LSP版本号" })

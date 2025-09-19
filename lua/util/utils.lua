@@ -68,7 +68,7 @@ M.termux_use_local_lsp = function(mason_registry, server_name)
         vim.cmd(
           string.format(
             "silent! !ln -sf %s %s",
-            os.getenv("HOME") .. "/../usr/bin/" .. server_name,
+            vim.env["HOME"] .. "/../usr/bin/" .. server_name,
             vim.fn.stdpath("data") .. "/mason/bin/" .. server_name
           )
         )
@@ -123,6 +123,43 @@ M.termux_change_file_line = function(file_path, line_number, new_line_content)
   file:close()
 
   -- print("文件已成功修改")
+end
+
+--- 强制修改lsp最新版本号
+---@param lspname string lsp名字 全称
+---@param version string 最新版本
+M.update_lsp_version_when_not_newest = function(lspname, version)
+  if not lspname or not version then
+    vim.notify("参数缺失，操作忽略")
+    return
+  end
+
+  local filepath = vim.env["HOME"] .. "/.local/share/nvim/mason/packages/" .. lspname .. "/mason-receipt.json"
+  local content = '{"name":"'
+    .. lspname
+    .. '","links":{"share":{},"bin":{"'
+    .. lspname
+    .. '":"'
+    .. lspname
+    .. '"},"opt":{}},"secondary_sources":[],"metrics":{"start_time":1745458740322,"completion_time":1745458799444},"schema_version":"1.1","primary_source":{"type":"registry+v1","id":"pkg:generic/'
+    .. lspname
+    .. "@"
+    .. version
+    .. '"}}'
+
+  M.write_file(filepath, content)
+
+  vim.notify("修改完成")
+end
+
+--- 覆盖写入文件内容
+---@param filepath string 文件路径
+---@param content string 写入内容
+M.write_file = function(filepath, content)
+  local file = assert(io.open(filepath, "w"))
+  file:write(content)
+  file:flush()
+  file:close()
 end
 
 M.dashboard.preset = {
