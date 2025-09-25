@@ -24,6 +24,8 @@ return {
               vim.notify("codelldb无法安装，仅提示操作成功！")
             end
             opts.ui = {
+              -- 新版本不判断nil，会始终留边框距离
+              border = "",
               -- termux 边距相同
               width = OwnUtil.utils.termux_dash_width(),
               -- 0.9最上面有个_，看着难受
