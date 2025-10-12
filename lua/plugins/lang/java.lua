@@ -49,10 +49,9 @@ return {
 
       -- 添加spring-boot jdtls扩展jar包
       if require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
-        if mason_registry.is_installed("spring-boot-tools") then
-          local jars = vim.fn.expand("$MASON/packages/spring-boot-tools/extension/jars/*.jar")
+        if mason_registry.is_installed("vscode-spring-boot-tools") then
           -- 添加jars目录下所有的jar文件
-          local bundle = vim.split(vim.fn.glob(jars), "\n")
+          local bundle = vim.split(vim.fn.glob("$MASON/packages/vscode-spring-boot-tools/extension/jars/*.jar"), "\n")
           vim.list_extend(bundles, bundle)
         end
       end
@@ -62,8 +61,8 @@ return {
       local java_dependency_bundle = nil
       local path_prefix = ""
       -- 是否在mason安装
-      if mason_registry.is_installed("java-project-manager") then
-        java_dependency_path = vim.fn.expand("$MASON/packages/java-project-manager")
+      if mason_registry.is_installed("vscode-java-dependency") then
+        java_dependency_path = vim.fn.expand("$MASON/packages/vscode-java-dependency/extension/server")
       else
         -- 默认使用vscode插件
         if (vim.uv or vim.loop).fs_stat(HOME .. "/.vscode/extensions") then
@@ -200,9 +199,9 @@ return {
 
       local mason_registry = require("mason-registry")
       -- 判断mason是否安装了spring-boot
-      if mason_registry.is_installed("spring-boot-tools") then
-        ls_path = vim.fn.expand("$MASON/packages/spring-boot-tools/extension/language-server")
-      else
+      if mason_registry.is_installed("vscode-spring-boot-tools") then
+        ls_path = vim.fn.expand("$MASON/packages/vscode-spring-boot-tools/extension/language-server")
+      elseif ls_path == "" or ls_path == nil then
         vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
         return
       end

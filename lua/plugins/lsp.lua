@@ -45,8 +45,8 @@ return {
             -- 对Python导入包进行排序
             "isort",
             "gradle-language-server",
-            "spring-boot-tools",
-            "java-project-manager",
+            "vscode-spring-boot-tools",
+            "vscode-java-dependency",
             "lemminx",
             "lemminx-maven",
             "kulala-fmt",
