@@ -23,8 +23,6 @@ if mason_registry.is_installed("lemminx") then
   table.insert(lemminx_jars, vim.fn.glob(jar_path))
   local cmd = {
     OwnUtil.utils.cmd.java_bin(),
-    "-Xms64m",
-    "-Xmx64m",
     "-cp",
     vim.fn.join(lemminx_jars, seg),
     "org.eclipse.lemminx.XMLServerLauncher",

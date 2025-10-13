@@ -172,7 +172,7 @@ return {
         OwnUtil.utils.termux_change_file_line(
           vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
           136,
-          'function M.select() handle_selected({ prompt = "Select a session: ", handler = function(item) local ok, _ = pcall(function() vim.fn.chdir(item.dir) M.load() end) if not ok then os.remove(item.session) print("Delete not exist directory session " .. item.dir .. ".") end end, }) end'
+          'function M.select() handle_selected({ prompt = "Select a session: ", handler = function(item) local ok, _ = pcall(function() vim.fn.chdir(item.dir) M.load() end) if not ok then os.remove(item.session) print("Deleted not exist directory session " .. item.dir .. ".") end end, }) end'
         )
         -- 删除
         OwnUtil.utils.termux_change_file_line(
