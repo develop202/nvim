@@ -76,6 +76,44 @@ vim.api.nvim_create_autocmd("QuitPre", {
         '  let content = map(copy(self.content), \'repeat(" ", shiftwidth() * v:val.level).v:val.icon.(!empty(v:val.icon) ? " " : "").v:val.label\')'
       )
     end
+
+    -- 恢复persistence
+    if vim.g.persistence_loaded then
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
+        106,
+        "function M.select()"
+      )
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
+        125,
+        '    prompt = "Select a session: ",'
+      )
+
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
+        131,
+        "      vim.fn.chdir(item.dir)"
+      )
+
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
+        132,
+        "      M.load()"
+      )
+      -- 选择
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
+        136,
+        ""
+      )
+      -- 删除
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
+        145,
+        ""
+      )
+    end
   end,
 })
 

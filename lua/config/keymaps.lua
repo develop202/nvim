@@ -76,16 +76,6 @@ end, { desc = "预览" })
 -- Java测试结果
 vim.keymap.set("n", "<leader>os", "<cmd>lua require('dapui').toggle(2)<CR>", { desc = "Java测试结果" })
 
--- 删除已保存会话，需要先打开会话再删除
-vim.keymap.set("n", "<leader>qD", function()
-  local M = require("persistence")
-  local sfile = M.current()
-  if sfile and (vim.uv or vim.loop).fs_stat(sfile) ~= 0 then
-    M.stop()
-    vim.fn.system("rm " .. vim.fn.fnameescape(sfile))
-  end
-end, { desc = "Delete Current Session" })
-
 -- 打开当前项目的TODO列表
 -- vim.keymap.set("n", "<leader>xd", function()
 --   vim.cmd("TodoTelescope cwd=" .. LazyVim.root.detect({ all = true })[1].paths[1])
