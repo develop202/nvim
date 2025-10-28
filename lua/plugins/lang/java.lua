@@ -104,14 +104,20 @@ return {
         create_command(buffer, "JavaProjects", require("java-deps").toggle_outline, {
           nargs = 0,
         })
+
+        -- JavaProject
+        vim.keymap.set("n", "<leader>jp", "<cmd>JavaProject<CR>", { desc = "Java Projects", buffer = buffer })
       end
 
-      opts.root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
-          and function()
-            return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
-          end
-        ---@diagnostic disable-next-line: undefined-field
-        or LazyVim.lsp.get_raw_config("jdtls").default_config.root_dir
+      opts.root_dir = function()
+        local root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+        if not root_dir then
+          local path = vim.api.nvim_buf_get_name(0)
+
+          root_dir = vim.fs.root(path, vim.lsp.config.jdtls.root_markers) or ""
+        end
+        return root_dir
+      end
 
       local function get_config_file()
         local sys = OwnUtil.sys
@@ -137,8 +143,8 @@ return {
         "-Dosgi.sharedConfiguration.area=" .. base_dir .. get_config_file(),
         "-Dosgi.sharedConfiguration.area.readOnly=true",
         "-Dosgi.configuration.cascaded=true",
-        "-Xms1G",
-        "-Xmx1G",
+        "-Xms256M",
+        "-Xmx256M",
         GC_type,
         "--enable-native-access=ALL-UNNAMED",
         "--add-modules=ALL-SYSTEM",
@@ -171,10 +177,28 @@ return {
               userSettings = HOME .. "/.m2/settings.xml",
               globalSettings = HOME .. "/.m2/settings.xml",
             },
+            runtimes = {
+              {
+                name = "JavaSE-17",
+                path = os.getenv("JAVA17_HOME") or "",
+                default = true,
+              },
+              {
+                name = "JavaSE-21",
+                path = os.getenv("JAVA21_HOME") or "",
+              },
+            },
           },
           inlayHints = {
             parameterNames = {
               enabled = inlay_hint_enabled,
+            },
+          },
+          jdt = {
+            ls = {
+              androidSupport = {
+                enabled = true,
+              },
             },
           },
         },
@@ -214,8 +238,8 @@ return {
       local cmd = {
         java_bin,
         "-XX:TieredStopAtLevel=1",
-        "-Xms1G",
-        "-Xmx1G",
+        "-Xms64M",
+        "-Xmx64M",
         GC_type,
         "--enable-native-access=ALL-UNNAMED",
         "-Dsts.lsp.client=vscode",
@@ -230,8 +254,7 @@ return {
         server = {
           cmd = cmd,
           handlers = {
-            -- NOTE: 多个lsp请求inlay hints异常,推测nvim的问题，后续可能会修复
-            -- 与jdtls的inlay hints存在冲突,故暂停
+            -- NOTE: 多个lsp请求inlayHints异常
             ["textDocument/inlayHint"] = function()
               return nil
             end,
@@ -243,6 +266,7 @@ return {
   },
   {
     "JavaHello/java-deps.nvim",
+    lazy = true,
     ft = "java",
     dependencies = "mfussenegger/nvim-jdtls",
     opts = function()

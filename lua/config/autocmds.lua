@@ -5,10 +5,14 @@
 -- lsp inlayhint高亮
 -- vim.cmd([[ hi LspInlayHint guibg=#3a3234 guifg=#928374]])
 
--- 修改高亮
+-- blink.cmp高亮
 vim.api.nvim_set_hl(0, "BlinkCmpLabelDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
 vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#46484a", fg = "NONE" })
 vim.api.nvim_set_hl(0, "Pmenu", { fg = "#ebdbb2", bg = "#32302f" })
+
+-- bufferline高亮
+vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", { fg = "#282828", bg = "#282828" })
+
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "*" },
@@ -121,6 +125,7 @@ vim.api.nvim_create_autocmd("QuitPre", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {
     "Outline",
+    "JavaProjects",
   },
   callback = function()
     vim.b.miniindentscope_disable = true

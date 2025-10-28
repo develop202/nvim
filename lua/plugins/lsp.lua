@@ -113,8 +113,7 @@ return {
         },
         vue_ls = {
           handlers = {
-            -- NOTE: 多个lsp请求inlay hints异常,推测nvim的问题，后续可能会修复
-            -- 与vtsls的inlay hints存在冲突,故暂停
+            -- NOTE: 多个lsp请求inlayHints异常
             ["textDocument/inlayHint"] = function()
               return nil
             end,

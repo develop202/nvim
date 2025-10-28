@@ -81,9 +81,6 @@ vim.keymap.set("n", "<leader>os", "<cmd>lua require('dapui').toggle(2)<CR>", { d
 --   vim.cmd("TodoTelescope cwd=" .. LazyVim.root.detect({ all = true })[1].paths[1])
 -- end, { desc = "打开当前项目的TODO列表" })
 
--- JavaProject
-vim.keymap.set("n", "<leader>jp", "<cmd>JavaProject<CR>", { desc = "Java Projects" })
-
 -- 当mason无法安装lsp,本地可以安装,但显示需要更新时，可以去除更新显示
 vim.keymap.set("n", "<leader>su", function()
   -- 获取lsp全称

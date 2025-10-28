@@ -51,4 +51,162 @@ return {
       opts.sections.lualine_y = nil
     end,
   },
+  {
+    "akinsho/bufferline.nvim",
+    optional = true,
+    opts = function(_, opts)
+      -- 修改背景色统一
+      opts.highlights = {
+        fill = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        background = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        close_button = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        tab_separator = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        tab_separator_selected = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+
+        warning_diagnostic = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        tab = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        tab_close = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        buffer = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        numbers = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        diagnostic = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        hint = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        hint_diagnostic = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        info = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        info_diagnostic = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        warning = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        error = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        error_diagnostic = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        modified = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        duplicate = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        separator = {
+          fg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        pick = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        offset_separator = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+        trunc_marker = {
+          bg = {
+            attribute = "bg",
+            highlight = "Normal",
+          },
+        },
+      }
+    end,
+  },
 }

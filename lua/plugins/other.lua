@@ -36,6 +36,7 @@ return {
             vim.api.nvim_set_current_win(window_number)
           end
         end,
+        desc = "选择窗口",
       },
     },
   },
