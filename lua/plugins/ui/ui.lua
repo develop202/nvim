@@ -55,6 +55,13 @@ return {
     "akinsho/bufferline.nvim",
     optional = true,
     opts = function(_, opts)
+      -- 悬停
+      opts.options.hover = {
+        enabled = true,
+        delay = 200,
+        reveal = { "close" },
+      }
+
       -- 修改背景色统一
       opts.highlights = {
         fill = {
