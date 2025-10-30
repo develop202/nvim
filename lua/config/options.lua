@@ -43,3 +43,5 @@ end
 if vim.fn.has("nvim-0.10") == 1 then
   vim.lsp.inlay_hint.enable()
 end
+
+option.mousemoveevent = true

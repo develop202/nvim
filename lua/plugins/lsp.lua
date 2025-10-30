@@ -45,6 +45,8 @@ return {
             -- 对Python导入包进行排序
             "isort",
             "gradle-language-server",
+            "npm-groovy-lint",
+            "groovy-language-server",
             "vscode-spring-boot-tools",
             "vscode-java-dependency",
             "lemminx",
@@ -143,8 +145,15 @@ return {
         ["luau"] = { "stylua" },
         ["html"] = { "prettier" },
         ["http"] = { "kulala" },
+        ["groovy"] = { "npmGroovyLint" },
       },
       formatters = {
+        npmGroovyLint = {
+          command = "npm-groovy-lint",
+          args = { "-c", vim.fn.stdpath("config") .. "/after/ftplugin/groovy/lint.json", "--format", "$FILENAME" },
+          exit_codes = { 0, 1 },
+          stdin = false,
+        },
         -- .http格式化工具
         kulala = {
           command = "kulala-fmt",
@@ -207,6 +216,7 @@ return {
       ensure_installed = {
         "scss",
         "dart",
+        "groovy",
       },
       indent = {
         -- 关闭指定文件缩进
