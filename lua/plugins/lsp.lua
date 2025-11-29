@@ -17,6 +17,8 @@ return {
             OwnUtil.utils.termux_use_local_lsp(mason_registry, "ruff")
             -- clangd 不支持termux
             OwnUtil.utils.termux_use_local_lsp(mason_registry, "clangd")
+            -- marksman 不支持termux
+            OwnUtil.utils.termux_use_local_lsp(mason_registry, "marksman")
             -- codelldb 不支持termux
             if not mason_registry.is_installed("codelldb") then
               -- 创建lsp目录
@@ -126,9 +128,6 @@ return {
         -- jdtls = function()
         --   return true
         -- end,
-        marksman = function()
-          return OwnUtil.sys.is_termux()
-        end,
       },
     },
   },

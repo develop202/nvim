@@ -23,7 +23,7 @@ vim.g.termux_italic = false
 require("lazy").setup({
   git = {
     -- 超时时间 秒
-    timeout = 10,
+    -- timeout = 10,
   },
   ui = {
     size = { width = OwnUtil.utils.termux_dash_width() },
