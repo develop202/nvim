@@ -77,21 +77,6 @@ return {
     event = "LazyFile",
   },
   {
-    --生成文档注释
-    "danymat/neogen",
-    cmd = "Neogen",
-    config = true,
-    keys = {
-      {
-        "<leader>fn",
-        function()
-          require("neogen").generate()
-        end,
-        desc = "Generate Annotations (Neogen)",
-      },
-    },
-  },
-  {
     "folke/which-key.nvim",
     opts = {
       icons = {

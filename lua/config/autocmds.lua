@@ -17,7 +17,10 @@ vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", { fg = "#282828", bg = "#2
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "*" },
   callback = function()
-    vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
+    -- r: 插入模式换行
+    -- c: 自动换行
+    -- o: 命令模式输入o/O换行
+    vim.opt.formatoptions = vim.opt.formatoptions - { "o" }
   end,
 })
 

@@ -19,6 +19,8 @@ return {
             OwnUtil.utils.termux_use_local_lsp(mason_registry, "clangd")
             -- marksman 不支持termux
             OwnUtil.utils.termux_use_local_lsp(mason_registry, "marksman")
+            -- lua-language-server编译失败，没搞懂，不过termux有佬编译好了
+            OwnUtil.utils.termux_use_local_lsp(mason_registry, "lua-language-server")
             -- codelldb 不支持termux
             if not mason_registry.is_installed("codelldb") then
               -- 创建lsp目录
@@ -55,6 +57,10 @@ return {
             "lemminx-maven",
             "kulala-fmt",
             "kulala-ls",
+            "nginx-config-formatter",
+            "lua-language-server",
+            "basedpyright",
+            "debugpy",
           })
 
           opts.registries = {
@@ -145,6 +151,7 @@ return {
         ["html"] = { "prettier" },
         ["http"] = { "kulala" },
         ["groovy"] = { "npmGroovyLint" },
+        ["nginx"] = { "nginxfmt" },
       },
       formatters = {
         npmGroovyLint = {
