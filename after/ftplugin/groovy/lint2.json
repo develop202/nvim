@@ -3,7 +3,7 @@
   "rules": {
     "comments.ClassJavadoc": "off",
     "formatting.Indentation": {
-      "spacesPerIndentLevel": 1,
+      "spacesPerIndentLevel": 2,
       "severity": "info"
     },
     "UnnecessaryReturnKeyword": "error"

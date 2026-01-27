@@ -154,13 +154,29 @@ return {
         ["luau"] = { "stylua" },
         ["html"] = { "prettier" },
         ["http"] = { "kulala" },
-        ["groovy"] = { "npmGroovyLint" },
+        -- 先缩进一格，再缩进两格，直接缩进两格有问题
+        ["groovy"] = function(_)
+          local first = vim.g.groovy_format_indent_first
+          if first then
+            vim.g.groovy_format_indent_first = false
+            return { "npmGroovyLint1" }
+          else
+            vim.g.groovy_format_indent_first = true
+            return { "npmGroovyLint2" }
+          end
+        end,
         ["nginx"] = { "nginxfmt" },
       },
       formatters = {
-        npmGroovyLint = {
+        npmGroovyLint1 = {
           command = "npm-groovy-lint",
-          args = { "-c", vim.fn.stdpath("config") .. "/after/ftplugin/groovy/lint.json", "--format", "$FILENAME" },
+          args = { "-c", vim.fn.stdpath("config") .. "/after/ftplugin/groovy/lint.json", "--fix", "$FILENAME" },
+          exit_codes = { 0, 1 },
+          stdin = false,
+        },
+        npmGroovyLint2 = {
+          command = "npm-groovy-lint",
+          args = { "-c", vim.fn.stdpath("config") .. "/after/ftplugin/groovy/lint2.json", "--fix", "$FILENAME" },
           exit_codes = { 0, 1 },
           stdin = false,
         },

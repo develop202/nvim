@@ -45,3 +45,4 @@ if vim.fn.has("nvim-0.10") == 1 then
 end
 
 option.mousemoveevent = true
+global.groovy_format_indent_first = true

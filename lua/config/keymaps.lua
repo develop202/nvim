@@ -5,6 +5,9 @@
 vim.keymap.set("n", "<leader>m", vim.diagnostic.open_float, { desc = "显示诊断消息" })
 
 vim.keymap.set("n", "<leader>fd", function()
+  if vim.o.filetype == "groovy" then
+    LazyVim.format({ force = true })
+  end
   LazyVim.format({ force = true })
 end, { desc = "格式化文档" })
 -- local opts = { noremap = true, silent = true }
