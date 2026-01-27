@@ -61,6 +61,7 @@ return {
             "lua-language-server",
             "basedpyright",
             "debugpy",
+            "kotlin-lsp",
           })
 
           opts.registries = {
@@ -134,6 +135,9 @@ return {
         -- jdtls = function()
         --   return true
         -- end,
+        kotlin_language_server = function()
+          return true
+        end,
       },
     },
   },

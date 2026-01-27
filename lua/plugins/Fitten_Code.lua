@@ -3,8 +3,8 @@ return {
   event = "LazyFile",
   opts = {
     inline_completion = {
-      -- 关闭行内补全
-      enable = false,
+      -- 行内补全
+      enable = true,
     },
   },
   keys = {
