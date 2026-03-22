@@ -80,7 +80,9 @@ return {
         end
         local tmp_dir = OwnUtil.sys.get_tmp_dir()
         -- 复制配置文件到tmp文件夹以正常加载sqlfluff
-        vim.cmd(string.format("silent! !cp %s %s", vim.fn.stdpath("config") .. "/after/ftplugin/sql/.sqlfluff", tmp_dir))
+        vim.cmd(
+          string.format("silent! !cp %s %s", vim.fn.stdpath("config") .. "/after/ftplugin/sql/.sqlfluff", tmp_dir)
+        )
         vim.cmd("DBUIToggle")
       end,
       desc = "Toggle DBUI",

@@ -17,13 +17,13 @@ vim.keymap.set("n", "<leader>ol", function()
     -- 去空格
     OwnUtil.utils.termux_change_file_line(
       vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
-      872,
+      905,
       "    line = line .. node.name"
     )
     -- 去高亮
     OwnUtil.utils.termux_change_file_line(
       vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
-      886,
+      919,
       "    node.prefix_length = hl_end"
     )
 
