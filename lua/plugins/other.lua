@@ -119,7 +119,9 @@ return {
     event = "LazyFile",
     dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
-      -- 使用opts设置enable_autocmd会导致插件无效
+      opts = {
+        enable_autocmd = false,
+      },
     },
     opts = function()
       -- 不知道为什么只能用function
