@@ -57,8 +57,8 @@ end
 
 --- 部分lsp不支持termux或编译过慢
 --- 直接本地安装后链接
----@param mason_registry MasonRegistry mason注册表
----@param server_name string lsp名称
+--- mason_registry MasonRegistry mason注册表
+--- server_name string lsp名称
 M.termux_use_local_lsp = function(mason_registry, server_name)
   if OwnUtil.sys.is_termux() then
     if not mason_registry.is_installed(server_name) then

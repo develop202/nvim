@@ -195,9 +195,7 @@ return {
             "fix",
             "$FILENAME",
             -- 缩进两个空格
-            "--config="
-              .. vim.fn.stdpath("config")
-              .. "/after/ftplugin/php/phpCsFixerConfig.php",
+            "--config=" .. vim.fn.stdpath("config") .. "/after/ftplugin/php/phpCsFixerConfig.php",
           },
         },
       },
