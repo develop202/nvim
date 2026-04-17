@@ -270,49 +270,52 @@ return {
     ft = "java",
     dependencies = "mfussenegger/nvim-jdtls",
     opts = function()
-      local node_data = require("java-deps.java.nodeData")
-      local PackageRootKind = require("java-deps.java.IPackageRootNodeData").PackageRootKind
-      local NodeKind = node_data.NodeKind
-      local TypeKind = node_data.TypeKind
-      local M = require("java-deps.views.icons")
-
-      -- 长见识了，居然还可以这样改
-      -- 修改展开快捷键为回车
-      local ConfigM = require("java-deps.config")
-      ConfigM.options.keymaps.toggle_fold = "<cr>"
-      -- 修改图标
-      M.NodeKind = {
-        [NodeKind.Workspace] = { icon = " ", hl = "@property" },
-        [NodeKind.Project] = { icon = " ", hl = "@property" },
-        [NodeKind.PackageRoot] = { icon = " ", hl = "@property" },
-        [NodeKind.Package] = { icon = "󰅩 ", hl = "@property" },
-        [NodeKind.PrimaryType] = { icon = " ", hl = "@type" },
-        [NodeKind.CompilationUnit] = { icon = " ", hl = "@property" },
-        [NodeKind.ClassFile] = { icon = "", hl = "@keyword" },
-        [NodeKind.Container] = { icon = " ", hl = "@property" },
-        [NodeKind.Folder] = { icon = "󰉋 ", hl = "@property" },
-        [NodeKind.File] = { icon = "󰈙", hl = "@property" },
-      }
-      M.TypeKind = {
-        [TypeKind.Class] = { icon = " ", hl = "@type" },
-        [TypeKind.Interface] = { icon = " ", hl = "@constructor" },
-        [TypeKind.Enum] = { icon = " ", hl = "@type" },
-      }
-      M.EntryKind = {
-        [PackageRootKind.K_SOURCE] = { icon = " ", hl = "@property" },
-        [PackageRootKind.K_BINARY] = { icon = " ", hl = "@property" },
-      }
-
       -- 去空格
-      -- 这个插件只能在这里执行
       OwnUtil.utils.termux_change_file_line(
         vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
-        77,
+        88,
         "    table.insert(lines, string_prefix .. icon .. node.label)"
       )
-
       -- 描述java-deps已经加载
       vim.g.java_deps_loaded = 1
+
+      local java_dep_width = "30%"
+      if OwnUtil.sys.is_termux() then
+        java_dep_width = "70%"
+      end
+
+      return {
+        width = java_dep_width,
+        keymaps = {
+          close = "q",
+          toggle_fold = "<CR>",
+        },
+        symbols = {
+          icons = {
+            NodeKind = {
+              Workspace = { icon = " ", hl = "@property" },
+              Project = { icon = " ", hl = "@property" },
+              PackageRoot = { icon = " ", hl = "@property" },
+              Package = { icon = "󰅩 ", hl = "@property" },
+              PrimaryType = { icon = " ", hl = "@type" },
+              CompilationUnit = { icon = " ", hl = "@property" },
+              ClassFile = { icon = "", hl = "@keyword" },
+              Container = { icon = " ", hl = "@property" },
+              Folder = { icon = "󰉋 ", hl = "@property" },
+              File = { icon = "󰈙", hl = "@property" },
+            },
+            TypeKind = {
+              Class = { icon = " ", hl = "@type" },
+              Interface = { icon = " ", hl = "@constructor" },
+              Enum = { icon = " ", hl = "@type" },
+            },
+            EntryKind = {
+              K_SOURCE = { icon = " ", hl = "@property" },
+              K_BINARY = { icon = " ", hl = "@property" },
+            },
+          },
+        },
+      }
     end,
   },
 }

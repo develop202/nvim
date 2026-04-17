@@ -46,7 +46,7 @@ vim.api.nvim_create_autocmd("QuitPre", {
     if vim.g.java_deps_loaded then
       OwnUtil.utils.termux_change_file_line(
         vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
-        77,
+        88,
         '    table.insert(lines, string_prefix .. icon .. " " .. node.label)'
       )
     end
