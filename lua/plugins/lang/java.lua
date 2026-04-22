@@ -107,6 +107,15 @@ return {
 
         -- JavaProject
         vim.keymap.set("n", "<leader>jp", "<cmd>JavaProject<CR>", { desc = "Java Projects", buffer = buffer })
+        vim.keymap.set(
+          "n",
+          "<leader>jud",
+          "<cmd>JdtUpdateDebugConfig<CR>",
+          { desc = "Jdtls Update Debug Config", buffer = buffer }
+        )
+
+        -- 更新Main方法
+        vim.cmd("JdtUpdateDebugConfig")
       end
 
       opts.root_dir = function()
