@@ -65,6 +65,7 @@ return {
           })
 
           opts.registries = {
+            -- "file:~/project/Other/mason-registry",
             -- 自定义注册表
             "github:develop202/mason-registry",
             "github:mason-org/mason-registry",

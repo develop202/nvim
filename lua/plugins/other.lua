@@ -50,6 +50,7 @@ return {
       -- your config goes here
       -- or just leave it empty :)
       debounce_delay = 0,
+      write_all_buffers = true,
     },
   },
   {
