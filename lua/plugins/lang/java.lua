@@ -48,7 +48,7 @@ return {
       end
 
       -- 添加spring-boot jdtls扩展jar包
-      if require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
+      if OwnUtil.lsp.java.is_spring_boot_project() then
         if mason_registry.is_installed("vscode-spring-boot-tools") then
           -- 添加jars目录下所有的jar文件
           local bundle = vim.split(vim.fn.glob("$MASON/packages/vscode-spring-boot-tools/extension/jars/*.jar"), "\n")
@@ -113,13 +113,16 @@ return {
           "<cmd>JdtUpdateDebugConfig<CR>",
           { desc = "Jdtls Update Debug Config", buffer = buffer }
         )
-
-        -- 更新Main方法
-        vim.cmd("JdtUpdateDebugConfig")
+        vim.keymap.set(
+          "n",
+          "<leader>juc",
+          "<cmd>JdtUpdateConfig<CR>",
+          { desc = "Jdtls Update Config", buffer = buffer }
+        )
       end
 
       opts.root_dir = function()
-        local root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+        local root_dir = require("jdtls.setup").find_root(OwnUtil.lsp.java.root_markers, vim.fn.getcwd())
         if not root_dir then
           local path = vim.api.nvim_buf_get_name(0)
 
@@ -221,7 +224,7 @@ return {
       "mfussenegger/nvim-jdtls",
     },
     opts = function()
-      if not require("jdtls.setup").find_root({ ".git/", "mvnw", "gradlew" }) then
+      if not OwnUtil.lsp.java.is_spring_boot_project() then
         -- spring-boot.nvim使用环境变量获取路径
         -- 这里强制获取失败以停止spring-boot-ls的启动
         vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
@@ -285,6 +288,13 @@ return {
         88,
         "    table.insert(lines, string_prefix .. icon .. node.label)"
       )
+
+      -- 去空格
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
+        80,
+        '      local suffix = " " if line[index] == " " or line[index] == " " then suffix = "" end line[index] = line[index] .. suffix'
+      )
       -- 描述java-deps已经加载
       vim.g.java_deps_loaded = 1
 
@@ -295,6 +305,7 @@ return {
 
       return {
         width = java_dep_width,
+        fold_markers = { " ", " " },
         keymaps = {
           close = "q",
           toggle_fold = "<CR>",

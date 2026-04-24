@@ -49,6 +49,13 @@ vim.api.nvim_create_autocmd("QuitPre", {
         88,
         '    table.insert(lines, string_prefix .. icon .. " " .. node.label)'
       )
+
+      -- 去空格
+      OwnUtil.utils.termux_change_file_line(
+        vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
+        80,
+        '      line[index] = line[index] .. " "'
+      )
     end
 
     -- 恢复outline图标与文本间空格和高亮
@@ -143,5 +150,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     copy_to_unnamedplus(vim.v.event.regcontents)
     local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")
     copy_to_unnamed(vim.v.event.regcontents)
+  end,
+})
+
+-- 自动读文件
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufEnter" }, {
+  callback = function()
+    require("autoread").enable()
   end,
 })

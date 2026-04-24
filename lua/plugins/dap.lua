@@ -56,4 +56,21 @@ return {
       },
     },
   },
+  {
+    "mfussenegger/nvim-dap",
+    keys = {
+      {
+        "<leader>dc",
+        function()
+          if vim.o.filetype == "java" then
+            vim.cmd.edit()
+            vim.cmd("JdtUpdateDebugConfig")
+            vim.wait(200)
+          end
+          require("dap").continue()
+        end,
+        desc = "Run/Continue",
+      },
+    },
+  },
 }

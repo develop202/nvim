@@ -54,8 +54,11 @@ return {
     },
   },
   {
-    "djoshea/vim-autoread",
-    -- event = "LazyFile",
+    "manuuurino/autoread.nvim",
+    cmd = "Autoread",
+    opts = {
+      notify_on_change = false,
+    },
   },
   {
     "windwp/nvim-autopairs",
