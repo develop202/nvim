@@ -275,7 +275,6 @@ return {
               globalSettings = HOME .. "/.m2/settings.xml",
             },
             runtimes = runtimes,
-            updateBuildConfiguration = "automatic",
           },
           inlayhints = {
             parameterNames = {
@@ -284,6 +283,12 @@ return {
           },
           implementationCodeLens = "all",
           referenceCodeLens = { enabled = true },
+          codeGeneration = {
+            toString = {
+              template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+            },
+            useBlocks = true,
+          },
           templates = {
             typeComment = {
               "/**",
@@ -293,7 +298,11 @@ return {
               " */",
             },
           },
+          signatureHelp = {
+            enabled = true,
+          },
           completion = {
+            maxResults = 20,
             favoriteStaticMembers = {
               "org.junit.Assert.*",
               "org.junit.Assume.*",
@@ -323,6 +332,7 @@ return {
               "org",
               "com",
             },
+            matchCase = "off",
           },
           sources = {
             organizeImports = {
@@ -457,10 +467,10 @@ return {
               Package = { icon = "󰅩 ", hl = "@property" },
               PrimaryType = { icon = " ", hl = "@type" },
               CompilationUnit = { icon = " ", hl = "@property" },
-              ClassFile = { icon = "", hl = "@keyword" },
+              ClassFile = { icon = " ", hl = "@keyword" },
               Container = { icon = " ", hl = "@property" },
-              Folder = { icon = "󰉋 ", hl = "@property" },
-              File = { icon = "󰈙", hl = "@property" },
+              Folder = { icon = " ", hl = "@property" },
+              File = { icon = " ", hl = "@property" },
             },
             TypeKind = {
               Class = { icon = " ", hl = "@type" },
@@ -468,8 +478,8 @@ return {
               Enum = { icon = " ", hl = "@type" },
             },
             EntryKind = {
-              K_SOURCE = { icon = " ", hl = "@property" },
-              K_BINARY = { icon = " ", hl = "@property" },
+              K_SOURCE = { icon = " ", hl = "@property" },
+              K_BINARY = { icon = " ", hl = "@property" },
             },
           },
         },
