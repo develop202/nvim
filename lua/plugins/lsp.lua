@@ -89,6 +89,9 @@ return {
           source = "always",
         },
       },
+      codelens = {
+        enabled = true,
+      },
       servers = {
         lua_ls = {
           settings = {

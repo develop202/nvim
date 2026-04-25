@@ -13,7 +13,7 @@ return {
   {
     "mfussenegger/nvim-jdtls",
     -- jdtls要求最低Java21
-    -- 需要配置JAVA21_HOME环境变量
+    -- 需要配置JAVA_21_HOME环境变量
     opts = function(_, opts)
       local mason_registry = require("mason-registry")
 
@@ -33,10 +33,18 @@ return {
         -- 添加test扩展jar包
         -- java-test also depends on java-debug-adapter.
         if mason_registry.is_installed("java-test") then
-          local java_test_path = vim.fn.expand("$MASON/packages/java-test")
-          vim.list_extend(jar_patterns, {
-            java_test_path .. "/extension/server/*.jar",
-          })
+          local java_test_bundles =
+            vim.split(vim.fn.glob(vim.fn.expand("$MASON/packages/java-test") .. "/extension/server/*.jar"), "\n")
+          local excluded = {
+            "com.microsoft.java.test.runner-jar-with-dependencies.jar",
+            "jacocoagent.jar",
+          }
+          for _, java_test_jar in ipairs(java_test_bundles) do
+            local fname = vim.fn.fnamemodify(java_test_jar, ":t")
+            if not vim.tbl_contains(excluded, fname) then
+              table.insert(jar_patterns, java_test_jar)
+            end
+          end
         end
 
         -- 添加到bundles
@@ -51,8 +59,20 @@ return {
       if OwnUtil.lsp.java.is_spring_boot_project() then
         if mason_registry.is_installed("vscode-spring-boot-tools") then
           -- 添加jars目录下所有的jar文件
-          local bundle = vim.split(vim.fn.glob("$MASON/packages/vscode-spring-boot-tools/extension/jars/*.jar"), "\n")
-          vim.list_extend(bundles, bundle)
+          local java_spring_boot_bundles = vim.split(
+            vim.fn.glob(vim.fn.expand("$MASON/packages/vscode-spring-boot-tools") .. "/extension/jars/*.jar"),
+            "\n"
+          )
+          local excluded = {
+            "commons-lsp-extensions.jar",
+            "xml-ls-extension.jar",
+          }
+          for _, java_spring_boot_jar in ipairs(java_spring_boot_bundles) do
+            local fname = vim.fn.fnamemodify(java_spring_boot_jar, ":t")
+            if not vim.tbl_contains(excluded, fname) then
+              table.insert(bundles, java_spring_boot_jar)
+            end
+          end
         end
       end
 
@@ -121,6 +141,8 @@ return {
         )
       end
 
+      jdtls_config.handlers = {}
+
       opts.root_dir = function()
         local root_dir = require("jdtls.setup").find_root(OwnUtil.lsp.java.root_markers, vim.fn.getcwd())
         if not root_dir then
@@ -133,14 +155,23 @@ return {
 
       local function get_config_file()
         local sys = OwnUtil.sys
+        local file = ""
         if sys.is_linux() then
-          return "/config_linux"
+          file = "/config_linux"
         elseif sys.is_macos() then
-          return "/config_mac"
+          file = "/config_mac"
         elseif sys.is_windows() then
-          return "/config_win"
+          file = "/config_win"
         end
-        error("未知系统")
+        if file ~= "" then
+          if sys.is_termux() then
+            file = file .. "_arm"
+          end
+        else
+          error("未知系统")
+          return nil
+        end
+        return file
       end
       -- jdtls目录
       local base_dir = vim.fn.expand("$MASON/packages/jdtls")
@@ -181,6 +212,60 @@ return {
       opts.cmd = cmd
 
       opts.jdtls = jdtls_config
+      local ExecutionEnvironment = {
+        J2SE_1_5 = "J2SE-1.5",
+        JavaSE_1_6 = "JavaSE-1.6",
+        JavaSE_1_7 = "JavaSE-1.7",
+        JavaSE_1_8 = "JavaSE-1.8",
+        JavaSE_9 = "JavaSE-9",
+        JavaSE_10 = "JavaSE-10",
+        JavaSE_11 = "JavaSE-11",
+        JavaSE_12 = "JavaSE-12",
+        JavaSE_13 = "JavaSE-13",
+        JavaSE_14 = "JavaSE-14",
+        JavaSE_15 = "JavaSE-15",
+        JavaSE_16 = "JavaSE-16",
+        JavaSE_17 = "JavaSE-17",
+        JavaSE_18 = "JavaSE-18",
+        JavaSE_19 = "JavaSE-19",
+        JAVASE_20 = "JavaSE-20",
+        JAVASE_21 = "JavaSE-21",
+        JAVASE_22 = "JavaSE-22",
+        JAVASE_23 = "JavaSE-23",
+        JAVASE_24 = "JavaSE-24",
+        JAVASE_25 = "JavaSE-25",
+      }
+      local runtimes = (function()
+        local result = {}
+        for _, value in pairs(ExecutionEnvironment) do
+          local version = vim.fn.split(value, "-")[2]
+          if string.match(version, "%.") then
+            version = vim.split(version, "%.")[2]
+          end
+          local java_home = os.getenv(string.format("JAVA_%s_HOME", version))
+          local default_jdk = false
+          if java_home then
+            -- local java_sources = get_java_ver_sources(
+            --   version,
+            --   fglob(vim.fn.glob(vim.fs.joinpath(java_home, "src.zip")))
+            --     or fglob(vim.fn.glob(vim.fs.joinpath(java_home, "lib", "src.zip")))
+            -- )
+            if ExecutionEnvironment.JavaSE_17 == value then
+              default_jdk = true
+            end
+            table.insert(result, {
+              name = value,
+              path = java_home,
+              -- sources = java_sources,
+              default = default_jdk,
+            })
+          end
+        end
+        if #result == 0 then
+          vim.notify("Please config Java runtimes (JAVA_17_HOME...)")
+        end
+        return result
+      end)()
       opts.settings = {
         java = {
           configuration = {
@@ -189,22 +274,64 @@ return {
               userSettings = HOME .. "/.m2/settings.xml",
               globalSettings = HOME .. "/.m2/settings.xml",
             },
-            runtimes = {
-              {
-                name = "JavaSE-17",
-                path = os.getenv("JAVA17_HOME") or "",
-                default = true,
-              },
-              {
-                name = "JavaSE-21",
-                path = os.getenv("JAVA21_HOME") or "",
-              },
-            },
+            runtimes = runtimes,
+            updateBuildConfiguration = "automatic",
           },
-          inlayHints = {
+          inlayhints = {
             parameterNames = {
               enabled = inlay_hint_enabled,
             },
+          },
+          implementationCodeLens = "all",
+          referenceCodeLens = { enabled = true },
+          templates = {
+            typeComment = {
+              "/**",
+              " * ${type_name}.",
+              " *",
+              " * @author ${user}",
+              " */",
+            },
+          },
+          completion = {
+            favoriteStaticMembers = {
+              "org.junit.Assert.*",
+              "org.junit.Assume.*",
+              "org.junit.jupiter.api.Assertions.*",
+              "org.junit.jupiter.api.Assumptions.*",
+              "org.junit.jupiter.api.DynamicContainer.*",
+              "org.junit.jupiter.api.DynamicTest.*",
+              "org.assertj.core.api.Assertions.assertThat",
+              "org.assertj.core.api.Assertions.assertThatThrownBy",
+              "org.assertj.core.api.Assertions.assertThatExceptionOfType",
+              "org.assertj.core.api.Assertions.catchThrowable",
+              "java.util.Objects.requireNonNull",
+              "java.util.Objects.requireNonNullElse",
+              "org.mockito.Mockito.*",
+            },
+            filteredTypes = {
+              "com.sun.*",
+              "io.micrometer.shaded.*",
+              "java.awt.*",
+              "org.graalvm.*",
+              "jdk.*",
+              "sun.*",
+            },
+            importOrder = {
+              "java",
+              "javax",
+              "org",
+              "com",
+            },
+          },
+          sources = {
+            organizeImports = {
+              starThreshold = 9999,
+              staticStarThreshold = 9999,
+            },
+          },
+          saveActions = {
+            organizeImports = true,
           },
           jdt = {
             ls = {
@@ -247,15 +374,26 @@ return {
         vim.notify("Spring Boot LS jar not found", vim.log.levels.WARN)
         return
       end
+
+      local log_file = vim.fn.stdpath("cache")
+        .. "/jdtls/"
+        .. vim.fs.basename(vim.fs.root(vim.fn.getcwd(), OwnUtil.lsp.java.root_markers))
+        .. "/spring_boot/log.txt"
+
       local cmd = {
         java_bin,
         "-XX:TieredStopAtLevel=1",
         "-Xms64M",
         "-Xmx64M",
         GC_type,
-        "--enable-native-access=ALL-UNNAMED",
+        -- "-Dspring.config.location=classpath:/application.properties",
+        -- "-Dspring.main.web-application-type=NONE",
+        -- "-Xlog:jni+resolve=off",
         "-Dsts.lsp.client=vscode",
-        "-Dsts.log.file=/dev/null",
+        "-Dsts.log.file=" .. log_file,
+        "-Dspring.profiles.active=file-logging",
+        "-Dlogging.file.name=" .. log_file,
+        "-Dlogging.level.root=info",
         "-jar",
         server_jar[1],
       }

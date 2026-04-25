@@ -49,8 +49,8 @@ M.cmd.java_bin = function()
   if vim.env["JAVA_HOME"] then
     java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
   end
-  if vim.env["JAVA21_HOME"] then
-    java_bin = vim.env["JAVA21_HOME"] .. "/bin/java"
+  if vim.env["JAVA_21_HOME"] then
+    java_bin = vim.env["JAVA_21_HOME"] .. "/bin/java"
   end
   return java_bin
 end
