@@ -1,5 +1,5 @@
 local dap_ui_layouts = nil
-if not OwnUtil.sys.is_termux() then
+if OwnUtil.sys.is_termux() then
   dap_ui_layouts = {
     {
       elements = {
@@ -49,7 +49,6 @@ return {
         "<leader>dc",
         function()
           if vim.o.filetype == "java" then
-            vim.cmd.edit()
             vim.cmd("JdtUpdateDebugConfig")
             vim.wait(200)
           end

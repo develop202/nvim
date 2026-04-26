@@ -9,7 +9,7 @@ return {
     opts = {
       -- your config goes here
       -- or just leave it empty :)
-      debounce_delay = 500,
+      debounce_delay = 200,
       write_all_buffers = true,
     },
   },
