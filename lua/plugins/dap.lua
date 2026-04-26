@@ -1,3 +1,26 @@
+local dap_ui_layouts = nil
+if not OwnUtil.sys.is_termux() then
+  dap_ui_layouts = {
+    {
+      elements = {
+        { id = "scopes", size = 0.25 },
+        { id = "breakpoints", size = 0.25 },
+        { id = "stacks", size = 0.25 },
+        { id = "watches", size = 0.25 },
+      },
+      position = "left",
+      size = 5,
+    },
+    {
+      elements = {
+        { id = "repl", size = 0.4 },
+        { id = "console", size = 0.6 },
+      },
+      position = "bottom",
+      size = 10,
+    },
+  }
+end
 return {
   {
     "rcarriga/nvim-dap-ui",
@@ -16,44 +39,7 @@ return {
           disconnect = " ",
         },
       },
-      layouts = {
-        {
-          elements = {
-            {
-              id = "scopes",
-              size = 0.25,
-            },
-            {
-              id = "breakpoints",
-              size = 0.25,
-            },
-            {
-              id = "stacks",
-              size = 0.25,
-            },
-            {
-              id = "watches",
-              size = 0.25,
-            },
-          },
-          position = "left",
-          size = 5,
-        },
-        {
-          elements = {
-            {
-              id = "repl",
-              size = 0.4,
-            },
-            {
-              id = "console",
-              size = 0.6,
-            },
-          },
-          position = "bottom",
-          size = 10,
-        },
-      },
+      layouts = dap_ui_layouts,
     },
   },
   {
@@ -72,5 +58,10 @@ return {
         desc = "Run/Continue",
       },
     },
+  },
+
+  {
+    "vim-test/vim-test",
+    event = "BufReadPre",
   },
 }

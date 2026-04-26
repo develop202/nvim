@@ -74,7 +74,7 @@ return {
       },
       {
         "mason-org/mason-lspconfig.nvim",
-        event = "LazyFile",
+        event = "BufReadPre",
       },
     },
     opts = {

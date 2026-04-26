@@ -1,6 +1,9 @@
+-- 通知
 local noice_cmdline_min_width = 60
 local dashboard_width = 60
+
 if OwnUtil.sys.is_termux() then
+  -- 通知
   noice_cmdline_min_width = 30
   -- 减少启动页面整体宽度
   dashboard_width = OwnUtil.utils.termux_dash_width()
@@ -8,6 +11,7 @@ end
 
 return {
   {
+    -- 通知
     "folke/noice.nvim",
     opts = {
       views = {
@@ -26,7 +30,9 @@ return {
       },
     },
   },
+
   {
+    -- 通知
     "folke/snacks.nvim",
     opts = {
       dashboard = {

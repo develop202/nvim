@@ -10,6 +10,7 @@ end
 
 return {
   {
+    -- 列表选择器
     "ibhagwan/fzf-lua",
     opts = {
       -- 去除图标与文本之间的空格

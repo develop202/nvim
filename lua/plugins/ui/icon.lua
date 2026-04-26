@@ -23,6 +23,12 @@ local filetype = {
 local lsp = {}
 local os = {}
 
+local lazygit_icons = "3"
+-- lazygit
+if OwnUtil.sys.is_termux() then
+  lazygit_icons = ""
+end
+
 return {
   {
     "nvim-mini/mini.icons",
@@ -34,6 +40,45 @@ return {
       filetype = filetype,
       lsp = lsp,
       os = os,
+    },
+  },
+
+  {
+    "folke/which-key.nvim",
+    opts = {
+      icons = {
+        keys = {
+          BS = "󰁮 ",
+          F10 = "󱊴 ",
+          F11 = "󱊵 ",
+          F12 = "󱊶 ",
+        },
+      },
+    },
+  },
+
+  {
+    "folke/snacks.nvim",
+    opts = {
+      lazygit = {
+        config = {
+          gui = {
+            -- 关闭图标字体
+            nerdFontsVersion = lazygit_icons,
+          },
+        },
+      },
+      notifier = {
+        margin = { top = 1, right = 1, bottom = 0 },
+        icons = {
+          -- 解决光标行图标显示问题
+          error = " ",
+          warn = " ",
+          info = " ",
+          debug = " ",
+          trace = " ",
+        },
+      },
     },
   },
 }

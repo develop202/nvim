@@ -1,7 +1,41 @@
+-- 面包屑导航
+local truncate = true
+local sources = {
+  path = {
+    max_depth = 16,
+  },
+}
+
+if OwnUtil.sys.is_termux() then
+  -- 面包屑导航
+  truncate = false
+  -- 手机上隐藏路径
+  sources.path.max_depth = 1
+end
+
 return {
+
   {
+    -- 面包屑导航
+    "Bekaboo/dropbar.nvim",
+    event = "BufReadPre",
+    opts = {
+      sources = sources,
+      bar = {
+        truncate = truncate,
+      },
+      icons = {
+        kinds = {
+          symbols = OwnUtil.icons.kinds,
+        },
+      },
+    },
+  },
+
+  {
+    -- 代码折叠
     "kevinhwang91/nvim-ufo",
-    event = "LazyFile",
+    event = "BufReadPre",
     dependencies = {
       "kevinhwang91/promise-async",
     },
@@ -56,4 +90,46 @@ return {
       }
     end,
   },
+
+  {
+    -- 颜色
+    "catgoose/nvim-colorizer.lua",
+    event = "BufReadPre",
+    opts = {
+      filetypes = OwnUtil.utils.ft.show_color_ft,
+      user_default_options = {
+        rgb_fn = true,
+        hsl_fn = true,
+        mode = "virtualtext",
+        virtualtext = "󰝤",
+        virtualtext_inline = "before",
+        tailwind = true,
+      },
+    },
+  },
+
+  {
+    -- 彩虹括号
+    "hiphish/rainbow-delimiters.nvim",
+    event = { "BufReadPre" },
+  },
+
+  {
+    -- 注释
+    "numToStr/Comment.nvim",
+    event = "BufReadPre",
+    dependencies = {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      opts = {
+        enable_autocmd = false,
+      },
+    },
+    opts = function()
+      -- 不知道为什么只能用function
+      return {
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      }
+    end,
+  },
+
 }
