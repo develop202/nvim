@@ -13,6 +13,9 @@ return {
           },
         },
       },
+      delay_completion = {
+        delaytime = 1000,
+      },
     },
   },
 }
