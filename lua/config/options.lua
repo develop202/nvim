@@ -5,8 +5,8 @@ local option = vim.opt
 -- local buffer = vim.b
 local global = vim.g
 
--- option.tabstop = 2
--- option.shiftwidth = 2
+option.tabstop = 2
+option.shiftwidth = 2
 option.swapfile = false
 option.hlsearch = false
 
@@ -14,6 +14,9 @@ option.hlsearch = false
 -- option.spell = true
 option.spelllang = "en_us,cjk"
 option.spelloptions = "camel"
+
+-- 自动折行
+option.wrap = true
 
 -- 关闭透明显示
 -- 关掉可以让cmp补全列表图标正常显示

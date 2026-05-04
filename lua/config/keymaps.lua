@@ -47,8 +47,8 @@ vim.keymap.set("n", "<C-right>", "<C-w>>", { desc = "向右调整窗口" })
 vim.keymap.set("n", "<C-up>", "<C-w>+", { desc = "向上调整窗口" })
 vim.keymap.set("n", "<C-down>", "<C-w>-", { desc = "向下调整窗口" })
 --左右滚动代码
-vim.keymap.set("n", "<A-left>", "zH", { desc = "向左滚动代码" })
-vim.keymap.set("n", "<A-right>", "zL", { desc = "向右滚动代码" })
+vim.keymap.set("n", "<A-left>", vim.opt.wrap and "10h" or "zH", { desc = "向左滚动代码" })
+vim.keymap.set("n", "<A-right>", vim.opt.wrap and "10l" or "zL", { desc = "向右滚动代码" })
 -- 上下滚动代码
 vim.keymap.set("n", "<A-up>", "10k", { desc = "向上滚动代码" })
 vim.keymap.set("n", "<A-down>", "10j", { desc = "向下滚动代码" })
