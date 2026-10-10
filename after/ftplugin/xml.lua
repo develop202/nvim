@@ -31,7 +31,7 @@ if mason_registry.is_installed("lemminx") then
   }
   vim.lsp.config("lemminx", {
     cmd = cmd,
-    root_dir = vim.fs.root(vim.fn.getcwd(), OwnUtil.lsp.java.root_markers),
+    root_dir = vim.fs.root(vim.fn.getcwd(), OwnUtil.lang.java.root_markers),
   })
   vim.lsp.enable("lemminx", true)
 end

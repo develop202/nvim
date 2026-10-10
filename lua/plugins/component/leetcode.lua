@@ -14,15 +14,17 @@ end
 return {
   "kawre/leetcode.nvim",
   cmd = { "Leet" },
-  build = ":TSUpdate html",
+  -- build = ":TSUpdate html",
   dependencies = {
-    "MunifTanjim/nui.nvim",
+    {
+      "MunifTanjim/nui.nvim",
+      event = "VeryLazy",
+    },
     {
       "3rd/image.nvim",
-      enabled = is_enabled,
-      config = function()
-        require("image").setup()
-      end,
+      cmd = is_enabled and "Leet" or {},
+      -- enabled = is_enabled,
+      opts = {},
     },
   },
   opts = {

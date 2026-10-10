@@ -65,23 +65,10 @@ return {
     {
       "<leader>D",
       function()
-        -- 仅termux执行
-        if OwnUtil.sys.is_termux() then
-          if not vim.g.dbui_loaded then
-            -- 去除空格
-            OwnUtil.utils.termux_change_file_line(
-              vim.fn.stdpath("data") .. "/lazy/vim-dadbod-ui/autoload/db_ui/drawer.vim",
-              362,
-              "  let content = map(copy(self.content), 'repeat(\" \", shiftwidth() * v:val.level).v:val.icon.v:val.label')"
-            )
-            -- 描述dbui已被使用
-            vim.g.dbui_loaded = 1
-          end
-        end
         local tmp_dir = OwnUtil.sys.get_tmp_dir()
         -- 复制配置文件到tmp文件夹以正常加载sqlfluff
         vim.cmd(
-          string.format("silent! !cp %s %s", vim.fn.stdpath("config") .. "/after/ftplugin/sql/.sqlfluff", tmp_dir)
+          string.format("silent! !cp %s %s", vim.fn.stdpath("config") .. "/after/ftplugin/asset/sql/.sqlfluff", tmp_dir)
         )
         vim.cmd("DBUIToggle")
       end,

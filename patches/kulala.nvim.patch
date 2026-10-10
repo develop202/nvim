@@ -1,0 +1,39 @@
+diff --git a/lua/kulala/config/parser.lua b/lua/kulala/config/parser.lua
+index 8f2808f..f8750e2 100644
+--- a/lua/kulala/config/parser.lua
++++ b/lua/kulala/config/parser.lua
+@@ -128,15 +128,7 @@ local function setup_tree_sitter()
+   local setup_progress, setup_finish = Notify.create_progress_handler(Globals.NAME)
+   setup_progress { message = "Setting up tree-sitter ..." }
+   vim.schedule(function()
+-    fetch_grammar(function(res)
+-      if res.code ~= 0 then
+-        vim.schedule(function()
+-          setup_finish("Failed to fetch tree-sitter grammar: " .. (res.stderr or ""), false)
+-        end)
+-        return
+-      end
+-      build_parser(setup_finish)
+-    end)
++    build_parser(setup_finish)
+   end)
+ end
+ 
+diff --git a/lua/kulala/init.lua b/lua/kulala/init.lua
+index 136ed97..bd5d266 100644
+--- a/lua/kulala/init.lua
++++ b/lua/kulala/init.lua
+@@ -15,9 +15,10 @@ M.setup = function(config)
+   Augroups.setup()
+   -- Rerun lualine-setup,
+   -- to have possible lazy-loaded `kulala` available
+-  local ok, lualine = pcall(require, "lualine")
+-  if ok and lualine then lualine.setup() end
+-
++  if vim.g.lualine then
++    local ok, lualine = pcall(require, "lualine")
++    if ok and lualine then lualine.setup() end
++  end
+   -- FileType may already have fired for the buffer that loaded this plugin.
+   -- Install only for buffers that need kulala-core, and never while quitting.
+   vim.schedule(function()

@@ -16,9 +16,51 @@ end
 return {
 
   {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufReadPost",
+    opts = {
+      indent = {
+        char = "│",
+        tab_char = "│",
+      },
+      scope = { enabled = false, show_start = false, show_end = false },
+      exclude = {
+        filetypes = {
+          "Trouble",
+          "alpha",
+          "dashboard",
+          "help",
+          "lazy",
+          "mason",
+          "neo-tree",
+          "notify",
+          "snacks_dashboard",
+          "snacks_notif",
+          "snacks_terminal",
+          "snacks_win",
+          "toggleterm",
+          "trouble",
+        },
+      },
+    },
+    main = "ibl",
+  },
+
+  {
+    "nvim-mini/mini.indentscope",
+    version = false, -- wait till new 0.7.0 release to put it back on semver
+    event = "BufReadPost",
+    opts = {
+      -- symbol = "▏",
+      symbol = "│",
+      options = { try_as_border = true },
+    },
+  },
+
+  {
     -- 面包屑导航
     "Bekaboo/dropbar.nvim",
-    event = "BufReadPre",
+    event = "BufReadPost",
     opts = {
       sources = sources,
       bar = {
@@ -35,12 +77,15 @@ return {
   {
     -- 代码折叠
     "kevinhwang91/nvim-ufo",
-    event = "BufReadPre",
     dependencies = {
       "kevinhwang91/promise-async",
     },
-    opts = function()
-      local handler = function(virtText, lnum, endLnum, width, truncate)
+    opts = {
+      -- 自动折叠导入内容
+      -- close_fold_kinds_for_ft = {
+      --   default = { "imports" },
+      -- },
+      fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
         local suffix = (" 󰁂 %d "):format(endLnum - lnum)
         local sufWidth = vim.fn.strdisplaywidth(suffix)
@@ -66,35 +111,26 @@ return {
         end
         table.insert(newVirtText, { suffix, "MoreMsg" })
         return newVirtText
-      end
-
-      -- global handler
-      return {
-        -- 自动折叠导入内容
-        -- close_fold_kinds_for_ft = {
-        --   default = { "imports" },
-        -- },
-        fold_virt_text_handler = handler,
-
-        preview = {},
-        open_fold_hl_timeout = 150,
-        UfoConfig = {},
-        enable_get_fold_virt_text = false,
-        provider_selector = function(bufnr, filetype, buftype)
-          if filetype == "vue" or filetype == "html" then
-            -- 使用treesitter作为折叠依据
-            return { "treesitter", "indent" }
-          end
-          return { "lsp", "indent" }
-        end,
-      }
-    end,
+      end,
+      preview = {},
+      open_fold_hl_timeout = 150,
+      UfoConfig = {},
+      enable_get_fold_virt_text = false,
+      provider_selector = function(bufnr, filetype, buftype)
+        if filetype == "vue" or filetype == "html" then
+          -- 使用treesitter作为折叠依据
+          return { "treesitter", "indent" }
+        end
+        return { "lsp", "indent" }
+      end,
+    },
+    keys = { "zc", "zo" },
   },
 
   {
     -- 颜色
     "catgoose/nvim-colorizer.lua",
-    event = "BufReadPre",
+    event = "BufReadPost",
     opts = {
       filetypes = OwnUtil.utils.ft.show_color_ft,
       user_default_options = {
@@ -109,27 +145,30 @@ return {
   },
 
   {
-    -- 彩虹括号
-    "hiphish/rainbow-delimiters.nvim",
-    event = { "BufReadPre" },
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    event = "BufReadPost",
+    opts = {},
   },
 
   {
-    -- 注释
-    "numToStr/Comment.nvim",
-    event = "BufReadPre",
-    dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-      opts = {
-        enable_autocmd = false,
-      },
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "BufReadPost",
+    opts = {
+      mode = "cursor",
+      max_lines = 3,
     },
-    opts = function()
-      -- 不知道为什么只能用function
-      return {
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      }
-    end,
   },
-
+  {
+    -- 彩虹括号
+    "hiphish/rainbow-delimiters.nvim",
+    event = { "BufReadPost" },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    -- lazy = false,
+    build = ":TSUpdate",
+    cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
+    opts_extend = { "ensure_installed" },
+  },
 }

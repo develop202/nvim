@@ -1,0 +1,67 @@
+diff --git a/lua/spring-initializr/telescope/telescope.lua b/lua/spring-initializr/telescope/telescope.lua
+index f28fa6c..33e8a8c 100644
+--- a/lua/spring-initializr/telescope/telescope.lua
++++ b/lua/spring-initializr/telescope/telescope.lua
+@@ -248,9 +248,9 @@ end
+ -------------------------------------------------------------------------------
+ local function picker_layout()
+     return {
+-        prompt_position = "top",
+-        width = 0.5,
+-        height = 0.6,
++        prompt_position = "bottom",
++        width = 0.9,
++        height = 0.9,
+     }
+ end
+ 
+diff --git a/lua/spring-initializr/ui/components/dependencies/dependencies_display.lua b/lua/spring-initializr/ui/components/dependencies/dependencies_display.lua
+index e3c722f..48fe152 100644
+--- a/lua/spring-initializr/ui/components/dependencies/dependencies_display.lua
++++ b/lua/spring-initializr/ui/components/dependencies/dependencies_display.lua
+@@ -64,8 +64,8 @@ local M = {
+ ----------------------------------------------------------------------------
+ -- Constants
+ ----------------------------------------------------------------------------
+-local BUTTON_SIZE = { height = 3, width = 40 }
+-local DISPLAY_SIZE = { height = "100%", width = 40 }
++local BUTTON_SIZE = { height = 3, width = 10 }
++local DISPLAY_SIZE = { height = "100%", width = 10 }
+ local BUTTON_TITLE = "Add Dependencies (Telescope)"
+ local DISPLAY_TITLE = "Selected Dependencies"
+ local MODIFIABLE = "modifiable"
+diff --git a/lua/spring-initializr/ui/layout/layout.lua b/lua/spring-initializr/ui/layout/layout.lua
+index 362fa8c..ccf6af5 100644
+--- a/lua/spring-initializr/ui/layout/layout.lua
++++ b/lua/spring-initializr/ui/layout/layout.lua
+@@ -94,7 +94,7 @@ local function outer_size(content_height)
+     local actual_height = math.min(content_height, max_height)
+ 
+     return {
+-        width = "70%",
++        width = "95%",
+         height = actual_height,
+     }
+ end
+diff --git a/lua/spring-initializr/ui/layout/panel_builder.lua b/lua/spring-initializr/ui/layout/panel_builder.lua
+index ead9849..fe62c38 100644
+--- a/lua/spring-initializr/ui/layout/panel_builder.lua
++++ b/lua/spring-initializr/ui/layout/panel_builder.lua
+@@ -66,7 +66,7 @@ function M.create_left_panel(form_context)
+     return Layout.Box({
+         radios.box,
+         inputs,
+-    }, { dir = "col", size = "50%" })
++    }, { dir = "col", size = "70%" })
+ end
+ 
+ ----------------------------------------------------------------------------
+@@ -85,7 +85,7 @@ function M.create_right_panel(close_fn)
+             { size = 3 }
+         ),
+         Layout.Box(dependencies_display.create_display(close_fn), { grow = 1 }),
+-    }, { dir = "col", size = "50%" })
++    }, { dir = "col", size = "30%" })
+ end
+ 
+ ----------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 ---@field sys util.sys
 ---@field icons util.icons
 ---@field utils util.utils
----@field lsp util.lsp
+---@field lang util.lang
 local M = {}
 
 -- 使用元表为全局变量添加字段
@@ -13,5 +13,9 @@ setmetatable(M, {
     return t[k]
   end,
 })
+
+M.statuscolumn = function()
+  return require("snacks.statuscolumn").get()
+end
 
 return M

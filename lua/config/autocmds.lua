@@ -1,20 +1,10 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
-
--- lsp inlayhint高亮
--- vim.cmd([[ hi LspInlayHint guibg=#3a3234 guifg=#928374]])
-
--- blink.cmp高亮
-vim.api.nvim_set_hl(0, "BlinkCmpLabelDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
-vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#46484a", fg = "NONE" })
-vim.api.nvim_set_hl(0, "Pmenu", { fg = "#ebdbb2", bg = "#32302f" })
 
 -- bufferline高亮
 vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", { fg = "#282828", bg = "#282828" })
 
 -- 取消换行自动注释
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
+vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*" },
   callback = function()
     -- r: 插入模式换行
@@ -38,114 +28,57 @@ vim.api.nvim_set_hl(0, "PropertiesIcon", { fg = "#ced0d6" })
 --   end,
 -- })
 
--- 退出前恢复文件
-vim.api.nvim_create_autocmd("QuitPre", {
-  group = vim.api.nvim_create_augroup("restore_files", { clear = true }),
+-- 5. 设置自动命令：当该文件被加载后，立即执行我们的补丁逻辑
+vim.api.nvim_create_autocmd("SourcePost", {
+  pattern = { "**/vim-dadbod-ui/autoload/db_ui/drawer.vim" },
   callback = function()
-    -- 恢复java-dep图标与文字间隔
-    if vim.g.java_deps_loaded then
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
-        88,
-        '    table.insert(lines, string_prefix .. icon .. " " .. node.label)'
-      )
-
-      -- 去空格
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
-        80,
-        '      line[index] = line[index] .. " "'
-      )
-    end
-
-    -- 恢复outline图标与文本间空格和高亮
-    if vim.g.outline_is_loaded then
-      -- 空格
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
-        905,
-        "    line = line .. ' ' .. node.name"
-      )
-      -- 高亮
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/sidebar.lua",
-        919,
-        "    node.prefix_length = hl_end + 1"
-      )
-
-      -- vue文件请求outline特殊处理
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/outline.nvim/lua/outline/providers/nvim-lsp.lua",
-        62,
-        ""
-      )
-    end
-
-    -- 恢复dbui图标与文字间隔
-    if vim.g.dbui_loaded then
-      -- 恢复
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/vim-dadbod-ui/autoload/db_ui/drawer.vim",
-        362,
-        '  let content = map(copy(self.content), \'repeat(" ", shiftwidth() * v:val.level).v:val.icon.(!empty(v:val.icon) ? " " : "").v:val.label\')'
-      )
-    end
-
-    -- 恢复persistence
-    if vim.g.persistence_loaded then
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
-        106,
-        "function M.select()"
-      )
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
-        125,
-        '    prompt = "Select a session: ",'
-      )
-
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
-        131,
-        "      vim.fn.chdir(item.dir)"
-      )
-
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
-        132,
-        "      M.load()"
-      )
-      -- 选择
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
-        136,
-        ""
-      )
-      -- 删除
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/persistence.nvim/lua/persistence/init.lua",
-        145,
-        ""
-      )
+    if not vim.g.db_ui_patching then
+      OwnUtil.utils.patch_vim_plugin()
     end
   end,
 })
 
 -- 取消缩进线动画
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = {
-    "Outline",
-    "JavaProjects",
-  },
-  callback = function()
-    vim.b.miniindentscope_disable = true
+  pattern = "*",
+  callback = function(args)
+    local filetype = args.match
+    local exact_matches = {
+      ["Outline"] = true,
+      ["JavaProjects"] = true,
+      ["dbui"] = true,
+
+      ["Trouble"] = true,
+      ["alpha"] = true,
+      ["dashboard"] = true,
+      ["fzf"] = true,
+      ["help"] = true,
+      ["lazy"] = true,
+      ["mason"] = true,
+      ["notify"] = true,
+      ["toggleterm"] = true,
+      ["trouble"] = true,
+    }
+    if exact_matches[filetype] or string.find(filetype, "[%._-]") then
+      vim.b[args.buf].miniindentscope_disable = true
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("neovim_treesitter", { clear = true }),
+  callback = function(ev)
+    -- highlighting
+    pcall(vim.treesitter.start, ev.buf)
+
+    OwnUtil.utils.treesitter_context_object_attach(ev.buf)
   end,
 })
 
 vim.o.clipboard = "unnamedplus"
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    -- vim.highlight.on_yank()
+    (vim.hl or vim.highlight).on_yank()
     local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy("+")
     copy_to_unnamedplus(vim.v.event.regcontents)
     local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")
@@ -155,7 +88,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- 自动读文件
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufEnter" }, {
-  callback = function()
-    require("autoread").enable()
+  callback = function(e)
+    if e.file ~= "" then
+      require("autoread").enable()
+    end
   end,
 })

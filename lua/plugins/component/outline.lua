@@ -23,8 +23,18 @@ return {
 
     opts.keymaps = {
       goto_location = "o",
+      goto_and_close = "<C-o>",
       fold_toggle = "<CR>",
       peek_location = "p",
     }
   end,
+  keys = {
+    -- 大纲
+    {
+      "<leader>ol",
+      "<cmd>Outline<cr>",
+      desc = "文件大纲",
+      mode = { "n" },
+    },
+  },
 }

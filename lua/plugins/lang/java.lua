@@ -8,13 +8,27 @@ end
 
 local java_bin = OwnUtil.utils.cmd.java_bin()
 
+local function extend_or_override(config, custom, ...)
+  if type(custom) == "function" then
+    config = custom(config, ...) or config
+  elseif custom then
+    config = vim.tbl_deep_extend("force", config, custom) --[[@as table]]
+  end
+  return config
+end
+
+vim.g.intellij = false
+
 return {
   -- Set up nvim-jdtls to attach to java files.
   {
     "mfussenegger/nvim-jdtls",
+    -- enabled = not vim.g.intellij_java,
+    ft = vim.g.intellij and "abcdef" or "java",
     -- jdtls要求最低Java21
     -- 需要配置JAVA_21_HOME环境变量
-    opts = function(_, opts)
+    opts = function()
+      local opts = {}
       local mason_registry = require("mason-registry")
 
       local jdtls_config = {}
@@ -24,7 +38,7 @@ return {
       local inlay_hint_enabled = "all"
 
       -- 添加dap扩展jar包
-      if LazyVim.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
+      if mason_registry.is_installed("java-debug-adapter") then
         local java_dbg_path = vim.fn.expand("$MASON/packages/java-debug-adapter")
         local jar_patterns = {
           java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
@@ -56,7 +70,7 @@ return {
       end
 
       -- 添加spring-boot jdtls扩展jar包
-      if OwnUtil.lsp.java.is_spring_boot_project() then
+      if OwnUtil.lang.java.is_spring_boot_project() then
         if mason_registry.is_installed("vscode-spring-boot-tools") then
           -- 添加jars目录下所有的jar文件
           local java_spring_boot_bundles = vim.split(
@@ -142,15 +156,40 @@ return {
       end
 
       jdtls_config.handlers = {}
-
+      opts.project_name = function(root_dir)
+        return root_dir and vim.fs.basename(root_dir)
+      end
       opts.root_dir = function()
-        local root_dir = require("jdtls.setup").find_root(OwnUtil.lsp.java.root_markers, vim.fn.getcwd())
+        local root_dir = require("jdtls.setup").find_root(OwnUtil.lang.java.root_markers, vim.fn.getcwd())
         if not root_dir then
           local path = vim.api.nvim_buf_get_name(0)
 
           root_dir = vim.fs.root(path, vim.lsp.config.jdtls.root_markers) or ""
         end
         return root_dir
+      end
+
+      opts.jdtls_config_dir = function(project_name)
+        return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/config"
+      end
+      opts.jdtls_workspace_dir = function(project_name)
+        return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
+      end
+
+      opts.full_cmd = function(options)
+        local fname = vim.api.nvim_buf_get_name(0)
+        local root_dir = options.root_dir(fname)
+        local project_name = options.project_name(root_dir)
+        local cmd = vim.deepcopy(options.cmd)
+        if project_name then
+          vim.list_extend(cmd, {
+            "-configuration",
+            options.jdtls_config_dir(project_name),
+            "-data",
+            options.jdtls_workspace_dir(project_name),
+          })
+        end
+        return cmd
       end
 
       local function get_config_file()
@@ -352,16 +391,163 @@ return {
           },
         },
       }
+      opts.dap = { hotcodereplace = "auto", config_overrides = {} }
+      -- Can set this to false to disable main class scan, which is a performance killer for large project
+      opts.test = true
+      return opts
     end,
+    config = function(_, opts)
+      local function attach_jdtls()
+        local fname = vim.api.nvim_buf_get_name(0)
+
+        -- Configuration can be augmented and overridden by opts.jdtls
+        local config = extend_or_override({
+          cmd = opts.full_cmd(opts),
+          root_dir = opts.root_dir(fname),
+          settings = opts.settings,
+          -- enable CMP capabilities
+          capabilities = require("blink.cmp").get_lsp_capabilities() or nil,
+        }, opts.jdtls)
+
+        -- Existing server will be reused if the root_dir matches.
+        require("jdtls").start_or_attach(config)
+        -- not need to require("jdtls.setup").add_commands(), start automatically adds commands
+      end
+
+      -- Attach the jdtls for each java buffer. HOWEVER, this plugin loads
+      -- depending on filetype, so this autocmd doesn't run for the first file.
+      -- For that, we call directly below.
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "java",
+        callback = attach_jdtls,
+      })
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client.name == "jdtls" then
+            local wk = require("which-key")
+            wk.add({
+              {
+                mode = "n",
+                buffer = args.buf,
+                { "<leader>cx", group = "extract" },
+                { "<leader>cxv", require("jdtls").extract_variable_all, desc = "Extract Variable" },
+                { "<leader>cxc", require("jdtls").extract_constant, desc = "Extract Constant" },
+                { "<leader>cgs", require("jdtls").super_implementation, desc = "Goto Super" },
+                { "<leader>cgS", require("jdtls.tests").goto_subjects, desc = "Goto Subjects" },
+                { "<leader>co", require("jdtls").organize_imports, desc = "Organize Imports" },
+              },
+            })
+            wk.add({
+              {
+                mode = "x",
+                buffer = args.buf,
+                { "<leader>cx", group = "extract" },
+                {
+                  "<leader>cxm",
+                  [[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
+                  desc = "Extract Method",
+                },
+                {
+                  "<leader>cxv",
+                  [[<ESC><CMD>lua require('jdtls').extract_variable_all(true)<CR>]],
+                  desc = "Extract Variable",
+                },
+                {
+                  "<leader>cxc",
+                  [[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]],
+                  desc = "Extract Constant",
+                },
+              },
+            })
+
+            local mason_registry = require("mason-registry")
+            if opts.dap and mason_registry.is_installed("java-debug-adapter") then
+              -- custom init for Java debugger
+              require("jdtls").setup_dap(opts.dap)
+              if opts.dap_main then
+                require("jdtls.dap").setup_dap_main_class_configs(opts.dap_main)
+              end
+
+              -- Java Test require Java debugger to work
+              if opts.test and mason_registry.is_installed("java-test") then
+                -- custom keymaps for Java test runner (not yet compatible with neotest)
+                wk.add({
+                  {
+                    mode = "n",
+                    buffer = args.buf,
+                    { "<leader>t", group = "test" },
+                    {
+                      "<leader>tt",
+                      function()
+                        require("jdtls.dap").test_class({
+                          config_overrides = type(opts.test) ~= "boolean" and opts.test.config_overrides or nil,
+                        })
+                      end,
+                      desc = "Run All Test",
+                    },
+                    {
+                      "<leader>tr",
+                      function()
+                        require("jdtls.dap").test_nearest_method({
+                          config_overrides = type(opts.test) ~= "boolean" and opts.test.config_overrides or nil,
+                        })
+                      end,
+                      desc = "Run Nearest Test",
+                    },
+                    { "<leader>tT", require("jdtls.dap").pick_test, desc = "Run Test" },
+                  },
+                })
+              end
+            end
+
+            -- User can set additional keymaps in opts.on_attach
+            if opts.on_attach then
+              opts.on_attach(args)
+            end
+          end
+        end,
+      })
+
+      -- Avoid race condition by calling attach the first time, since the autocmd won't fire.
+      attach_jdtls()
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-dap",
+    optional = true,
+    opts = function()
+      if not vim.g.intellij then
+        local dap = require("dap")
+        dap.configurations.java = {
+          {
+            type = "java",
+            request = "attach",
+            name = "Debug (Attach) - Remote",
+            hostName = "127.0.0.1",
+            port = 5005,
+          },
+        }
+      end
+    end,
+    dependencies = {
+      {
+        "mason-org/mason.nvim",
+        opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
+      },
+    },
   },
   {
     "JavaHello/spring-boot.nvim",
-    ft = "java",
+    -- enabled = not vim.g.intellij_java,
+    ft = vim.g.intellij and "abcdef" or "java",
     dependencies = {
       "mfussenegger/nvim-jdtls",
     },
     opts = function()
-      if not OwnUtil.lsp.java.is_spring_boot_project() then
+      if not OwnUtil.lang.java.is_spring_boot_project() then
         -- spring-boot.nvim使用环境变量获取路径
         -- 这里强制获取失败以停止spring-boot-ls的启动
         vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
@@ -387,7 +573,7 @@ return {
 
       local log_file = vim.fn.stdpath("cache")
         .. "/jdtls/"
-        .. vim.fs.basename(vim.fs.root(vim.fn.getcwd(), OwnUtil.lsp.java.root_markers))
+        .. vim.fs.basename(vim.fs.root(vim.fn.getcwd(), OwnUtil.lang.java.root_markers))
         .. "/spring_boot/log.txt"
 
       local cmd = {
@@ -396,14 +582,15 @@ return {
         "-Xms64M",
         "-Xmx64M",
         GC_type,
-        -- "-Dspring.config.location=classpath:/application.properties",
-        -- "-Dspring.main.web-application-type=NONE",
-        -- "-Xlog:jni+resolve=off",
+        "-Dspring.config.location=classpath:/application.properties",
+        "-Djdk.util.zip.disableZip64ExtraFieldValidation=true",
+        "-Dspring.main.web-application-type=NONE",
+        "-Xlog:jni+resolve=off",
         "-Dsts.lsp.client=vscode",
         "-Dsts.log.file=" .. log_file,
         "-Dspring.profiles.active=file-logging",
         "-Dlogging.file.name=" .. log_file,
-        "-Dlogging.level.root=info",
+        "-Dlogging.level.root=warn",
         "-jar",
         server_jar[1],
       }
@@ -425,64 +612,147 @@ return {
     end,
   },
   {
-    "JavaHello/java-deps.nvim",
-    lazy = true,
-    ft = "java",
-    dependencies = "mfussenegger/nvim-jdtls",
-    opts = function()
-      -- 去空格
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
-        88,
-        "    table.insert(lines, string_prefix .. icon .. node.label)"
-      )
+    "jkeresman01/spring-initializr.nvim",
+    cmd = { "SpringInitializr", "SpringGenerateProject" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
 
-      -- 去空格
-      OwnUtil.utils.termux_change_file_line(
-        vim.fn.stdpath("data") .. "/lazy/java-deps.nvim/lua/java-deps/parser.lua",
-        80,
-        '      local suffix = " " if line[index] == " " or line[index] == " " then suffix = "" end line[index] = line[index] .. suffix'
-      )
-      -- 描述java-deps已经加载
-      vim.g.java_deps_loaded = 1
-
-      local java_dep_width = "30%"
-      if OwnUtil.sys.is_termux() then
-        java_dep_width = "70%"
-      end
-
-      return {
-        width = java_dep_width,
-        fold_markers = { " ", " " },
-        keymaps = {
-          close = "q",
-          toggle_fold = "<CR>",
-        },
-        symbols = {
-          icons = {
-            NodeKind = {
-              Workspace = { icon = " ", hl = "@property" },
-              Project = { icon = " ", hl = "@property" },
-              PackageRoot = { icon = " ", hl = "@property" },
-              Package = { icon = "󰅩 ", hl = "@property" },
-              PrimaryType = { icon = " ", hl = "@type" },
-              CompilationUnit = { icon = " ", hl = "@property" },
-              ClassFile = { icon = " ", hl = "@keyword" },
-              Container = { icon = " ", hl = "@property" },
-              Folder = { icon = " ", hl = "@property" },
-              File = { icon = " ", hl = "@property" },
+      {
+        "nvim-telescope/telescope.nvim",
+        cmd = "SpringInitializr",
+        opts = {
+          defaults = {
+            -- 将文件名提到开头，路径颜色变暗
+            path_display = {
+              filename_first = {
+                reverse_directories = false,
+              },
             },
-            TypeKind = {
-              Class = { icon = " ", hl = "@type" },
-              Interface = { icon = " ", hl = "@constructor" },
-              Enum = { icon = " ", hl = "@type" },
-            },
-            EntryKind = {
-              K_SOURCE = { icon = " ", hl = "@property" },
-              K_BINARY = { icon = " ", hl = "@property" },
+            -- 显示右侧预览，不过在手机上很窄，不美观
+            -- layout_strategy = "horizontal",
+            -- layout_config = {
+            --   width = 0.8,
+            --   preview_cutoff = 1,
+            -- },
+            layout_strategy = "vertical",
+            layout_config = {
+              vertical = {
+                preview_cutoff = 20,
+                preview_height = 0.6,
+                -- mirror = true,
+              },
+              -- height = { padding = 0 },
+              -- width = { padding = 0 },
             },
           },
+          -- 预览和搜索结果上下分布，看着有些怪，但是搜索结果显示完整一些
+          -- pickers = {
+          --   find_files = {
+          --     theme = "dropdown",
+          --   },
+          -- },
         },
+      },
+    },
+    config = function()
+      vim.g.spring_initializr_log_file = true
+      -- vim.g.spring_initializr_log_level = "trace"
+      require("spring-initializr").setup()
+    end,
+    keys = {
+
+      {
+        "<leader>si",
+        "<cmd>SpringInitializr<cr>",
+        desc = "[S]pring [I]nitializr (spring initializr)",
+      },
+      {
+        "<leader>sp",
+        "<cmd>SpringGenerateProject<cr>",
+        desc = "[S]pring Generate [P]roject (spring initializr)",
+      },
+      {
+        "<leader>ad",
+        function()
+          require("spring-initializr.telescope.telescope").pick_dependencies(
+            {},
+            require("spring-initializr.ui.components.dependencies.dependencies_display").update_display
+          )
+        end,
+        desc = "[A]dd [D]ependency (spring initializr)",
+      },
+    },
+  },
+
+  {
+    "JavaHello/java-deps.nvim",
+    -- enabled = not vim.g.intellij_java,
+    lazy = true,
+    ft = vim.g.intellij and "abcdef" or "java",
+    dependencies = "mfussenegger/nvim-jdtls",
+    opts = {
+      width = OwnUtil.sys.is_termux() and "70%" or "30%",
+      fold_markers = { " ", " " },
+      keymaps = {
+        close = "q",
+        toggle_fold = "<CR>",
+      },
+      symbols = {
+        icons = {
+          NodeKind = {
+            Workspace = { icon = " ", hl = "@property" },
+            Project = { icon = " ", hl = "@property" },
+            PackageRoot = { icon = " ", hl = "@property" },
+            Package = { icon = "󰅩 ", hl = "@property" },
+            PrimaryType = { icon = " ", hl = "@type" },
+            CompilationUnit = { icon = " ", hl = "@property" },
+            ClassFile = { icon = " ", hl = "@keyword" },
+            Container = { icon = " ", hl = "@property" },
+            Folder = { icon = " ", hl = "@property" },
+            File = { icon = " ", hl = "@property" },
+          },
+          TypeKind = {
+            Class = { icon = " ", hl = "@type" },
+            Interface = { icon = " ", hl = "@constructor" },
+            Enum = { icon = " ", hl = "@type" },
+          },
+          EntryKind = {
+            K_SOURCE = { icon = " ", hl = "@property" },
+            K_BINARY = { icon = " ", hl = "@property" },
+          },
+        },
+      },
+    },
+  },
+
+  {
+    "AlexandrosAlexiou/intellij-server.nvim",
+    -- enabled = vim.g.intellij_java,
+    ft = vim.g.intellij and { "java", "kotlin" } or "abcdef",
+    dependencies = { "mfussenegger/nvim-dap" }, -- optional
+    opts = function()
+      local server_path = nil
+      local server_java_home = nil
+      local mason_registry = require("mason-registry")
+      if mason_registry.is_installed("intellij-server") then
+        local install_path = vim.fn.expand("$MASON/packages/intellij-server/intellij-server-*")
+
+        if OwnUtil.sys.is_termux() then
+          OwnUtil.utils.lsp.intellij_termux_adapted(install_path)
+
+          vim.fn.setenv("LD_PRELOAD", "")
+        end
+        server_path = install_path .. "/bin/intellij-server"
+
+        server_java_home = install_path .. "/jbr"
+      end
+      return {
+        filetypes = { "java", "kotlin" },
+        server_path = server_path,
+
+        default_sdk = vim.env["$JAVA_17_HOME"] or nil,
+        java_home = server_java_home,
       }
     end,
   },

@@ -2,6 +2,9 @@ local default = {}
 local directory = {}
 local extension = {}
 local file = {
+  [".keep"] = { glyph = "󰊢", hl = "MiniIconsGrey" },
+  ["devcontainer.json"] = { glyph = "", hl = "MiniIconsAzure" },
+
   -- ui
   [".node-version"] = { glyph = "󰎙" },
   ["package.json"] = { glyph = "󰎙" },
@@ -14,24 +17,23 @@ local file = {
   ["application.yml"] = { glyph = "", hl = "SpringBootIcon" },
   ["bootstrap.properties"] = { glyph = "", hl = "SpringBootIcon" },
   ["bootstrap.yml"] = { glyph = "", hl = "SpringBootIcon" },
+  ["application.yaml"] = { glyph = "", hl = "SpringBootIcon" },
+  ["bootstrap.yaml"] = { glyph = "", hl = "SpringBootIcon" },
 }
 
 local filetype = {
+  dotenv = { glyph = "", hl = "MiniIconsYellow" },
+
   -- java
   jproperties = { glyph = "", hl = "PropertiesIcon" },
 }
 local lsp = {}
 local os = {}
 
-local lazygit_icons = "3"
--- lazygit
-if OwnUtil.sys.is_termux() then
-  lazygit_icons = ""
-end
-
 return {
   {
     "nvim-mini/mini.icons",
+    lazy = true,
     opts = {
       default = default,
       directory = directory,
@@ -41,10 +43,17 @@ return {
       lsp = lsp,
       os = os,
     },
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
+    end,
   },
 
   {
     "folke/which-key.nvim",
+    event = "VeryLazy",
     opts = {
       icons = {
         keys = {
@@ -55,29 +64,13 @@ return {
         },
       },
     },
-  },
-
-  {
-    "folke/snacks.nvim",
-    opts = {
-      lazygit = {
-        config = {
-          gui = {
-            -- 关闭图标字体
-            nerdFontsVersion = lazygit_icons,
-          },
-        },
-      },
-      notifier = {
-        margin = { top = 1, right = 1, bottom = 0 },
-        icons = {
-          -- 解决光标行图标显示问题
-          error = " ",
-          warn = " ",
-          info = " ",
-          debug = " ",
-          trace = " ",
-        },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
       },
     },
   },

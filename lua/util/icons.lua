@@ -45,4 +45,24 @@ M.kinds = {
   Variable = " ",
 }
 
+M.diagnostics = {
+  Error = " ",
+  Warn = " ",
+  Hint = " ",
+  Info = " ",
+}
+
+M.git = {
+  added = " ",
+  modified = " ",
+  removed = " ",
+}
+M.dap = {
+  Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+  Breakpoint = " ",
+  BreakpointCondition = " ",
+  BreakpointRejected = { " ", "DiagnosticError" },
+  LogPoint = ".>",
+}
+
 return M

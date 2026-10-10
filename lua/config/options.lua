@@ -1,9 +1,12 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
+require("vim._core.ui2").enable({
+  enable = true,
+})
 local option = vim.opt
 -- local buffer = vim.b
 local global = vim.g
+
+option.cmdheight = 0
 
 option.tabstop = 2
 option.shiftwidth = 2
@@ -17,19 +20,16 @@ option.spelloptions = "camel"
 
 -- 自动折行
 option.wrap = true
+option.linebreak = true -- 在单词边界处折行（更美观）
+option.breakindent = true -- 折行后保持缩进
 
 -- 关闭透明显示
 -- 关掉可以让cmp补全列表图标正常显示
 option.pumblend = 0
 
-global.autoformat = false
-global.lazyvim_python_lsp = "basedpyright"
--- 关闭lazyvim里lualine的symbol显示
-global.trouble_lualine = false
-
 -- wsl粘贴板共享到宿主机
 if vim.fn.has("wsl") == 1 then
-  vim.g.clipboard = {
+  global.clipboard = {
     name = "win32yank-wsl",
     copy = {
       ["+"] = "win32yank.exe -i --crlf",
@@ -42,10 +42,76 @@ if vim.fn.has("wsl") == 1 then
     cache_enable = 0,
   }
 end
--- :e刷新文件不显示inlay hints,这里强制全部开启
-if vim.fn.has("nvim-0.10") == 1 then
-  vim.lsp.inlay_hint.enable()
-end
 
 option.mousemoveevent = true
-global.groovy_format_indent_first = true
+-- global.groovy_format_indent_first = true
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+-- 状态栏
+if OwnUtil.sys.is_termux() then
+  global.mini_statusline = true
+else
+  global.lualine = true
+end
+
+-- global.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
+
+-- Hide deprecation warnings
+-- global.deprecation_warnings = false
+
+option.autowrite = true -- Enable auto write
+option.completeopt = "menu,menuone,noselect"
+option.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
+option.confirm = true -- Confirm to save changes before exiting modified buffer
+option.cursorline = true -- Enable highlighting of the current line
+option.expandtab = true -- Use spaces instead of tabs
+option.fillchars = {
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
+}
+option.foldlevel = 99
+option.foldmethod = "indent"
+option.foldtext = ""
+
+option.grepformat = "%f:%l:%c:%m"
+option.grepprg = "rg --vimgrep"
+option.ignorecase = true -- Ignore case
+option.inccommand = "nosplit" -- preview incremental substitute
+option.jumpoptions = "view"
+option.laststatus = 3 -- global statusline
+option.list = true -- Show some invisible characters (tabs...
+option.mouse = "a" -- Enable mouse mode
+option.number = true -- Print line number
+option.pumblend = 10 -- Popup blend
+option.pumheight = 10 -- Maximum number of entries in a popup
+option.relativenumber = true -- Relative line numbers
+option.ruler = false -- Disable the default ruler
+option.scrolloff = 4 -- Lines of context
+option.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+option.shiftround = true -- Round indent
+option.shiftwidth = 2 -- Size of an indent
+option.shortmess:append({ W = true, I = true, c = true, C = true })
+option.showmode = false -- Dont show mode since we have a statusline
+option.sidescrolloff = 8 -- Columns of context
+option.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+option.smartcase = true -- Don't ignore case with capitals
+option.smartindent = true -- Insert indents automatically
+option.smoothscroll = true
+-- option.spelllang = { "en" }
+option.splitbelow = true -- Put new windows below current
+option.splitkeep = "screen"
+option.splitright = true -- Put new windows right of current
+option.termguicolors = true -- True color support
+option.timeoutlen = global.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
+option.undofile = true
+option.undolevels = 10000
+option.updatetime = 200 -- Save swap file and trigger CursorHold
+option.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
+option.wildmode = "longest:full,full" -- Command-line completion mode
+option.winminwidth = 5 -- Minimum window width
