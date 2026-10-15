@@ -36,6 +36,7 @@ return {
         servers = {
           gopls = OwnUtil.lang.gopls,
           marksman = {},
+          markdown_ls = {},
           jdtls = {},
           lua_ls = OwnUtil.lang.lua_ls,
           basedpyright = {
@@ -82,6 +83,9 @@ return {
             return true
           end,
           kotlin_lsp = function()
+            return true
+          end,
+          markdown_ls = function()
             return true
           end,
           -- Keep gradle_ls out of mason-lspconfig automatic enablement.
@@ -243,6 +247,7 @@ return {
         "markdown-toc",
         "markdownlint-cli2",
         "marksman",
+        "markdown-lsp",
         --php
         "php-cs-fixer",
         "php-debug-adapter",
