@@ -1,20 +1,15 @@
 diff --git a/lua/kulala/config/parser.lua b/lua/kulala/config/parser.lua
-index 8f2808f..f8750e2 100644
+index 8f2808f..3a36ac8 100644
 --- a/lua/kulala/config/parser.lua
 +++ b/lua/kulala/config/parser.lua
-@@ -128,15 +128,7 @@ local function setup_tree_sitter()
-   local setup_progress, setup_finish = Notify.create_progress_handler(Globals.NAME)
-   setup_progress { message = "Setting up tree-sitter ..." }
-   vim.schedule(function()
--    fetch_grammar(function(res)
--      if res.code ~= 0 then
--        vim.schedule(function()
--          setup_finish("Failed to fetch tree-sitter grammar: " .. (res.stderr or ""), false)
--        end)
+@@ -133,10 +133,9 @@ local function setup_tree_sitter()
+         vim.schedule(function()
+           setup_finish("Failed to fetch tree-sitter grammar: " .. (res.stderr or ""), false)
+         end)
 -        return
--      end
+       end
 -      build_parser(setup_finish)
--    end)
+     end)
 +    build_parser(setup_finish)
    end)
  end

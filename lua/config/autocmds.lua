@@ -1,7 +1,10 @@
 -- Add any additional autocmds here
 
 -- bufferline高亮
-vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", { fg = "#282828", bg = "#282828" })
+vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", {
+  fg = OwnUtil.utils.hl.get_hl("Normal").bg,
+  bg = OwnUtil.utils.hl.get_hl("Normal").bg,
+})
 
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -13,11 +16,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.opt.formatoptions = vim.opt.formatoptions - { "o" }
   end,
 })
-
--- SpringBootIcon高亮
-vim.api.nvim_set_hl(0, "SpringBootIcon", { fg = "#57965c" })
--- PropertiesIcon高亮
-vim.api.nvim_set_hl(0, "PropertiesIcon", { fg = "#ced0d6" })
 
 -- 自动显示光标所在行诊断信息
 -- 干扰太多，暂时取消

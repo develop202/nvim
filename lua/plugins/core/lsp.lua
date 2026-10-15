@@ -175,6 +175,7 @@ return {
   {
     "mason-org/mason.nvim",
     cmd = "Mason",
+    dependencies = "ibhagwan/fzf-lua",
     keys = {
       { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" },
     },

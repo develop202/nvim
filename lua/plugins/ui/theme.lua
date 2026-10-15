@@ -1,6 +1,7 @@
 if not OwnUtil.sys.is_termux() then
   vim.g.font_italic = true
 end
+local hl = OwnUtil.utils.hl
 return {
   -- add gruvbox
   {
@@ -8,15 +9,15 @@ return {
     event = "UIEnter",
     opts = {
       overrides = {
-        GruvboxRedSign = { fg = "#fb4934", bg = "NONE" },
-        GruvboxGreenSign = { fg = "#b8bb26", bg = "NONE" },
-        GruvboxBlueSign = { fg = "#83a598", bg = "NONE" },
-        GruvboxYellowSign = { fg = "#fabd2f", bg = "NONE" },
-        GruvboxAquaSign = { fg = "#8ec07c", bg = "NONE" },
+        GruvboxRedSign = { fg = hl.get_hl("GruvboxRedSign").fg, bg = "NONE" },
+        GruvboxGreenSign = { fg = hl.get_hl("GruvboxGreenSign").fg, bg = "NONE" },
+        GruvboxBlueSign = { fg = hl.get_hl("GruvboxBlueSign").fg, bg = "NONE" },
+        GruvboxYellowSign = { fg = hl.get_hl("GruvboxYellowSign").fg, bg = "NONE" },
+        GruvboxAquaSign = { fg = hl.get_hl("GruvboxAquaSign").fg, bg = "NONE" },
 
         SignColumn = { bg = "NONE" },
         -- 去除光标所在行行号的背景颜色
-        CursorLineNr = { fg = "#fabd2f", bg = "NONE" },
+        CursorLineNr = { fg = hl.get_hl("CursorLineNr").fg, bg = "NONE" },
 
         -- lsp document_highlight高亮组
         -- LspReferenceWrite = { bg = "#900C3F" },
@@ -39,6 +40,9 @@ return {
         NeoTreeRootName = { bold = true, italic = vim.g.font_italic },
         NeoTreeGitConflict = { bold = true, fg = "#ff8700", italic = vim.g.font_italic },
         NeoTreeGitUntracked = { fg = "#ff8700", italic = vim.g.font_italic },
+
+        SpringBootIcon = { fg = "#57965c" },
+        PropertiesIcon = { fg = "#ced0d6" },
       },
       italic = {
         -- termux上关闭斜体

@@ -698,31 +698,6 @@ return {
         close = "q",
         toggle_fold = "<CR>",
       },
-      symbols = {
-        icons = {
-          NodeKind = {
-            Workspace = { icon = " ", hl = "@property" },
-            Project = { icon = " ", hl = "@property" },
-            PackageRoot = { icon = " ", hl = "@property" },
-            Package = { icon = "󰅩 ", hl = "@property" },
-            PrimaryType = { icon = " ", hl = "@type" },
-            CompilationUnit = { icon = " ", hl = "@property" },
-            ClassFile = { icon = " ", hl = "@keyword" },
-            Container = { icon = " ", hl = "@property" },
-            Folder = { icon = " ", hl = "@property" },
-            File = { icon = " ", hl = "@property" },
-          },
-          TypeKind = {
-            Class = { icon = " ", hl = "@type" },
-            Interface = { icon = " ", hl = "@constructor" },
-            Enum = { icon = " ", hl = "@type" },
-          },
-          EntryKind = {
-            K_SOURCE = { icon = " ", hl = "@property" },
-            K_BINARY = { icon = " ", hl = "@property" },
-          },
-        },
-      },
     },
   },
 
@@ -730,7 +705,10 @@ return {
     "AlexandrosAlexiou/intellij-server.nvim",
     -- enabled = vim.g.intellij_java,
     ft = vim.g.intellij and { "java", "kotlin" } or "abcdef",
-    dependencies = { "mfussenegger/nvim-dap" }, -- optional
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      { "stevearc/oil.nvim", opts = {} },
+    }, -- optional
     opts = function()
       local server_path = nil
       local server_java_home = nil

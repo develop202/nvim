@@ -21,7 +21,6 @@ _G.OwnUtil = require("util")
 
 require("config.options")
 require("config.keymaps")
-require("config.autocmds")
 
 -- 主题和neo-tree中斜体
 vim.g.font_italic = false
@@ -82,3 +81,5 @@ require("lazy").setup({
 vim.opt.statuscolumn = [[%!v:lua.OwnUtil.statuscolumn()]]
 vim.o.background = "dark"
 vim.cmd([[colorscheme gruvbox]])
+
+require("config.autocmds")

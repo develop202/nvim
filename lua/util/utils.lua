@@ -9,6 +9,8 @@ M.cmd = {}
 M.dashboard = {}
 -- lsp相关
 M.lsp = {}
+-- 高亮
+M.hl = {}
 
 --- 需要加载插件html-css-cmp的文件类型
 M.ft.cmp_html_css_ft = {
@@ -219,9 +221,13 @@ local patch = {
     },
   },
 
-  -- 去空格
-  ["java-deps.parser"] = {
+  ["java-deps.views.parser"] = {
+    -- 去空格
     { search = 'icon .. " " .. node.label', replace = "icon .. node.label" },
+    {
+      search = "hl_icon%.icon",
+      replace = 'hl_icon.icon .. " "',
+    },
     {
       search = 'line%[index%] = line%[index%] %.%. " "',
       replace = 'local suffix = " " if line[index] == " " or line[index] == " " then suffix = "" end line[index] = line[index] .. suffix',
@@ -408,6 +414,38 @@ M.lsp.intellij_termux_adapted = function(lsp_install_path)
       end
     end
   end
+end
+
+-- 兼容封装：统一返回 { fg, bg, sp, italic, bold, ... }
+M.hl.get_hl = function(name)
+  local raw, hl
+
+  if vim.api.nvim_get_hl then
+    -- 0.9+：字段已经是 fg / bg / sp / italic / bold 等，直接就是统一格式
+    raw = vim.api.nvim_get_hl(0, { name = name })
+    -- if name == "GruvboxBg0" then
+    --   vim.cmd("hi GruvboxBg0")
+    -- end
+    return raw
+  end
+
+  -- 0.9 以下：返回的是 foreground / background / special / italic / bold ...
+  ---@diagnostic disable-next-line: deprecated
+  raw = vim.api.nvim_get_hl_by_name(name, true)
+  hl = {}
+  for k, v in pairs(raw) do
+    if k == "foreground" then
+      hl.fg = v
+    elseif k == "background" then
+      hl.bg = v
+    elseif k == "special" then
+      hl.sp = v
+    else
+      -- italic / bold / underline / reverse / strikethrough 等字段名一致
+      hl[k] = v
+    end
+  end
+  return hl
 end
 
 return M

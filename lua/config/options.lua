@@ -1,6 +1,6 @@
 -- Add any additional options here
 require("vim._core.ui2").enable({
-  enable = true,
+  enable = false,
 })
 local option = vim.opt
 -- local buffer = vim.b

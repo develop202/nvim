@@ -5,7 +5,7 @@ return {
     dependencies = {
       "mason.nvim",
       "mason-lspconfig.nvim",
-      "stevearc/oil.nvim",
+      { "stevearc/oil.nvim", opts = {} },
       "folke/trouble.nvim",
       -- nvim-dap is NOT a kotlin.nvim dependency. Install and configure it
       -- separately (signs, keymaps, optionally nvim-dap-ui). kotlin.nvim only
