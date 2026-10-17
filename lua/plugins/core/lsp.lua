@@ -9,94 +9,70 @@ return {
         config = function() end,
       },
     },
-    opts = function()
-      vim.diagnostic.config(vim.deepcopy({
-        -- insert模式下显示诊断信息
-        -- 更新太频繁
-        -- update_in_insert = true,
-        virtual_text = false,
-        -- 悬浮窗显示来源
-        float = {
-          source = "always",
-        },
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = OwnUtil.icons.diagnostics.Error,
-            [vim.diagnostic.severity.WARN] = OwnUtil.icons.diagnostics.Warn,
-            [vim.diagnostic.severity.HINT] = OwnUtil.icons.diagnostics.Hint,
-            [vim.diagnostic.severity.INFO] = OwnUtil.icons.diagnostics.Info,
-          },
-        },
-      }))
-
-      return {
-        servers = {
-          gopls = OwnUtil.lang.gopls,
-          marksman = {},
-          markdown_ls = {},
-          jdtls = {},
-          lua_ls = OwnUtil.lang.lua_ls,
-          basedpyright = {
-            settings = {
-              basedpyright = {
-                analysis = {
-                  -- basedpyright检查模式:常规
-                  typeCheckingMode = "standard",
-                },
+    opts = {
+      servers = {
+        gopls = OwnUtil.lang.gopls,
+        marksman = {},
+        markdown_ls = {},
+        jdtls = {},
+        lua_ls = OwnUtil.lang.lua_ls,
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                -- basedpyright检查模式:常规
+                typeCheckingMode = "standard",
               },
             },
           },
-          clangd = OwnUtil.lang.clangd,
+        },
+        clangd = OwnUtil.lang.clangd,
 
-          emmet_language_server = {
-            filetypes = {
-              "eruby",
-              "html",
-              "htmldjango",
-              "javascriptreact",
-              "pug",
-              "typescriptreact",
-              "htmlangular",
-            },
-          },
-          vue_ls = {
-            handlers = {
-              -- NOTE: 多个lsp请求inlayHints异常
-              ["textDocument/inlayHint"] = function()
-                return nil
-              end,
-            },
-          },
-          yamlls = {},
-          vtsls = OwnUtil.lang.vtsls,
-          kotlin_lsp = {},
-          taplo = {},
-          gradle_ls = {
-            cmd = { "python3", vim.fn.stdpath("config") .. "/scripts/gradle-language-server-stdio.py" },
+        emmet_language_server = {
+          filetypes = {
+            "eruby",
+            "html",
+            "htmldjango",
+            "javascriptreact",
+            "pug",
+            "typescriptreact",
+            "htmlangular",
           },
         },
-        setup = {
-          jdtls = function()
-            return true
-          end,
-          kotlin_lsp = function()
-            return true
-          end,
-          markdown_ls = function()
-            return true
-          end,
-          -- Keep gradle_ls out of mason-lspconfig automatic enablement.
-          gradle_ls = function(_, opts)
-            vim.lsp.config("gradle_ls", opts)
-            vim.lsp.enable("gradle_ls")
-            return true
-          end,
+        vue_ls = {
+          handlers = {
+            -- NOTE: 多个lsp请求inlayHints异常
+            ["textDocument/inlayHint"] = function()
+              return nil
+            end,
+          },
         },
-      }
-    end,
+        yamlls = {},
+        vtsls = OwnUtil.lang.vtsls,
+        kotlin_lsp = {},
+        taplo = {},
+        gradle_ls = {
+          cmd = { "python3", vim.fn.stdpath("config") .. "/scripts/gradle-language-server-stdio.py" },
+        },
+      },
+      setup = {
+        jdtls = function()
+          return true
+        end,
+        kotlin_lsp = function()
+          return true
+        end,
+        markdown_ls = function()
+          return true
+        end,
+        -- Keep gradle_ls out of mason-lspconfig automatic enablement.
+        gradle_ls = function(_, opts)
+          vim.lsp.config("gradle_ls", opts)
+          vim.lsp.enable("gradle_ls")
+          return true
+        end,
+      },
+    },
     config = function(_, opts)
       vim.lsp.config("*", {
         capabilities = {
@@ -151,28 +127,83 @@ return {
         automatic_enable = { exclude = mason_exclude },
       })
     end,
-    -- stylua: ignore
     keys = {
-      { "<leader>cl", function() Snacks.picker.lsp_config() end, desc = "Lsp Info" },
+      {
+        "<leader>cl",
+        function()
+          Snacks.picker.lsp_config()
+        end,
+        desc = "Lsp Info",
+      },
       -- { "gd", vim.lsp.buf.definition, desc = "Goto Definition" },
       -- { "gr", vim.lsp.buf.references, desc = "References", nowait = true },
       -- { "gi", vim.lsp.buf.implementation, desc = "Goto Implementation" },
       -- { "gy", vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
       { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
-      { "K", function() return vim.lsp.buf.hover() end, desc = "Hover" },
-      { "gK", function() return vim.lsp.buf.signature_help() end, desc = "Signature Help" },
-      { "<c-k>", function() return vim.lsp.buf.signature_help() end, mode = "i", desc = "Signature Help" },
+      -- {
+      --   "K",
+      --   function()
+      --     return vim.lsp.buf.hover()
+      --   end,
+      --   desc = "Hover",
+      -- },
+      {
+        "gK",
+        function()
+          return vim.lsp.buf.signature_help()
+        end,
+        desc = "Signature Help",
+      },
+      {
+        "<c-k>",
+        function()
+          return vim.lsp.buf.signature_help()
+        end,
+        mode = "i",
+        desc = "Signature Help",
+      },
       { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "x" } },
       { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "x" } },
-      { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File", mode = { "n" } },
+      {
+        "<leader>cR",
+        function()
+          Snacks.rename.rename_file()
+        end,
+        desc = "Rename File",
+        mode = { "n" },
+      },
       { "<leader>cr", vim.lsp.buf.rename, desc = "Rename" },
-      { "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference" },
-      { "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference" },
-      { "<a-n>", function() Snacks.words.jump(vim.v.count1, true) end, desc = "Next Reference" },
-      { "<a-p>", function() Snacks.words.jump(-vim.v.count1, true) end, desc = "Prev Reference" },
+      {
+        "]]",
+        function()
+          Snacks.words.jump(vim.v.count1)
+        end,
+        desc = "Next Reference",
+      },
+      {
+        "[[",
+        function()
+          Snacks.words.jump(-vim.v.count1)
+        end,
+        desc = "Prev Reference",
+      },
+      {
+        "<a-n>",
+        function()
+          Snacks.words.jump(vim.v.count1, true)
+        end,
+        desc = "Next Reference",
+      },
+      {
+        "<a-p>",
+        function()
+          Snacks.words.jump(-vim.v.count1, true)
+        end,
+        desc = "Prev Reference",
+      },
 
       -- lsp快捷键
-      {"<leader>m",vim.diagnostic.open_float,desc = "显示诊断消息",mode={"n"}},
+      { "<leader>m", vim.diagnostic.open_float, desc = "显示诊断消息", mode = { "n" } },
     },
   },
 
@@ -304,5 +335,19 @@ return {
 
       return opts
     end,
+  },
+  {
+    "Fildo7525/pretty_hover",
+    event = "LspAttach",
+    opts = {},
+    keys = {
+      {
+        "K",
+        function()
+          require("pretty_hover").hover()
+        end,
+        desc = "Hover",
+      },
+    },
   },
 }

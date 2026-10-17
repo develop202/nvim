@@ -2,6 +2,29 @@
 require("vim._core.ui2").enable({
   enable = false,
 })
+
+vim.diagnostic.config(vim.deepcopy({
+  -- insert模式下显示诊断信息
+  -- 更新太频繁
+  -- update_in_insert = true,
+  virtual_text = false,
+  -- 悬浮窗显示来源
+  float = {
+    source = "always",
+  },
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = OwnUtil.icons.diagnostics.Error,
+      [vim.diagnostic.severity.WARN] = OwnUtil.icons.diagnostics.Warn,
+      [vim.diagnostic.severity.HINT] = OwnUtil.icons.diagnostics.Hint,
+      [vim.diagnostic.severity.INFO] = OwnUtil.icons.diagnostics.Info,
+    },
+  },
+}))
+
 local option = vim.opt
 -- local buffer = vim.b
 local global = vim.g

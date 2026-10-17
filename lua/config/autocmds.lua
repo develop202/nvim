@@ -56,6 +56,7 @@ vim.api.nvim_create_autocmd("FileType", {
       ["notify"] = true,
       ["toggleterm"] = true,
       ["trouble"] = true,
+      ["snacks_dashboard"] = true,
     }
     if exact_matches[filetype] or string.find(filetype, "[%._-]") then
       vim.b[args.buf].miniindentscope_disable = true

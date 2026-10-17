@@ -47,6 +47,7 @@ return {
         -- 只用来显示补全栏颜色
         config = function() end,
       },
+      "Fildo7525/pretty_hover",
     },
     opts = function()
       -- blink.cmp高亮
@@ -78,15 +79,28 @@ return {
               min_width = 1,
               max_height = cmp_docs_max_height,
               max_width = cmp_docs_max_width,
+
+              border = "rounded",
             },
+            -- pretty_hover
+            draw = function(opts)
+              if opts.item and opts.item.documentation and opts.item.documentation.value then
+                local out = require("pretty_hover.parser").parse(opts.item.documentation.value)
+                opts.item.documentation.value = out:string()
+              end
+
+              opts.default_implementation(opts)
+            end,
           },
           list = {
+            max_items = 60,
             selection = {
               -- 禁用自动插入
               auto_insert = false,
             },
           },
           menu = {
+            border = "rounded",
             draw = {
               -- 取消补全项图标与文本间的空格
               gap = 0,

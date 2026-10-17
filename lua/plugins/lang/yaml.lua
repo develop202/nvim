@@ -26,7 +26,19 @@ return {
             new_config.settings.yaml.schemas = vim.tbl_deep_extend(
               "force",
               new_config.settings.yaml.schemas or {},
-              require("schemastore").yaml.schemas()
+              require("schemastore").yaml.schemas({
+                replace = {
+                  ["package.yaml"] = {
+                    description = "PNPM configuration file",
+                    fileMatch = {
+                      "package.yaml",
+                      "!**/mason-registry/packages/*/package.yaml",
+                    },
+                    name = "package.yaml",
+                    url = "https://www.schemastore.org/package.json",
+                  },
+                },
+              })
             )
           end,
           settings = {
