@@ -1,4 +1,17 @@
 -- Add any additional options here
+local option = vim.opt
+-- local buffer = vim.b
+local global = vim.g
+
+global.intellij = true
+
+-- 状态栏
+if OwnUtil.sys.is_termux() then
+  global.mini_statusline = true
+else
+  global.lualine = true
+end
+
 require("vim._core.ui2").enable({
   enable = false,
 })
@@ -10,6 +23,7 @@ vim.diagnostic.config(vim.deepcopy({
   virtual_text = false,
   -- 悬浮窗显示来源
   float = {
+    border = "rounded",
     source = "always",
   },
   underline = true,
@@ -24,10 +38,6 @@ vim.diagnostic.config(vim.deepcopy({
     },
   },
 }))
-
-local option = vim.opt
--- local buffer = vim.b
-local global = vim.g
 
 option.cmdheight = 0
 
@@ -71,13 +81,6 @@ option.mousemoveevent = true
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-
--- 状态栏
-if OwnUtil.sys.is_termux() then
-  global.mini_statusline = true
-else
-  global.lualine = true
-end
 
 -- global.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 

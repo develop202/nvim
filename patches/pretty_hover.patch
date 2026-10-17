@@ -1,0 +1,36 @@
+diff --git a/lua/pretty_hover/init.lua b/lua/pretty_hover/init.lua
+index b83012a..d464cc4 100644
+--- a/lua/pretty_hover/init.lua
++++ b/lua/pretty_hover/init.lua
+@@ -7,14 +7,26 @@ local M = {}
+ 
+ --- Parses the response from the server and displays the hover information converted to markdown.
+ function M.hover(config)
+-	local params = vim.lsp.util.make_position_params(0, 'utf-16')
++	local params = vim.lsp.util.make_position_params(0, "utf-16")
+ 
+ 	-- Check if the server for this file type exists and supports hover.
+-	local client = h_util.get_current_active_client()
+-	local hover_support_present = client and client.capabilities.textDocument.hover
++	-- local client = h_util.get_current_active_client()
++	-- local hover_support_present = client and client.capabilities.textDocument.hover
++	local clients = vim.lsp.get_clients({ bufnr = 0 })
++	local hover_support_present = false
+ 
+-	if not client or not hover_support_present then
+-		vim.notify("There is no client for this filetype or the client does not support the hover capability.", vim.log.levels.WARN)
++	for _, client in ipairs(clients) do
++		if client:supports_method("textDocument/hover", 0) then
++			hover_support_present = true
++			break
++		end
++	end
++
++	if #clients == 0 or not hover_support_present then
++		vim.notify(
++			"There is no client for this filetype or the client does not support the hover capability.",
++			vim.log.levels.WARN
++		)
+ 		return
+ 	end
+ 

@@ -1,10 +1,5 @@
 -- Add any additional autocmds here
 
--- bufferline高亮
-vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", {
-  fg = OwnUtil.utils.hl.get_hl("Normal").bg,
-  bg = OwnUtil.utils.hl.get_hl("Normal").bg,
-})
 
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd("BufEnter", {

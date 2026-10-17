@@ -339,7 +339,10 @@ return {
   {
     "Fildo7525/pretty_hover",
     event = "LspAttach",
-    opts = {},
+    opts = {
+      max_width = math.floor(0.8 * vim.o.columns),
+      max_height = OwnUtil.sys.is_termux() and 10 or nil,
+    },
     keys = {
       {
         "K",

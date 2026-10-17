@@ -36,6 +36,7 @@ return {
         bottom_search = true,
         command_palette = true,
         long_message_to_split = true,
+        lsp_doc_border = true,
       },
       views = {
         -- cmdline宽度
@@ -53,6 +54,16 @@ return {
         mini = {
           size = {
             max_height = 3,
+          },
+        },
+        hover = {
+          border = {
+            style = "rounded",
+          },
+          size = {
+            width = "auto",
+            height = "auto",
+            max_width = math.floor(0.8 * vim.o.columns),
           },
         },
       },

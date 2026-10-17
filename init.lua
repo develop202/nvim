@@ -21,6 +21,7 @@ _G.OwnUtil = require("util")
 
 require("config.options")
 require("config.keymaps")
+require("config.autocmds")
 
 -- 主题和neo-tree中斜体
 vim.g.font_italic = false
@@ -42,6 +43,7 @@ require("lazy").setup({
     -- import/override with your plugins
     -- { import = "plugins" },
     { import = "plugins.lang" },
+    { import = "plugins.lang.java" },
     { import = "plugins.ui" },
     { import = "plugins.ai" },
     { import = "plugins.component" },
@@ -82,4 +84,8 @@ vim.opt.statuscolumn = [[%!v:lua.OwnUtil.statuscolumn()]]
 vim.o.background = "dark"
 vim.cmd([[colorscheme gruvbox]])
 
-require("config.autocmds")
+-- bufferline高亮
+vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", {
+  fg = OwnUtil.utils.hl.get_hl("Normal").bg,
+  bg = OwnUtil.utils.hl.get_hl("Normal").bg,
+})
