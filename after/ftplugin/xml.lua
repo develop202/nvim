@@ -18,6 +18,16 @@ if mason_registry.is_installed("lemminx") then
     end
   end
 
+  local root_dir = vim.fs.root(vim.fn.getcwd(), OwnUtil.lang.java.root_markers)
+
+  if require("spring_boot.util").has_spring_boot_dependency(root_dir) then
+    if mason_registry.is_installed("vscode-spring-boot-tools") then
+      local spring_boot_tools = vim.fn.expand("$MASON/packages/vscode-spring-boot-tools") .. "/extension/jars"
+      table.insert(lemminx_jars, spring_boot_tools .. "/commons-lsp-extensions.jar")
+      table.insert(lemminx_jars, spring_boot_tools .. "/xml-ls-extension.jar")
+    end
+  end
+
   -- 添加主jar
   local jar_path = vim.fn.expand("$MASON/packages/lemminx/lemminx.jar")
   table.insert(lemminx_jars, vim.fn.glob(jar_path))
@@ -31,7 +41,7 @@ if mason_registry.is_installed("lemminx") then
   }
   vim.lsp.config("lemminx", {
     cmd = cmd,
-    root_dir = vim.fs.root(vim.fn.getcwd(), OwnUtil.lang.java.root_markers),
+    root_dir = root_dir,
   })
   vim.lsp.enable("lemminx", true)
 end

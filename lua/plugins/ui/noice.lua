@@ -63,6 +63,7 @@ return {
           size = {
             width = "auto",
             height = "auto",
+            max_height = OwnUtil.sys.is_termux() and 10 or nil,
             max_width = math.floor(0.8 * vim.o.columns),
           },
         },

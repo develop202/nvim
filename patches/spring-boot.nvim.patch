@@ -1,0 +1,21 @@
+diff --git a/lua/spring_boot.lua b/lua/spring_boot.lua
+index b207d43..d9874d6 100644
+--- a/lua/spring_boot.lua
++++ b/lua/spring_boot.lua
+@@ -60,10 +60,12 @@ M.init_lsp_commands = function()
+     -- Already provided, e.g. by an earlier call or by nvim-jdtls.
+     return
+   end
+-  if pcall(require, "jdtls") then
+-    -- Loading nvim-jdtls just installed its own equivalent handler. Prefer it
+-    -- rather than clobbering it.
+-    return
++  if not vim.g.intellij then
++    if pcall(require, "jdtls") then
++      -- Loading nvim-jdtls just installed its own equivalent handler. Prefer it
++      -- rather than clobbering it.
++      return
++    end
+   end
+   vim.lsp.handlers["workspace/executeClientCommand"] = M.execute_client_command -- luacheck: ignore 122
+ end

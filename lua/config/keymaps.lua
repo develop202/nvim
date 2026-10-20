@@ -137,3 +137,8 @@ end
 
 -- 绑定快捷键（例如 <leader>gf）
 vim.keymap.set("n", "<leader>gf", format_groovy_two_step, { desc = "Format Groovy (two-step)" })
+
+-- windows
+vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
+vim.keymap.set("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
+vim.keymap.set("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })

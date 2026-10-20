@@ -64,7 +64,8 @@ return {
     end
 
     -- 添加spring-boot jdtls扩展jar包
-    if OwnUtil.lang.java.is_spring_boot_project() then
+    -- if OwnUtil.lang.java.is_spring_boot_project() then
+    if require("spring_boot.util").has_spring_boot_dependency(opts.root_dir()) then
       if mason_registry.is_installed("vscode-spring-boot-tools") then
         -- 添加jars目录下所有的jar文件
         local java_spring_boot_bundles = vim.split(

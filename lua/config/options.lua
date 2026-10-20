@@ -3,7 +3,7 @@ local option = vim.opt
 -- local buffer = vim.b
 local global = vim.g
 
-global.intellij = true
+global.intellij = false
 
 -- 状态栏
 if OwnUtil.sys.is_termux() then

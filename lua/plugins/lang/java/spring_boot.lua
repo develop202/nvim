@@ -3,11 +3,8 @@ return {
     "JavaHello/spring-boot.nvim",
     -- enabled = not vim.g.intellij_java,
     ft = vim.g.intellij and "abcdef" or "java",
-    dependencies = {
-      "mfussenegger/nvim-jdtls",
-    },
     opts = function()
-      if not OwnUtil.lang.java.is_spring_boot_project() then
+      if require("spring_boot.util").has_spring_boot_dependency(vim.fn.getcwd()) then
         -- spring-boot.nvim使用环境变量获取路径
         -- 这里强制获取失败以停止spring-boot-ls的启动
         vim.env["VSCODE_EXTENSIONS"] = "手动关闭"
@@ -64,8 +61,6 @@ return {
       }
       return {
         jdtls_name = "jdtls",
-        exploded_ls_jar_data = false,
-        autocmd = true,
         server = {
           cmd = cmd,
           handlers = {
@@ -76,6 +71,9 @@ return {
           },
         },
         ls_path = ls_path,
+        project_filter = function(root_dir)
+          return require("spring_boot.util").has_spring_boot_dependency(root_dir)
+        end,
       }
     end,
   },
