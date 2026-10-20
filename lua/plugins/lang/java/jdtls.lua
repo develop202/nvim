@@ -6,7 +6,7 @@ if OwnUtil.sys.is_termux() then
   GC_type = "-XX:+UseG1GC"
 end
 
-local java_bin = OwnUtil.utils.cmd.java_bin()
+local java_bin = OwnUtil.utils.cmd.java_bin(25)
 
 local function extend_or_override(config, custom, ...)
   if type(custom) == "function" then

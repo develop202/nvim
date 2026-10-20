@@ -32,7 +32,7 @@ if mason_registry.is_installed("lemminx") then
   local jar_path = vim.fn.expand("$MASON/packages/lemminx/lemminx.jar")
   table.insert(lemminx_jars, vim.fn.glob(jar_path))
   local cmd = {
-    OwnUtil.utils.cmd.java_bin(),
+    OwnUtil.utils.cmd.java_bin(21),
     "-Xms64M",
     "-Xmx64M",
     "-cp",

@@ -39,7 +39,7 @@ return {
         GC_type = "-XX:+UseG1GC"
       end
 
-      local java_bin = OwnUtil.utils.cmd.java_bin()
+      local java_bin = OwnUtil.utils.cmd.java_bin(21)
 
       local cmd = {
         java_bin,
@@ -74,6 +74,7 @@ return {
         project_filter = function(root_dir)
           return require("spring_boot.util").has_spring_boot_dependency(root_dir)
         end,
+        auto_enable = true,
       }
     end,
   },

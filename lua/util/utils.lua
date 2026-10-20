@@ -46,15 +46,18 @@ M.ft.show_color_ft = {
 vim.list_extend(M.ft.show_color_ft, M.ft.cmp_html_css_ft)
 
 --- Java启动命令
+---@param version? number 版本号
 ---@return string Java命令
-M.cmd.java_bin = function()
+M.cmd.java_bin = function(version)
+  if version == nil then
+    version = 17
+  end
   -- Java启动命令
   local java_bin = "java"
-  if vim.env["JAVA_HOME"] then
+  if vim.env["JAVA_" .. version .. "_HOME"] then
+    java_bin = vim.env["JAVA_" .. version .. "_HOME"] .. "/bin/java"
+  elseif vim.env["JAVA_HOME"] then
     java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
-  end
-  if vim.env["JAVA_21_HOME"] then
-    java_bin = vim.env["JAVA_21_HOME"] .. "/bin/java"
   end
   return java_bin
 end
