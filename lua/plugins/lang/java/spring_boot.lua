@@ -4,7 +4,7 @@ return {
     -- enabled = not vim.g.intellij_java,
     ft = vim.g.intellij and "abcdef" or "java",
     opts = function()
-      if require("spring_boot.util").has_spring_boot_dependency(vim.fn.getcwd()) then
+      if not require("spring_boot.util").has_spring_boot_dependency(vim.fn.getcwd()) then
         -- spring-boot.nvim使用环境变量获取路径
         -- 这里强制获取失败以停止spring-boot-ls的启动
         vim.env["VSCODE_EXTENSIONS"] = "手动关闭"

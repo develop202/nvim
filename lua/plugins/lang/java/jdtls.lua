@@ -31,6 +31,16 @@ return {
     local jdtls_config = {}
     local bundles = {}
 
+    opts.root_dir = function()
+      local root_dir = require("jdtls.setup").find_root(OwnUtil.lang.java.root_markers, vim.fn.getcwd())
+      if not root_dir then
+        local path = vim.api.nvim_buf_get_name(0)
+
+        root_dir = vim.fs.root(path, vim.lsp.config.jdtls.root_markers) or ""
+      end
+      return root_dir
+    end
+
     -- 添加dap扩展jar包
     if mason_registry.is_installed("java-debug-adapter") then
       local java_dbg_path = vim.fn.expand("$MASON/packages/java-debug-adapter")
@@ -148,15 +158,6 @@ return {
     jdtls_config.handlers = {}
     opts.project_name = function(root_dir)
       return root_dir and vim.fs.basename(root_dir)
-    end
-    opts.root_dir = function()
-      local root_dir = require("jdtls.setup").find_root(OwnUtil.lang.java.root_markers, vim.fn.getcwd())
-      if not root_dir then
-        local path = vim.api.nvim_buf_get_name(0)
-
-        root_dir = vim.fs.root(path, vim.lsp.config.jdtls.root_markers) or ""
-      end
-      return root_dir
     end
 
     opts.jdtls_config_dir = function(project_name)
