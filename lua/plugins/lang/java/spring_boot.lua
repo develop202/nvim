@@ -58,8 +58,16 @@ return {
         "-jar",
         server_jar[1],
       }
+
+      local jdtls_name = "jdtls"
+      if vim.g.intellij == true then
+        jdtls_name = "intellij-server"
+      elseif vim.g.intellij == "official" then
+        jdtls_name = "intellij"
+      end
+
       return {
-        jdtls_name = vim.g.intellij and "intellij-server" or "jdtls",
+        jdtls_name = jdtls_name,
         server = {
           cmd = cmd,
           handlers = {

@@ -67,6 +67,11 @@ return {
 
         server_path = server_path, -- use your own bundle instead of downloading
         default_sdk = vim.env["$JAVA_17_HOME"] or nil, -- JDK for projects that do not configure their own
+
+        on_attach = function(client, bufnr)
+          vim.notify(client.name .. " attached buffer " .. bufnr)
+          vim.lsp.enable("spring-boot")
+        end,
       }
     end,
   },

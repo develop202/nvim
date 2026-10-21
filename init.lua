@@ -25,7 +25,7 @@ require("config.autocmds")
 
 if vim.g.intellij then
   require("spring_boot_bridge").setup({
-    intellij_client_names = { "intellij-server" },
+    intellij_client_names = { "intellij-server", "intellij" },
     spring_client_names = { "spring-boot" },
     debug = false, -- change to false after testing
   })

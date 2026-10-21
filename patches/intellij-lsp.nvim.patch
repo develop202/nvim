@@ -1,0 +1,24 @@
+diff --git a/lua/intellij-lsp/client.lua b/lua/intellij-lsp/client.lua
+index 1029caa..d679f2e 100644
+--- a/lua/intellij-lsp/client.lua
++++ b/lua/intellij-lsp/client.lua
+@@ -929,6 +929,7 @@ function M.config(root_dir, cfg, consent)
+     end,
+ 
+     on_attach = function(client, bufnr)
++      require("intellij-lsp").config.on_attach(client, bufnr)
+       -- Built-in completion (0.11+); no external completion plugin required. With autotrigger the
+       -- menu opens on the server's trigger characters ('.'), otherwise use <C-x><C-o>.
+       if client:supports_method('textDocument/completion') then
+diff --git a/lua/intellij-lsp/init.lua b/lua/intellij-lsp/init.lua
+index 424b052..33425f2 100644
+--- a/lua/intellij-lsp/init.lua
++++ b/lua/intellij-lsp/init.lua
+@@ -744,6 +744,7 @@ end
+ function M.setup(opts)
+   opts = opts or {}
+   M.config = vim.tbl_extend('force', {
++    on_attach = function(client, bufnr) end,
+     license_hint = true,
+     server_download = true,
+     projects = {},
