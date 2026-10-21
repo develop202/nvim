@@ -23,6 +23,14 @@ require("config.options")
 require("config.keymaps")
 require("config.autocmds")
 
+if vim.g.intellij then
+  require("spring_boot_bridge").setup({
+    intellij_client_names = { "intellij-server" },
+    spring_client_names = { "spring-boot" },
+    debug = false, -- change to false after testing
+  })
+end
+
 -- 主题和neo-tree中斜体
 vim.g.font_italic = false
 

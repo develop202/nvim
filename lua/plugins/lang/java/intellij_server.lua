@@ -30,6 +30,11 @@ return {
         default_sdk = vim.env["$JAVA_17_HOME"] or nil,
         java_home = server_java_home,
         connection = { mode = "socket" },
+
+        on_attach = function(client, bufnr)
+          vim.notify(client.name .. " attached buffer " .. bufnr)
+          vim.lsp.enable("spring-boot")
+        end,
       }
     end,
   },

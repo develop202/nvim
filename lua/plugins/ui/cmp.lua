@@ -167,13 +167,13 @@ return {
                       ctx.label_description = after_split_label[#after_split_label]
                     end
                     if ctx.item.client_name == "spring-boot" then
-                      -- TODO: spring-boot补全问题
+                      -- 目前貌似已修复: spring-boot补全问题
                       -- 导致jdtls和spring-boot的LSP补全无法显示
                       -- termux长按上下键选择会触发
                       -- wsl2等文档加载出来单个选择会触发
                       -- 邪修方法关闭补全文档
                       -- 概率导致补全后光标位置异常
-                      ctx.item.command = {}
+                      -- ctx.item.command = {}
                       ctx.self.components.label.width.max = label_width + label_description_width
                     end
 

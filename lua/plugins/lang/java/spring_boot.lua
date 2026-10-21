@@ -1,8 +1,7 @@
 return {
   {
     "JavaHello/spring-boot.nvim",
-    -- enabled = not vim.g.intellij_java,
-    ft = vim.g.intellij and "abcdef" or "java",
+    ft = "java",
     opts = function()
       if not require("spring_boot.util").has_spring_boot_dependency(vim.fn.getcwd()) then
         -- spring-boot.nvim使用环境变量获取路径
@@ -60,7 +59,7 @@ return {
         server_jar[1],
       }
       return {
-        jdtls_name = "jdtls",
+        jdtls_name = vim.g.intellij and "intellij-server" or "jdtls",
         server = {
           cmd = cmd,
           handlers = {
@@ -74,7 +73,7 @@ return {
         project_filter = function(root_dir)
           return require("spring_boot.util").has_spring_boot_dependency(root_dir)
         end,
-        auto_enable = true,
+        auto_enable = not vim.g.intellij and true or false,
       }
     end,
   },
