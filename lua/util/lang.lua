@@ -270,7 +270,9 @@ M.vtsls = {
         globalPlugins = {
           {
             name = "@vue/typescript-plugin",
-            location = vim.fn.expand("$MASON/packages/vue-language-server") .. "/node_modules/@vue/language-server",
+            location = vim.fn.expand(
+              "$HOME/.local/share/nvim/mason/packages/vue-language-server/node_modules/@vue/language-server"
+            ),
             languages = { "vue" },
             configNamespace = "typescript",
             enableForWorkspaceTypeScriptVersions = true,
