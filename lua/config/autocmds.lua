@@ -1,6 +1,5 @@
 -- Add any additional autocmds here
 
-
 -- 取消换行自动注释
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*" },
@@ -52,6 +51,7 @@ vim.api.nvim_create_autocmd("FileType", {
       ["toggleterm"] = true,
       ["trouble"] = true,
       ["snacks_dashboard"] = true,
+      ["codecompanion"] = true,
     }
     if exact_matches[filetype] or string.find(filetype, "[%._-]") then
       vim.b[args.buf].miniindentscope_disable = true

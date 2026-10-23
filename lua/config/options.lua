@@ -3,7 +3,9 @@ local option = vim.opt
 -- local buffer = vim.b
 local global = vim.g
 
+-- false (jdtls) | true (intellij-server.nvim) | "official" (intellij-lsp.nvim)
 global.intellij = "official"
+global.spring_boot_ls_enabled = false
 
 -- 状态栏
 if OwnUtil.sys.is_termux() then

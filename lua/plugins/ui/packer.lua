@@ -23,6 +23,7 @@ return {
         fzf_colors = true,
         fzf_opts = {
           ["--no-scrollbar"] = true,
+          ["--wrap"] = true,
         },
         defaults = {
           -- 文件名提到目录前面
@@ -72,6 +73,7 @@ return {
           col = 0.5,
           preview = {
             scrollchars = { "┃", "" },
+            wrap = true,
           },
         },
         files = {

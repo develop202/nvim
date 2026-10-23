@@ -32,8 +32,13 @@ return {
         connection = { mode = "socket" },
 
         on_attach = function(client, bufnr)
-          vim.notify(client.name .. " attached buffer " .. bufnr)
-          vim.lsp.enable("spring-boot")
+          if not vim.g.spring_boot_ls_enabled then
+            if require("spring_boot.util").has_spring_boot_dependency(client.root_dir) then
+              vim.notify(client.name .. " attached buffer " .. bufnr)
+              vim.lsp.enable("spring-boot")
+              vim.g.spring_boot_ls_enabled = true
+            end
+          end
         end,
       }
     end,
@@ -62,6 +67,7 @@ return {
         word_triggers = false,
 
         accept_eula = true, -- read EULA.txt in the downloaded bundle first
+        single_key_select = false,
 
         rename_files = true,
 
@@ -69,8 +75,13 @@ return {
         default_sdk = vim.env["$JAVA_17_HOME"] or nil, -- JDK for projects that do not configure their own
 
         on_attach = function(client, bufnr)
-          vim.notify(client.name .. " attached buffer " .. bufnr)
-          vim.lsp.enable("spring-boot")
+          if not vim.g.spring_boot_ls_enabled then
+            if require("spring_boot.util").has_spring_boot_dependency(client.root_dir) then
+              vim.notify(client.name .. " attached buffer " .. bufnr)
+              vim.lsp.enable("spring-boot")
+              vim.g.spring_boot_ls_enabled = true
+            end
+          end
         end,
       }
     end,

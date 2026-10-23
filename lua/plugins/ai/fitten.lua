@@ -14,7 +14,7 @@ return {
         },
       },
       delay_completion = {
-        delaytime = 3000,
+        delaytime = 2000,
       },
       inline_completion = {
         -- Enable inline code completion.
