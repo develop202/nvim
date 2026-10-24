@@ -1,4 +1,5 @@
 local model = "qwen2.5-coder:1.5b"
+-- local model = "granite4:3b"
 return {
   {
     "olimorris/codecompanion.nvim",
@@ -37,7 +38,7 @@ return {
 
   {
     "milanglacier/minuet-ai.nvim",
-    event = "BufReadPost",
+    -- event = "BufReadPost",
     config = function()
       require("minuet").setup({
         provider = "openai_fim_compatible",
@@ -86,8 +87,9 @@ return {
       })
     end,
     keys = {
+      { "<leader>ai", desc = "+AI", mode = { "n", "v" } },
       {
-        "<leader>ac",
+        "<leader>aiac",
         "<cmd>Minuet virtualtext toggle<cr>",
         desc = "[Minuet] toggle virtual text",
       },

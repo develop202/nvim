@@ -325,6 +325,7 @@ return {
         OwnUtil.utils.termux_use_local_lsp(mason_registry, "marksman")
         -- lua-language-server编译失败，没搞懂，不过termux有佬编译好了
         OwnUtil.utils.termux_use_local_lsp(mason_registry, "lua-language-server")
+        OwnUtil.utils.termux_use_local_lsp(mason_registry, "codelldb")
         -- codelldb 不支持termux
         if not mason_registry.is_installed("codelldb") then
           -- 创建lsp目录

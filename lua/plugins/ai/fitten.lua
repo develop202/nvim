@@ -21,5 +21,12 @@ return {
         enable = false,
       },
     },
+    keys = {
+      {
+        "<leader>aifc",
+        "<cmd>FittenCode toggle_completions<cr>",
+        desc = "[FittenCode] toggle completions",
+      },
+    },
   },
 }
