@@ -214,6 +214,106 @@ return {
   end,
   config = function(_, opts)
     local function attach_jdtls()
+      -- 用 fzf-lua 替换 nvim-jdtls 的多选界面
+      local ui = require("jdtls.ui")
+
+      if not ui._fzf_lua_pick_many then
+        local original = ui.pick_many
+
+        ---@diagnostic disable-next-line: duplicate-set-field
+        ui.pick_many = function(items, prompt, label_fn, options)
+          if not items or #items == 0 then
+            return {}
+          end
+
+          -- 有预选字段时保留原版行为
+          if options and options.is_selected then
+            for _, item in ipairs(items) do
+              if options.is_selected(item) then
+                return original(items, prompt, label_fn, options)
+              end
+            end
+          end
+
+          -- 原接口同步返回，借助协程等待 fzf 回调
+          local co, is_main = coroutine.running()
+          if not co or is_main then
+            return original(items, prompt, label_fn, options)
+          end
+
+          -- 添加索引，确保能映射回原始对象
+          local lines = {}
+          for i, item in ipairs(items) do
+            local label = label_fn and label_fn(item) or item
+            lines[i] = ("%d\t%s"):format(i, tostring(label))
+          end
+
+          local resumed = false
+          local function finish(result)
+            if resumed then
+              return
+            end
+            resumed = true
+
+            vim.schedule(function()
+              local ok, err = coroutine.resume(co, result)
+              if not ok then
+                vim.notify(tostring(err), vim.log.levels.ERROR)
+              end
+            end)
+          end
+
+          local ok, err = pcall(require("fzf-lua").fzf_exec, lines, {
+            prompt = (prompt or "Select") .. " ",
+            fzf_opts = {
+              ["--multi"] = true,
+              ["--delimiter"] = "\t",
+              ["--with-nth"] = "2..",
+              ["--header"] = "Tab: 多选 | Enter: 确认 | Esc: 取消",
+            },
+            keymap = {
+              fzf = {
+                enter = 'transform:if [ "$FZF_SELECT_COUNT" -eq 0 ]; then echo "print(__JDTLS_EMPTY__)+accept"; else echo accept; fi',
+              },
+            },
+            -- 将选中的显示行转换回原始对象
+            fn_selected = function(selected)
+              -- vim.notify(vim.inspect(selected))
+              local marked = {}
+              for _, line in ipairs(selected or {}) do
+                if line == "__JDTLS_EMPTY__" then
+                  finish({})
+                  return
+                end
+                local i = tonumber(line:match("^(%d+)\t"))
+                if i then
+                  marked[i] = true
+                end
+              end
+
+              local result = {}
+              for i, item in ipairs(items) do
+                if marked[i] then
+                  result[#result + 1] = item
+                end
+              end
+
+              finish(result)
+            end,
+          })
+
+          if not ok then
+            vim.notify("fzf-lua: " .. tostring(err), vim.log.levels.ERROR)
+            return original(items, prompt, label_fn, options)
+          end
+
+          return coroutine.yield()
+        end
+
+        ui._fzf_lua_pick_many = true
+      end
+
+      -- config
       local fname = vim.api.nvim_buf_get_name(0)
 
       -- Configuration can be augmented and overridden by opts.jdtls

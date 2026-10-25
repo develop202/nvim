@@ -39,4 +39,24 @@ return {
       },
     },
   },
+  {
+    "artur-shaik/jc.nvim",
+    ft = vim.g.intellij and "abcdef" or "java",
+    dependencies = {
+      "nvim-java/nvim-jdtls",
+      {
+        "nvim-neotest/neotest",
+        optional = true,
+        dependencies = { "nvim-neotest/nvim-nio", "nvim-lua/plenary.nvim" },
+        opts = function(_, opts)
+          opts.adapters = opts.adapters or {}
+          table.insert(opts.adapters, require("jc").neotest_adapter())
+          -- optional: auto-close the summary on an all-green focused run
+          opts.consumers = opts.consumers or {}
+          opts.consumers.jc = require("jc").neotest_consumer()
+        end,
+      },
+    },
+    opts = { keys_prefix = "<leader>j" },
+  },
 }

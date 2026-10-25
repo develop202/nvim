@@ -39,6 +39,7 @@ vim.api.nvim_create_autocmd("FileType", {
       ["Outline"] = true,
       ["JavaProjects"] = true,
       ["dbui"] = true,
+      ["maven"] = true,
 
       ["Trouble"] = true,
       ["alpha"] = true,
