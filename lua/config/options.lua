@@ -4,7 +4,7 @@ local option = vim.opt
 local global = vim.g
 
 -- false (jdtls) | true (intellij-server.nvim) | "official" (intellij-lsp.nvim)
-global.intellij = "official"
+global.intellij = true
 global.spring_boot_ls_enabled = false
 
 -- 状态栏

@@ -77,12 +77,29 @@ return {
             desc = "Dap UI",
           },
           {
-            "<leader>de",
+            "<leader>dE",
             function()
               require("dapui").eval()
             end,
-            desc = "Eval",
+            desc = "Dap UI Eval",
             mode = { "n", "x" },
+          },
+
+          {
+            "<leader>d1",
+            function()
+              require("dapui").toggle({ layout = 1 })
+            end,
+            desc = "Dap UI: Toggle other(except REPL and Console)",
+            mode = { "n" },
+          },
+          {
+            "<leader>d2",
+            function()
+              require("dapui").toggle({ layout = 2 })
+            end,
+            desc = "Dap UI: Toggle REPL and Console",
+            mode = { "n" },
           },
         },
       },
@@ -129,31 +146,267 @@ return {
       end
     end,
 
-    -- stylua: ignore
     keys = {
       -- dap按键映射
-      {"<leader>dp",function() require("dap.ui.widgets").preview() end,desc = "预览",mode = { "n", "v"},},
-      {"<leader>dh",function() require("dap.ui.widgets").hover() end,desc = "悬停",mode = {"n", "v"},},
+      -- ==============================
+      -- 运行控制
+      -- ==============================
+      {
+        "<leader>dc",
+        function()
+          require("dap").continue()
+        end,
+        desc = "DAP: Continue / Start",
+      },
+      {
+        "<leader>dp",
+        function()
+          require("dap").pause()
+        end,
+        desc = "DAP: Pause",
+      },
+      {
+        "<leader>dr",
+        function()
+          require("dap").run_last()
+        end,
+        desc = "DAP: Run Last",
+      },
+      {
+        "<leader>dR",
+        function()
+          require("dap").restart()
+        end,
+        desc = "DAP: Restart Session",
+      },
+      {
+        "<leader>dt",
+        function()
+          require("dap").terminate()
+        end,
+        desc = "DAP: Terminate",
+      },
+      {
+        "<leader>dq",
+        function()
+          require("dap").disconnect()
+        end,
+        desc = "DAP: Disconnect",
+      },
 
-      -- 测试结果
-      {"<leader>os", "<cmd>lua require('dapui').toggle(2)<CR>",desc = "测试结果",mode = {"n"}},
-      { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
-      { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-      { "<leader>dc", function() if vim.o.filetype == "java" then vim.cmd("JdtUpdateDebugConfig") vim.wait(200) end require("dap").continue() end, desc = "Run/Continue" },
-      { "<leader>da", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
-      { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
-      { "<leader>dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
-      { "<leader>di", function() require("dap").step_into() end, desc = "Step Into" },
-      { "<leader>dj", function() require("dap").down() end, desc = "Down" },
-      { "<leader>dk", function() require("dap").up() end, desc = "Up" },
-      { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
-      { "<leader>do", function() require("dap").step_out() end, desc = "Step Out" },
-      { "<leader>dO", function() require("dap").step_over() end, desc = "Step Over" },
-      { "<leader>dP", function() require("dap").pause() end, desc = "Pause" },
-      { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
-      { "<leader>ds", function() require("dap").session() end, desc = "Session" },
-      { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
-      { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+      -- ==============================
+      -- 单步调试
+      -- ==============================
+      {
+        "<leader>dn",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "DAP: Step Over",
+      },
+      {
+        "<leader>di",
+        function()
+          require("dap").step_into()
+        end,
+        desc = "DAP: Step Into",
+      },
+      {
+        "<leader>do",
+        function()
+          require("dap").step_out()
+        end,
+        desc = "DAP: Step Out",
+      },
+      {
+        "<leader>dk",
+        function()
+          require("dap").step_back()
+        end,
+        desc = "DAP: Step Back",
+      },
+      {
+        "<leader>dK",
+        function()
+          require("dap").reverse_continue()
+        end,
+        desc = "DAP: Reverse Continue",
+      },
+      {
+        "<leader>dg",
+        function()
+          require("dap").run_to_cursor()
+        end,
+        desc = "DAP: Run to Cursor",
+      },
+      {
+        "<leader>dG",
+        function()
+          require("dap").goto_()
+        end,
+        desc = "DAP: Jump to Cursor",
+      },
+      {
+        "<leader>dX",
+        function()
+          require("dap").restart_frame()
+        end,
+        desc = "DAP: Restart Frame",
+      },
+
+      -- 调用栈
+      {
+        "<leader>d[",
+        function()
+          require("dap").up()
+        end,
+        desc = "DAP: Previous Stack Frame",
+      },
+      {
+        "<leader>d]",
+        function()
+          require("dap").down()
+        end,
+        desc = "DAP: Next Stack Frame",
+      },
+      {
+        "<leader>dF",
+        function()
+          require("dap").focus_frame()
+        end,
+        desc = "DAP: Focus Current Frame",
+      },
+
+      -- ==============================
+      -- 断点
+      -- ==============================
+      {
+        "<leader>db",
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        desc = "DAP: Toggle Breakpoint",
+      },
+      {
+        "<leader>dB",
+        function()
+          require("dap").set_breakpoint()
+        end,
+        desc = "DAP: Set Breakpoint",
+      },
+      {
+        "<leader>dC",
+        function()
+          local condition = vim.fn.input("Breakpoint condition: ")
+          if condition ~= "" then
+            require("dap").set_breakpoint(condition)
+          end
+        end,
+        desc = "DAP: Conditional Breakpoint",
+      },
+      {
+        "<leader>dH",
+        function()
+          local hit_condition = vim.fn.input("Hit condition: ")
+          if hit_condition ~= "" then
+            require("dap").set_breakpoint(nil, hit_condition)
+          end
+        end,
+        desc = "DAP: Hit Conditional Breakpoint",
+      },
+      {
+        "<leader>dL",
+        function()
+          local message = vim.fn.input("Log point message: ")
+          if message ~= "" then
+            require("dap").set_breakpoint(nil, nil, message)
+          end
+        end,
+        desc = "DAP: Log Point",
+      },
+      {
+        "<leader>dx",
+        function()
+          require("dap").clear_breakpoints()
+        end,
+        desc = "DAP: Clear All Breakpoints",
+      },
+      {
+        "<leader>ds",
+        function()
+          require("dap").list_breakpoints(true)
+        end,
+        desc = "DAP: List Breakpoints",
+      },
+      {
+        "<leader>dE",
+        function()
+          require("dap").set_exception_breakpoints()
+        end,
+        desc = "DAP: Exception Breakpoints",
+      },
+
+      -- ==============================
+      -- 查看变量和调试信息
+      -- ==============================
+      {
+        "<leader>dw",
+        function()
+          require("dap.ui.widgets").hover()
+        end,
+        mode = { "n", "v" },
+        desc = "DAP: Hover Variable",
+      },
+      {
+        "<leader>dP",
+        function()
+          require("dap.ui.widgets").preview()
+        end,
+        mode = { "n", "v" },
+        desc = "DAP: Preview Variable",
+      },
+      {
+        "<leader>df",
+        function()
+          local widgets = require("dap.ui.widgets")
+          widgets.centered_float(widgets.frames)
+        end,
+        desc = "DAP: Show Frames",
+      },
+      {
+        "<leader>dv",
+        function()
+          local widgets = require("dap.ui.widgets")
+          widgets.centered_float(widgets.scopes)
+        end,
+        desc = "DAP: Show Scopes",
+      },
+      {
+        "<leader>dT",
+        function()
+          local widgets = require("dap.ui.widgets")
+          widgets.centered_float(widgets.threads)
+        end,
+        desc = "DAP: Show Threads",
+      },
+
+      -- ==============================
+      -- REPL 和日志
+      -- ==============================
+      {
+        "<leader>de",
+        function()
+          require("dap").repl.open()
+        end,
+        desc = "DAP: Open REPL",
+      },
+      {
+        "<leader>dM",
+        function()
+          vim.cmd("DapShowLog")
+        end,
+        desc = "DAP: Show Debug Log",
+      },
     },
   },
 }

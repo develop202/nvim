@@ -69,6 +69,7 @@ return {
         accept_eula = true, -- read EULA.txt in the downloaded bundle first
         single_key_select = false,
 
+        keymaps = false,
         rename_files = true,
 
         server_path = server_path, -- use your own bundle instead of downloading
