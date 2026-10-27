@@ -131,7 +131,24 @@ return {
       {
         "<leader>cl",
         function()
-          Snacks.picker.lsp_config()
+          Snacks.picker.lsp_config({
+            layout = {
+              preset = "vertical",
+              layout = {
+                width = 0.8,
+                height = 0.8,
+                min_width = 10,
+                min_height = 10,
+                -- 第三个子窗口是预览框
+                [3] = {
+                  win = "preview",
+                  title = "{preview}",
+                  height = 0.5,
+                  border = "top",
+                },
+              },
+            },
+          })
         end,
         desc = "Lsp Info",
       },
@@ -139,7 +156,7 @@ return {
       -- { "gr", vim.lsp.buf.references, desc = "References", nowait = true },
       -- { "gi", vim.lsp.buf.implementation, desc = "Goto Implementation" },
       -- { "gy", vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
-      { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
+      { "gD", vim.lsp.buf.declaration, desc = "LSP: Goto Declaration" },
       -- {
       --   "K",
       --   function()
@@ -152,7 +169,7 @@ return {
         function()
           return vim.lsp.buf.signature_help()
         end,
-        desc = "Signature Help",
+        desc = "LSP: Signature Help",
       },
       {
         "<c-k>",
@@ -160,10 +177,10 @@ return {
           return vim.lsp.buf.signature_help()
         end,
         mode = "i",
-        desc = "Signature Help",
+        desc = "LSP: Signature Help",
       },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "x" } },
-      { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "x" } },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP: Code Action", mode = { "n", "x" } },
+      { "<leader>cc", vim.lsp.codelens.run, desc = "LSP: Run Codelens", mode = { "n", "x" } },
       {
         "<leader>cR",
         function()
@@ -203,7 +220,7 @@ return {
       },
 
       -- lsp快捷键
-      { "<leader>m", vim.diagnostic.open_float, desc = "显示诊断消息", mode = { "n" } },
+      { "<leader>m", vim.diagnostic.open_float, desc = "LSP: show diagnostic message", mode = { "n" } },
     },
   },
 
