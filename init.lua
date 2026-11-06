@@ -35,7 +35,7 @@ end
 vim.g.font_italic = false
 
 -- 强制插入到加载器列表的最前端（第一顺位）
-table.insert(package.loaders, 1, OwnUtil.utils.perform_surgery)
+table.insert(package.loaders, 1, OwnUtil.patch.patch_lua_plugin)
 
 require("lazy").setup({
   git = {

@@ -21,7 +21,7 @@ return {
   -- Set up nvim-jdtls to attach to java files.
   "mfussenegger/nvim-jdtls",
   -- enabled = not vim.g.intellij_java,
-  ft = vim.g.intellij and "abcdef" or "java",
+  ft = "java",
   -- jdtls要求最低Java21
   -- 需要配置JAVA_21_HOME环境变量
   opts = function()
@@ -213,6 +213,9 @@ return {
     return opts
   end,
   config = function(_, opts)
+    if vim.g.intellij ~= false then
+      return
+    end
     local function attach_jdtls()
       -- 用 fzf-lua 替换 nvim-jdtls 的多选界面
       local ui = require("jdtls.ui")

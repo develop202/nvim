@@ -179,7 +179,40 @@ return {
         mode = "i",
         desc = "LSP: Signature Help",
       },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP: Code Action", mode = { "n", "x" } },
+      {
+        "<leader>ca",
+        function()
+          vim.lsp.buf.code_action({
+            filter = function(action, client_id)
+              local client = vim.lsp.get_client_by_id(client_id)
+              local kind = action.kind
+
+              if client and client.name == "jdtls" then
+                -- 仅过滤 jdtls 重复的 Quick Assist
+                if kind and (kind == "source" or kind:match("^source%.")) then
+                  return false
+                end
+              end
+              --
+              return true
+            end,
+          })
+        end,
+        desc = "LSP: Code Action",
+        mode = { "n", "x" },
+      },
+      {
+        "<leader>cs",
+        function()
+          vim.lsp.buf.code_action({
+            context = {
+              only = { "source" },
+            },
+          })
+        end,
+        desc = "LSP: Code Action (Source)",
+        mode = { "n", "x" },
+      },
       { "<leader>cc", vim.lsp.codelens.run, desc = "LSP: Run Codelens", mode = { "n", "x" } },
       {
         "<leader>cR",
@@ -255,6 +288,7 @@ return {
         "json-Lsp",
         "emmet-language-server",
         "prettier",
+        "prettierd",
         "oxfmt",
         --前端语言相关
         "vtsls",

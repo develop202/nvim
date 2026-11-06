@@ -1,12 +1,22 @@
 return {
   {
     "AlexandrosAlexiou/kotlin.nvim",
-    ft = vim.g.intellij and { "abcdef" } or { "kotlin" },
+    ft = { "kotlin" },
     dependencies = {
       "mason.nvim",
       "mason-lspconfig.nvim",
       { "stevearc/oil.nvim", opts = {} },
-      "folke/trouble.nvim",
+      {
+        "folke/trouble.nvim",
+        cmd = { "Trouble" },
+        opts = {
+          modes = {
+            lsp = {
+              win = { position = "right" },
+            },
+          },
+        },
+      },
       -- nvim-dap is NOT a kotlin.nvim dependency. Install and configure it
       -- separately (signs, keymaps, optionally nvim-dap-ui). kotlin.nvim only
       -- registers a `kotlin` adapter and the `:KotlinDebug` command on top.
@@ -30,6 +40,12 @@ return {
           enabled = true,
         },
       }
+    end,
+    config = function(_, opts)
+      if vim.g.intellij ~= false then
+        return
+      end
+      require("kotlin").setup(opts)
     end,
   },
 }

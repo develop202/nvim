@@ -10,13 +10,13 @@ return {
         lsp_format = "fallback",
       },
       formatters_by_ft = {
-        -- ["*"] = { "prettier" },
+        -- ["*"] = { "prettierd" },
         ["yaml"] = { "yamlfmt" },
         ["sh"] = { "shfmt" },
         ["python"] = { "ruff_format", "isort" },
         ["lua"] = { "stylua" },
         ["luau"] = { "stylua" },
-        ["html"] = { "prettier" },
+        ["html"] = { "prettierd" },
         ["http"] = { "kulala" },
         ["nginx"] = { "nginxfmt" },
         ["sql"] = { "sqlfluff" },
@@ -46,7 +46,10 @@ return {
       {
         "<leader>fd",
         function()
-          require("conform").format()
+          require("conform").format({
+            timeout_ms = 3000,
+            lsp_format = "first",
+          })
         end,
         desc = "Format Document",
       },

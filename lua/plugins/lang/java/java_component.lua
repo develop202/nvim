@@ -26,9 +26,8 @@ return {
 
   {
     "JavaHello/java-deps.nvim",
-    -- enabled = not vim.g.intellij_java,
     lazy = true,
-    ft = vim.g.intellij and "abcdef" or "java",
+    ft = "java",
     dependencies = "mfussenegger/nvim-jdtls",
     opts = {
       width = OwnUtil.sys.is_termux() and "70%" or "30%",
@@ -38,10 +37,17 @@ return {
         toggle_fold = "<CR>",
       },
     },
+
+    config = function(_, opts)
+      if vim.g.intellij ~= false then
+        return
+      end
+      require("java-deps").setup(opts)
+    end,
   },
   {
     "artur-shaik/jc.nvim",
-    ft = vim.g.intellij and "abcdef" or "java",
+    ft = "java",
     dependencies = {
       "nvim-java/nvim-jdtls",
       {
@@ -58,5 +64,12 @@ return {
       },
     },
     opts = { keys_prefix = "<leader>j" },
+
+    config = function(_, opts)
+      if vim.g.intellij ~= false then
+        return
+      end
+      require("jc").setup(opts)
+    end,
   },
 }

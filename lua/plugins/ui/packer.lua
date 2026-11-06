@@ -134,7 +134,11 @@ return {
       { "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
       { "<leader>fB", "<cmd>FzfLua buffers<cr>", desc = "Buffers (all)" },
       { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find Files (cwd)" },
-      { "<leader>fg", "<cmd>FzfLua git_files<cr>", desc = "Find Files (git-files)" },
+      {
+        "<leader>fg",
+        "<cmd>FzfLua git_files<cr>",
+        desc = "Find Files (git-files)",
+      },
       { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent" },
       -- git
       { "<leader>gc", "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
@@ -149,10 +153,14 @@ return {
       { "<leader>sb", "<cmd>FzfLua lines<cr>", desc = "Buffer Lines" },
       { "<leader>sc", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
       { "<leader>sC", "<cmd>FzfLua commands<cr>", desc = "Commands" },
-      { "<leader>sd", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Diagnostics" },
-      { "<leader>sD", "<cmd>FzfLua diagnostics_document<cr>", desc = "Buffer Diagnostics" },
+      { "<leader>sd", "<cmd>FzfLua diagnostics_document<cr>", desc = "Buffer Diagnostics" },
+      { "<leader>sD", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Diagnostics" },
       { "<leader>sg", "<cmd>lua Snacks.dashboard.pick('live_grep')<cr>", desc = "Grep (cwd)" },
-      { "<leader>sH", "<cmd>FzfLua highlights<cr>", desc = "Search Highlight Groups" },
+      {
+        "<leader>sH",
+        "<cmd>FzfLua highlights<cr>",
+        desc = "Search Highlight Groups",
+      },
       { "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "Jumplist" },
       { "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },
       { "<leader>sl", "<cmd>FzfLua loclist<cr>", desc = "Location List" },
@@ -203,6 +211,20 @@ return {
         "<cmd>FzfLua lsp_typedefs        jump1=true ignore_current_line=true<cr>",
         desc = "Goto T[y]pe Definition",
       },
+    },
+  },
+  {
+    "folke/todo-comments.nvim",
+    cmd = { "TodoTrouble", "TodoTelescope" },
+    event = "BufReadPost",
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "]t",         function() require("todo-comments").jump_next() end,                                         desc = "Next Todo Comment" },
+      { "[t",         function() require("todo-comments").jump_prev() end,                                         desc = "Previous Todo Comment" },
+
+      { "<leader>st", function() require("todo-comments.fzf").todo() end,                                          desc = "Todo" },
+      { "<leader>sT", function() require("todo-comments.fzf").todo({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
     },
   },
 }

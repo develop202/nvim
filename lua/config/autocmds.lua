@@ -25,7 +25,8 @@ vim.api.nvim_create_autocmd("SourcePost", {
   pattern = { "**/vim-dadbod-ui/autoload/db_ui/drawer.vim" },
   callback = function()
     if not vim.g.db_ui_patching then
-      OwnUtil.utils.patch_vim_plugin()
+      -- patch vim插件
+      OwnUtil.patch.patch_vim_plugin()
     end
   end,
 })

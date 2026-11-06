@@ -1,8 +1,7 @@
 return {
   {
     "AlexandrosAlexiou/intellij-server.nvim",
-    -- enabled = vim.g.intellij_java,
-    ft = vim.g.intellij == true and { "java", "kotlin" } or "abcdef",
+    ft = { "java", "kotlin" },
     dependencies = {
       "mfussenegger/nvim-dap",
       { "stevearc/oil.nvim", opts = {} },
@@ -41,6 +40,12 @@ return {
           end
         end,
       }
+    end,
+    config = function(_, opts)
+      if vim.g.intellij ~= true then
+        return
+      end
+      require("intellij-server").setup(opts)
     end,
     keys = vim.g.intellij == true and {
       -- =========================
@@ -170,7 +175,7 @@ return {
   },
   {
     "JetBrains/intellij-lsp.nvim",
-    ft = vim.g.intellij == "official" and { "java", "kotlin" } or "abcdef",
+    ft = { "java", "kotlin" },
     dependencies = { "mfussenegger/nvim-dap" }, -- optional: run and debug
     opts = function()
       local server_path = nil
@@ -210,6 +215,13 @@ return {
           end
         end,
       }
+    end,
+
+    config = function(_, opts)
+      if vim.g.intellij ~= "official" then
+        return
+      end
+      require("intellij-lsp").setup(opts)
     end,
     keys = vim.g.intellij == "official" and {
       -- =========================
