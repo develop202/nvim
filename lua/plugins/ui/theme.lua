@@ -1,7 +1,7 @@
 if not OwnUtil.sys.is_termux() then
   vim.g.font_italic = true
 end
-local hl = OwnUtil.utils.hl
+local hl = OwnUtil.utils
 return {
   -- add gruvbox
   {

@@ -1,7 +1,7 @@
 return {
   {
     "JavaHello/spring-boot.nvim",
-    ft = "java",
+    ft = { "java", "kotlin" },
     opts = function()
       if not require("spring_boot.util").has_spring_boot_dependency(vim.fn.getcwd()) then
         -- spring-boot.nvim使用环境变量获取路径
@@ -29,7 +29,7 @@ return {
 
       local log_file = vim.fn.stdpath("cache")
         .. "/jdtls/"
-        .. vim.fs.basename(vim.fs.root(vim.fn.getcwd(), OwnUtil.lang.java.root_markers))
+        .. vim.fs.basename(vim.fs.root(vim.fn.getcwd(), OwnUtil.lsput.config.jdtls.root_markers))
         .. "/spring_boot/log.txt"
 
       local GC_type = "-XX:+UseZGC"
@@ -38,7 +38,7 @@ return {
         GC_type = "-XX:+UseG1GC"
       end
 
-      local java_bin = OwnUtil.utils.cmd.java_bin(21)
+      local java_bin = OwnUtil.cmd.java_bin(21)
 
       local cmd = {
         java_bin,
@@ -113,7 +113,7 @@ return {
             layout_config = {
               vertical = {
                 preview_cutoff = 20,
-                preview_height = 0.6,
+                preview_height = 0.4,
                 -- mirror = true,
               },
               -- height = { padding = 0 },

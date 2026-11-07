@@ -1,66 +1,8 @@
 ---@class util.utils
 local M = {}
 
---- 文件类型
-M.ft = {}
---- 命令
-M.cmd = {}
 -- 启动页
 M.dashboard = {}
--- lsp相关
-M.lsp = {}
--- 高亮
-M.hl = {}
-
---- 需要加载插件html-css-cmp的文件类型
-M.ft.cmp_html_css_ft = {
-  "html",
-  "htmldjango",
-  "tsx",
-  "jsx",
-  "erb",
-  "svelte",
-  "vue",
-  "blade",
-  "php",
-  "templ",
-  "astro",
-}
---- 需要显示颜色的文件类型
-M.ft.show_color_ft = {
-  "scss",
-  "css",
-  "less",
-  "javascript",
-  "typescript",
-  "json",
-  "yaml",
-  "markdown",
-  "lua",
-  "go",
-  "kotlin",
-  "dart",
-}
-
--- 合并数组,合并到第一个数组里面
-vim.list_extend(M.ft.show_color_ft, M.ft.cmp_html_css_ft)
-
---- Java启动命令
----@param version? number 版本号
----@return string Java命令
-M.cmd.java_bin = function(version)
-  if version == nil then
-    version = 17
-  end
-  -- Java启动命令
-  local java_bin = "java"
-  if vim.env["JAVA_" .. version .. "_HOME"] then
-    java_bin = vim.env["JAVA_" .. version .. "_HOME"] .. "/bin/java"
-  elseif vim.env["JAVA_HOME"] then
-    java_bin = vim.env["JAVA_HOME"] .. "/bin/java"
-  end
-  return java_bin
-end
 
 --- 部分lsp不支持termux或编译过慢
 --- 直接本地安装后链接
@@ -232,41 +174,8 @@ M.treesitter_context_object_attach = function(buf)
   end
 end
 
---- intellij系列Termux端适配
----@param lsp_install_path string lsp安装根目录 需子目录是bin
-M.lsp.intellij_termux_adapted = function(lsp_install_path)
-  local ok_file_path = lsp_install_path .. "/ok"
-  if OwnUtil.sys.is_termux() and not vim.uv.fs_stat(ok_file_path) then
-    local server_path = lsp_install_path .. "/bin/intellij-server"
-    vim.notify(server_path)
-    vim.cmd("!grun --configure " .. server_path)
-
-    local file = io.open(lsp_install_path .. "/bin/intellij-server.vmoptions", "r+")
-    if file then
-      local content = file:read("*a")
-      content = content:gsub("512", "256")
-      content = content:gsub("128", "512")
-      content = content:gsub("2048", "512")
-
-      content = content
-        .. "\n"
-        .. "-Djava.io.tmpdir=/data/data/com.termux/files/usr/tmp\n"
-        .. "-Djdk.lang.Process.launchMechanism=fork"
-
-      file:seek("set", 0)
-      file:write(content)
-      file:close()
-
-      local f = io.open(ok_file_path, "w")
-      if f then
-        f:close()
-      end
-    end
-  end
-end
-
 -- 兼容封装：统一返回 { fg, bg, sp, italic, bold, ... }
-M.hl.get_hl = function(name)
+M.get_hl = function(name)
   local raw, hl
 
   if vim.api.nvim_get_hl then

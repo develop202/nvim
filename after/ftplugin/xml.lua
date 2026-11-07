@@ -18,7 +18,7 @@ if mason_registry.is_installed("lemminx") then
     end
   end
 
-  local root_dir = vim.fs.root(vim.fn.getcwd(), OwnUtil.lang.java.root_markers)
+  local root_dir = vim.fs.root(vim.fn.getcwd(), OwnUtil.lsput.config.jdtls.root_markers)
 
   if require("spring_boot.util").has_spring_boot_dependency(root_dir) then
     if mason_registry.is_installed("vscode-spring-boot-tools") then
@@ -32,7 +32,7 @@ if mason_registry.is_installed("lemminx") then
   local jar_path = vim.fn.expand("$MASON/packages/lemminx/lemminx.jar")
   table.insert(lemminx_jars, vim.fn.glob(jar_path))
   local cmd = {
-    OwnUtil.utils.cmd.java_bin(21),
+    OwnUtil.cmd.java_bin(21),
     "-Xms64M",
     "-Xmx64M",
     "-cp",

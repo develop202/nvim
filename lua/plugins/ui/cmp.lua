@@ -12,9 +12,9 @@ end
 return {
   {
     "Jezda1337/nvim-html-css",
-    ft = OwnUtil.utils.ft.cmp_html_css_ft,
+    ft = OwnUtil.lang.ft.cmp_html_css_ft,
     opts = {
-      enable_on = OwnUtil.utils.ft.cmp_html_css_ft,
+      enable_on = OwnUtil.lang.ft.cmp_html_css_ft,
       documentation = {
         auto_show = true,
       },

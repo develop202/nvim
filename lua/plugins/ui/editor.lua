@@ -132,7 +132,7 @@ return {
     "catgoose/nvim-colorizer.lua",
     event = "BufReadPost",
     opts = {
-      filetypes = OwnUtil.utils.ft.show_color_ft,
+      filetypes = OwnUtil.lang.ft.show_color_ft,
       user_default_options = {
         rgb_fn = true,
         hsl_fn = true,
@@ -170,5 +170,18 @@ return {
     build = ":TSUpdate",
     cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
     opts_extend = { "ensure_installed" },
+    keys = {
+      -- nvim-treesitter 安装 parses
+      {
+        "<leader>tsi",
+        function()
+          require("nvim-treesitter").install(OwnUtil.lang.treesitter, { summary = true })
+        end,
+        mode = "n",
+        desc = "Install all parsers",
+        expr = true,
+        silent = true,
+      },
+    },
   },
 }

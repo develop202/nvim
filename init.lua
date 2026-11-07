@@ -94,6 +94,6 @@ vim.cmd([[colorscheme gruvbox]])
 
 -- bufferline高亮
 vim.api.nvim_set_hl(0, "BufferLineIndicatorSelected", {
-  fg = OwnUtil.utils.hl.get_hl("Normal").bg,
-  bg = OwnUtil.utils.hl.get_hl("Normal").bg,
+  fg = OwnUtil.utils.get_hl("Normal").bg,
+  bg = OwnUtil.utils.get_hl("Normal").bg,
 })

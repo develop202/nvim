@@ -1,22 +1,43 @@
 ---@class util.lang
 local M = {}
 
-M.java = {}
+--- 文件类型
+M.ft = {}
 
-M.java.root_markers = {
-  ".git", -- IDE
-  ".idea",
-  ".project",
-
-  "mvnw", -- Maven
-  "pom.xml",
-
-  "gradlew", -- Gradle
-  "settings.gradle",
-  "settings.gradle.kts",
-
-  "build.xml", -- Ant
+--- 需要加载插件html-css-cmp的文件类型
+M.ft.cmp_html_css_ft = {
+  "html",
+  "htmldjango",
+  "tsx",
+  "jsx",
+  "erb",
+  "svelte",
+  "vue",
+  "blade",
+  "php",
+  "templ",
+  "astro",
 }
+--- 需要显示颜色的文件类型
+M.ft.show_color_ft = {
+  "scss",
+  "css",
+  "less",
+  "javascript",
+  "typescript",
+  "json",
+  "yaml",
+  "markdown",
+  "lua",
+  "go",
+  "kotlin",
+  "dart",
+}
+
+-- 合并数组,合并到第一个数组里面
+vim.list_extend(M.ft.show_color_ft, M.ft.cmp_html_css_ft)
+
+M.java = {}
 
 M.java.is_spring_boot_project = function(dir)
   dir = dir or vim.fn.getcwd()
@@ -45,346 +66,6 @@ M.java.is_spring_boot_project = function(dir)
   end
   return false
 end
-
-local ExecutionEnvironment = {
-  J2SE_1_5 = "J2SE-1.5",
-  JavaSE_1_6 = "JavaSE-1.6",
-  JavaSE_1_7 = "JavaSE-1.7",
-  JavaSE_1_8 = "JavaSE-1.8",
-  JavaSE_9 = "JavaSE-9",
-  JavaSE_10 = "JavaSE-10",
-  JavaSE_11 = "JavaSE-11",
-  JavaSE_12 = "JavaSE-12",
-  JavaSE_13 = "JavaSE-13",
-  JavaSE_14 = "JavaSE-14",
-  JavaSE_15 = "JavaSE-15",
-  JavaSE_16 = "JavaSE-16",
-  JavaSE_17 = "JavaSE-17",
-  JavaSE_18 = "JavaSE-18",
-  JavaSE_19 = "JavaSE-19",
-  JAVASE_20 = "JavaSE-20",
-  JAVASE_21 = "JavaSE-21",
-  JAVASE_22 = "JavaSE-22",
-  JAVASE_23 = "JavaSE-23",
-  JAVASE_24 = "JavaSE-24",
-  JAVASE_25 = "JavaSE-25",
-}
-local runtimes = (function()
-  local result = {}
-  for _, value in pairs(ExecutionEnvironment) do
-    local version = vim.fn.split(value, "-")[2]
-    if string.match(version, "%.") then
-      version = vim.split(version, "%.")[2]
-    end
-    local java_home = os.getenv(string.format("JAVA_%s_HOME", version))
-    local default_jdk = false
-    if java_home then
-      -- local java_sources = get_java_ver_sources(
-      --   version,
-      --   fglob(vim.fn.glob(vim.fs.joinpath(java_home, "src.zip")))
-      --     or fglob(vim.fn.glob(vim.fs.joinpath(java_home, "lib", "src.zip")))
-      -- )
-      if ExecutionEnvironment.JavaSE_17 == value then
-        default_jdk = true
-      end
-      table.insert(result, {
-        name = value,
-        path = java_home,
-        -- sources = java_sources,
-        default = default_jdk,
-      })
-    end
-  end
-  if #result == 0 then
-    vim.notify("Please config Java runtimes (JAVA_17_HOME...)")
-  end
-  return result
-end)()
-
-local HOME = vim.env["HOME"]
--- 开启inlay_hint
-local inlay_hint_enabled = "all"
-
-M.java.jdtls = {}
-
-M.java.jdtls.full_cmd = function(options)
-  local fname = vim.api.nvim_buf_get_name(0)
-  local root_dir = options.root_dir(fname)
-  local project_name = options.project_name(root_dir)
-  local cmd = vim.deepcopy(options.cmd)
-  if project_name then
-    vim.list_extend(cmd, {
-      "-configuration",
-      options.jdtls_config_dir(project_name),
-      "-data",
-      options.jdtls_workspace_dir(project_name),
-    })
-  end
-  return cmd
-end
-
-M.java.jdtls.get_config_file = function()
-  local sys = OwnUtil.sys
-  local file = ""
-  if sys.is_linux() then
-    file = "/config_linux"
-  elseif sys.is_macos() then
-    file = "/config_mac"
-  elseif sys.is_windows() then
-    file = "/config_win"
-  end
-  if file ~= "" then
-    if sys.is_termux() then
-      file = file .. "_arm"
-    end
-  else
-    error("未知系统")
-    return nil
-  end
-  return file
-end
-
-M.java.jdtls.settings = {
-  java = {
-    configuration = {
-      maven = {
-        -- 将settings.xml复制到.m2目录下即可生效
-        userSettings = HOME .. "/.m2/settings.xml",
-        globalSettings = HOME .. "/.m2/settings.xml",
-      },
-      runtimes = runtimes,
-    },
-    inlayhints = {
-      parameterNames = {
-        enabled = inlay_hint_enabled,
-      },
-    },
-    implementationCodeLens = "all",
-    referenceCodeLens = { enabled = true },
-    codeGeneration = {
-      toString = {
-        template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-      },
-      useBlocks = true,
-    },
-    templates = {
-      typeComment = {
-        "/**",
-        " * ${type_name}.",
-        " *",
-        " * @author ${user}",
-        " */",
-      },
-    },
-    signatureHelp = {
-      enabled = true,
-    },
-    completion = {
-      maxResults = 20,
-      favoriteStaticMembers = {
-        "org.junit.Assert.*",
-        "org.junit.Assume.*",
-        "org.junit.jupiter.api.Assertions.*",
-        "org.junit.jupiter.api.Assumptions.*",
-        "org.junit.jupiter.api.DynamicContainer.*",
-        "org.junit.jupiter.api.DynamicTest.*",
-        "org.assertj.core.api.Assertions.assertThat",
-        "org.assertj.core.api.Assertions.assertThatThrownBy",
-        "org.assertj.core.api.Assertions.assertThatExceptionOfType",
-        "org.assertj.core.api.Assertions.catchThrowable",
-        "java.util.Objects.requireNonNull",
-        "java.util.Objects.requireNonNullElse",
-        "org.mockito.Mockito.*",
-      },
-      filteredTypes = {
-        "com.sun.*",
-        "io.micrometer.shaded.*",
-        "java.awt.*",
-        "org.graalvm.*",
-        "jdk.*",
-        "sun.*",
-      },
-      importOrder = {
-        "java",
-        "javax",
-        "org",
-        "com",
-      },
-      matchCase = "off",
-    },
-    sources = {
-      organizeImports = {
-        starThreshold = 9999,
-        staticStarThreshold = 9999,
-      },
-    },
-    saveActions = {
-      organizeImports = true,
-    },
-    jdt = {
-      ls = {
-        androidSupport = {
-          enabled = true,
-        },
-      },
-    },
-  },
-}
-
-local vtsls_lang = {
-  updateImportsOnFileMove = { enabled = "always" },
-  suggest = {
-    completeFunctionCalls = true,
-  },
-  inlayHints = {
-    enumMemberValues = { enabled = true },
-    functionLikeReturnTypes = { enabled = true },
-    parameterNames = { enabled = "literals" },
-    parameterTypes = { enabled = true },
-    propertyDeclarationTypes = { enabled = true },
-    variableTypes = { enabled = false },
-  },
-}
-M.vtsls = {
-  filetypes = {
-    "javascript",
-    "javascriptreact",
-    "javascript.jsx",
-    "typescript",
-    "typescriptreact",
-    "typescript.tsx",
-    "vue",
-  },
-  settings = {
-    complete_function_calls = true,
-    vtsls = {
-      enableMoveToFileCodeAction = true,
-      autoUseWorkspaceTsdk = true,
-      experimental = {
-        maxInlayHintLength = 30,
-        completion = {
-          enableServerSideFuzzyMatch = true,
-        },
-      },
-      tsserver = {
-        globalPlugins = {
-          {
-            name = "@vue/typescript-plugin",
-            location = vim.fn.expand(
-              "$HOME/.local/share/nvim/mason/packages/vue-language-server/node_modules/@vue/language-server"
-            ),
-            languages = { "vue" },
-            configNamespace = "typescript",
-            enableForWorkspaceTypeScriptVersions = true,
-          },
-        },
-      },
-    },
-    typescript = vtsls_lang,
-    javascript = vtsls_lang,
-  },
-}
-
-M.lua_ls = {
-  settings = {
-    Lua = {
-      workspace = {
-        checkThirdParty = false,
-        library = {
-          vim.env.VIMRUNTIME,
-          "${3rd}/luv/library",
-          "${3rd}/busted/library",
-        },
-      },
-      codeLens = {
-        enable = true,
-      },
-      completion = {
-        callSnippet = "Replace",
-      },
-      doc = {
-        privateName = { "^_" },
-      },
-      hint = {
-        enable = true,
-        setType = false,
-        paramType = true,
-        paramName = "Disable",
-        semicolon = "Disable",
-      },
-    },
-  },
-}
-
-M.clangd = {
-  root_markers = {
-    "compile_commands.json",
-    "compile_flags.txt",
-    "configure.ac", -- AutoTools
-    "Makefile",
-    "configure.ac",
-    "configure.in",
-    "config.h.in",
-    "meson.build",
-    "meson_options.txt",
-    "build.ninja",
-    ".git",
-  },
-  capabilities = {
-    offsetEncoding = { "utf-16" },
-  },
-  cmd = {
-    "clangd",
-    "--background-index",
-    "--clang-tidy",
-    "--header-insertion=iwyu",
-    "--completion-style=detailed",
-    "--function-arg-placeholders",
-    "--fallback-style=llvm",
-  },
-  init_options = {
-    usePlaceholders = true,
-    completeUnimported = true,
-    clangdFileStatus = true,
-  },
-}
-M.gopls = {
-  settings = {
-    gopls = {
-      gofumpt = true,
-      codelenses = {
-        gc_details = false,
-        generate = true,
-        regenerate_cgo = true,
-        run_govulncheck = true,
-        test = true,
-        tidy = true,
-        upgrade_dependency = true,
-        vendor = true,
-      },
-      hints = {
-        assignVariableTypes = true,
-        compositeLiteralFields = true,
-        compositeLiteralTypes = true,
-        constantValues = true,
-        functionTypeParameters = true,
-        parameterNames = true,
-        rangeVariableTypes = true,
-      },
-      analyses = {
-        nilness = true,
-        unusedparams = true,
-        unusedwrite = true,
-        useany = true,
-      },
-      usePlaceholders = true,
-      completeUnimported = true,
-      staticcheck = true,
-      directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-      semanticTokens = true,
-    },
-  },
-}
 
 M.treesitter = {
   "bash",
@@ -434,5 +115,79 @@ M.treesitter = {
   "xml",
   "yaml",
 }
+
+M.groovy = {}
+
+-- 辅助函数：查找 Mason 安装的工具路径
+local function find_tool(tool)
+  -- 优先从系统 PATH 查找
+  local path = vim.fn.exepath(tool)
+  if path ~= "" then
+    return path
+  end
+  -- 回退到 Mason 默认 bin 目录
+  local mason_bin = vim.fn.stdpath("data") .. "/mason/bin/" .. tool
+  if vim.fn.executable(mason_bin) == 1 then
+    return mason_bin
+  end
+  return tool -- 返回原始命令名，让系统自行解析
+end
+
+-- 格式化函数：两步 npm-groovy-lint，先缩进1后缩进2，带超时
+M.groovy.format_groovy_two_step = function()
+  local filepath = vim.fn.expand("%:p")
+  if filepath == "" then
+    vim.notify("当前缓冲区没有文件名", vim.log.levels.WARN)
+    return
+  end
+
+  -- 获取 npm-groovy-lint 可执行文件路径
+  local groovy_lint = find_tool("npm-groovy-lint")
+
+  -- 超时时间（秒），可根据需要调整
+  local timeout_seconds = 10
+
+  -- 构造两步命令，使用 timeout 限制每次执行时间
+  -- 第一步：缩进1格
+  local cmd_step1 = string.format(
+    "timeout %ds node %s --fix --config '"
+      .. vim.fn.stdpath("config")
+      .. "/after/ftplugin/asset/groovy/lint.json"
+      .. "' %s",
+    timeout_seconds,
+    groovy_lint,
+    vim.fn.shellescape(filepath)
+  )
+  -- 第二步：缩进2格（依赖第一步完成）
+  local cmd_step2 = string.format(
+    "timeout %ds node %s --fix --config '"
+      .. vim.fn.stdpath("config")
+      .. "/after/ftplugin/asset/groovy/lint2.json"
+      .. "' %s",
+    timeout_seconds,
+    groovy_lint,
+    vim.fn.shellescape(filepath)
+  )
+
+  -- 用 && 确保顺序执行（先1后2）
+  local full_cmd = cmd_step1 .. " && sleep 1"
+
+  -- 同步执行，阻塞 Neovim 直到完成或超时
+  local output = vim.fn.system(full_cmd)
+  local exit_code = vim.v.shell_error
+
+  -- 同步执行，阻塞 Neovim 直到完成或超时
+  output = vim.fn.system(cmd_step2)
+  exit_code = vim.v.shell_error
+
+  if exit_code ~= 1 then
+    vim.notify("Groovy 格式化失败（退出码 " .. exit_code .. "）:\n" .. output, vim.log.levels.ERROR)
+  else
+    vim.notify("Groovy 格式化完成", vim.log.levels.INFO)
+    -- 重新加载文件以反映磁盘更改（因为 npm-groovy-lint 直接修改文件）
+    vim.cmd("edit!")
+  end
+  -- end
+end
 
 return M

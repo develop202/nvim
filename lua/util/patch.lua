@@ -59,7 +59,7 @@ M.patches = {
       replace = 'on_attach = function(client, bufnr)\n      require("intellij-lsp").config.on_attach(client, bufnr)',
     },
   },
-  ["intellij-lsp.init"] = {
+  ["intellij-lsp"] = {
     {
       search = "M.config = vim%.tbl_extend%('force', {",
       replace = "M.config = vim.tbl_extend('force', {\n    on_attach = function(client, bufnr) end,",
@@ -105,7 +105,7 @@ M.patches = {
     },
   },
 
-  ["pretty_hover.init"] = {
+  ["pretty_hover"] = {
     {
       search = [[local client = h_util.get_current_active_client()
 	local hover_support_present = client and client.capabilities.textDocument.hover

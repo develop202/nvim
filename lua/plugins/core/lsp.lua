@@ -1,3 +1,4 @@
+local config = OwnUtil.lsput.config
 return {
   {
     "neovim/nvim-lspconfig",
@@ -11,11 +12,11 @@ return {
     },
     opts = {
       servers = {
-        gopls = OwnUtil.lang.gopls,
+        gopls = config.gopls,
         marksman = {},
         markdown_ls = {},
         jdtls = {},
-        lua_ls = OwnUtil.lang.lua_ls,
+        lua_ls = config.lua_ls,
         basedpyright = {
           settings = {
             basedpyright = {
@@ -26,7 +27,7 @@ return {
             },
           },
         },
-        clangd = OwnUtil.lang.clangd,
+        clangd = config.clangd,
 
         emmet_language_server = {
           filetypes = {
@@ -48,7 +49,7 @@ return {
           },
         },
         yamlls = {},
-        vtsls = OwnUtil.lang.vtsls,
+        vtsls = config.vtsls,
         kotlin_lsp = {},
         taplo = {},
         gradle_ls = {
@@ -263,6 +264,12 @@ return {
     dependencies = "ibhagwan/fzf-lua",
     keys = {
       { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" },
+      {
+        -- 当mason无法安装lsp,本地可以安装,但显示需要更新时，可以去除更新显示
+        "<leader>su",
+        OwnUtil.lsput.termux_mason_lsp_install_info,
+        { desc = "修改LSP版本号" },
+      },
     },
     build = ":MasonUpdate",
     opts_extend = { "ensure_installed" },

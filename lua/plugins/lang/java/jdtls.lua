@@ -6,7 +6,9 @@ if OwnUtil.sys.is_termux() then
   GC_type = "-XX:+UseG1GC"
 end
 
-local java_bin = OwnUtil.utils.cmd.java_bin(25)
+local java_bin = OwnUtil.cmd.java_bin(25)
+
+local jdtls = OwnUtil.lsput.config.jdtls
 
 local function extend_or_override(config, custom, ...)
   if type(custom) == "function" then
@@ -32,7 +34,7 @@ return {
     local bundles = {}
 
     opts.root_dir = function()
-      local root_dir = require("jdtls.setup").find_root(OwnUtil.lang.java.root_markers, vim.fn.getcwd())
+      local root_dir = require("jdtls.setup").find_root(jdtls.root_markers, vim.fn.getcwd())
       if not root_dir then
         local path = vim.api.nvim_buf_get_name(0)
 
@@ -124,10 +126,8 @@ return {
       end
     end
 
-    local jdtls = require("jdtls")
-
     -- 在Java-deps显示JavaSE版本
-    local extendedClientCapabilities = jdtls.extendedClientCapabilities
+    local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
     extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
     extendedClientCapabilities.progressReportProvider = false
 
@@ -177,7 +177,7 @@ return {
       "-Dosgi.bundles.defaultStartLevel=4",
       "-Declipse.product=org.eclipse.jdt.ls.core.product",
       "-Dosgi.checkConfiguration=true",
-      "-Dosgi.sharedConfiguration.area=" .. base_dir .. OwnUtil.lang.java.jdtls.get_config_file(),
+      "-Dosgi.sharedConfiguration.area=" .. base_dir .. jdtls.get_config_file(),
       "-Dosgi.sharedConfiguration.area.readOnly=true",
       "-Dosgi.configuration.cascaded=true",
       "-Xms256M",
@@ -206,7 +206,7 @@ return {
     opts.cmd = cmd
 
     opts.jdtls = jdtls_config
-    opts.settings = OwnUtil.lang.java.jdtls.settings
+    opts.settings = jdtls.settings
     opts.dap = { hotcodereplace = "auto", config_overrides = {} }
     -- Can set this to false to disable main class scan, which is a performance killer for large project
     opts.test = true
@@ -321,7 +321,7 @@ return {
 
       -- Configuration can be augmented and overridden by opts.jdtls
       local config = extend_or_override({
-        cmd = OwnUtil.lang.java.jdtls.full_cmd(opts),
+        cmd = jdtls.full_cmd(opts),
         root_dir = opts.root_dir(fname),
         settings = opts.settings,
         -- enable CMP capabilities

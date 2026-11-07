@@ -4,6 +4,8 @@
 ---@field utils util.utils
 ---@field lang util.lang
 ---@field patch util.patch
+---@field lsput util.lsput
+---@field cmd util.cmd
 local M = {}
 
 -- 使用元表为全局变量添加字段

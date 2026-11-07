@@ -28,7 +28,7 @@ return {
         local install_path = vim.fn.expand("$MASON/packages/kotlin-lsp/kotlin-server-*")
 
         if OwnUtil.sys.is_termux() then
-          OwnUtil.utils.lsp.intellij_termux_adapted(install_path)
+          OwnUtil.lsput.intellij_termux_adapted(install_path)
 
           vim.fn.setenv("LD_PRELOAD", "")
         end
